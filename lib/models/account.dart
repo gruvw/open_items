@@ -21,10 +21,10 @@ enum ListsOrdering {
       ListsOrdering.values.elementAt(orderIndex);
 }
 
-abstract class Account implements DatabaseObject {
+abstract class Account extends DatabaseObject {
   abstract int listsOrderingIndex;
+  abstract String name;
 
-  String get name;
   String get server;
 
   bool get isOffline => server == ValuesTheme.offlineServer;
@@ -39,4 +39,7 @@ abstract class Account implements DatabaseObject {
   ListsOrdering get listsOrdering => ListsOrdering.ofIndex(listsOrderingIndex);
   set listsOrdering(ListsOrdering newOrder) =>
       listsOrderingIndex = newOrder.index;
+
+  @override
+  DatabaseObjectType get dbType => DatabaseObjectType.account;
 }

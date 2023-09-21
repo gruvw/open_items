@@ -10,8 +10,10 @@ abstract class Database {
   final StreamController<Event<DatabaseObject>> eventsController =
       StreamController<Event<DatabaseObject>>.broadcast();
 
+  Future<void> init() async {}
+
   Account createAccount({
-    required String username,
+    required String name,
     required String server, // server is set to "local" if offline account
   });
 

@@ -1,6 +1,7 @@
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
+import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 
 abstract class Item implements Collection {
@@ -9,6 +10,9 @@ abstract class Item implements Collection {
   abstract int doneTime;
 
   Collection get parent;
+
+  @override
+  DatabaseObjectType get dbType => DatabaseObjectType.item;
 
   @override
   String get content => text;

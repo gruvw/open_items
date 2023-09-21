@@ -2,7 +2,7 @@ import 'package:open_items/models/database.dart';
 import 'package:open_items/models/list.dart';
 import 'package:open_items/models/item.dart';
 
-abstract class Collection implements DatabaseObject {
+abstract class Collection extends DatabaseObject {
   static const String displayPathSeparator = " > ";
 
   abstract int editionTime;

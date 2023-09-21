@@ -19,15 +19,18 @@ enum ItemsOrdering {
 
 // Account object properties
 
-abstract class AccountCollectionProperties implements DatabaseObject {
+abstract class AccountCollectionProperties extends DatabaseObject {
   abstract String lexoRank;
 }
 
-abstract class AccountListProperties implements AccountCollectionProperties {
+abstract class AccountListProperties extends AccountCollectionProperties {
   abstract bool shouldReverseOrder;
   abstract bool shouldStackDone;
 
   abstract int itemsOrderingIndex;
+
+  @override
+  DatabaseObjectType get dbType => DatabaseObjectType.listProperties;
 
   // Helper methods
 
@@ -35,6 +38,7 @@ abstract class AccountListProperties implements AccountCollectionProperties {
   set itemsOrdering(ItemsOrdering newOrder) => itemsOrderingIndex = newOrder.index;
 }
 
-abstract class AccountItemProperties implements AccountCollectionProperties {
-
+abstract class AccountItemProperties extends AccountCollectionProperties {
+  @override
+  DatabaseObjectType get dbType => DatabaseObjectType.itemProperties;
 }

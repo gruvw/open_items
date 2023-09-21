@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
+import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 
 enum ListType {
@@ -32,6 +33,9 @@ abstract class Liste implements Collection {
 
   ListType get listType => ListType.ofIndex(typeIndex);
   set listType(ListType newType) => typeIndex = newType.index;
+
+  @override
+  DatabaseObjectType get dbType => DatabaseObjectType.list;
 
   @override
   Liste get list => this;
