@@ -3,8 +3,8 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/properties/hive_item_properties.dart';
-import 'package:open_items/models/hive_store/properties/hive_list_properties.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_item_properties.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
@@ -74,25 +74,25 @@ class HiveAccount extends Account {
 
   @override
   AccountListProperties listProperties(Liste list) {
-    final hiveListProperties = hiveDatabase.listPropertiesBox.values
+    final hiveListProperties = hiveDatabase.accountListPropertiesBox.values
         .where((lp) => lp.hiveListKey == list.id)
         .firstOrNull!;
 
-    return HiveListProperties(
+    return HiveAccountListProperties(
       hiveDatabase: hiveDatabase,
-      hiveStoreListProperties: hiveListProperties,
+      hiveStoreAccountListProperties: hiveListProperties,
     );
   }
 
   @override
   AccountItemProperties itemProperties(Item item) {
-    final hiveItemProperties = hiveDatabase.itemPropertiesBox.values
+    final hiveItemProperties = hiveDatabase.accountItemPropertiesBox.values
         .where((ip) => ip.hiveItemKey == item.id)
         .firstOrNull!;
 
-    return HiveItemProperties(
+    return HiveAccountItemProperties(
       hiveDatabase: hiveDatabase,
-      hiveStoreItemProperties: hiveItemProperties,
+      hiveStoreAccountItemProperties: hiveItemProperties,
     );
   }
 

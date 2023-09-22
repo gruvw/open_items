@@ -4,34 +4,34 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_account.dart';
-import 'package:open_items/models/hive_store/properties/hive_item_properties.dart';
-import 'package:open_items/models/hive_store/properties/hive_list_properties.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_item_properties.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
 class HiveDatabase extends Database {
-  static const String _listPropertiesBoxName = "list_properties";
-  static const String _itemPropertiesBoxName = "item_properties";
+  static const String _accountListPropertiesBoxName = "account_list_properties";
+  static const String _accountItemPropertiesBoxName = "account_item_properties";
   static const String _accountsBoxName = "accounts";
 
   HiveDatabase();
 
-  late final Box<HiveStoreListProperties> listPropertiesBox;
-  late final Box<HiveStoreItemProperties> itemPropertiesBox;
+  late final Box<HiveStoreAccountListProperties> accountListPropertiesBox;
+  late final Box<HiveStoreAccountItemProperties> accountItemPropertiesBox;
   late final Box<HiveStoreAccount> accountsBox;
 
   @override
   Future<void> init() async {
     await Hive.initFlutter();
 
-    Hive.registerAdapter(HiveStoreListPropertiesAdapter());
-    Hive.registerAdapter(HiveStoreItemPropertiesAdapter());
+    Hive.registerAdapter(HiveStoreAccountListPropertiesAdapter());
+    Hive.registerAdapter(HiveStoreAccountItemPropertiesAdapter());
     Hive.registerAdapter(HiveStoreAccountAdapter());
 
-    listPropertiesBox = await Hive.openBox<HiveStoreListProperties>(
-        HiveDatabase._listPropertiesBoxName);
-    itemPropertiesBox = await Hive.openBox<HiveStoreItemProperties>(
-        HiveDatabase._itemPropertiesBoxName);
+    accountListPropertiesBox = await Hive.openBox<HiveStoreAccountListProperties>(
+        HiveDatabase._accountListPropertiesBoxName);
+    accountItemPropertiesBox = await Hive.openBox<HiveStoreAccountItemProperties>(
+        HiveDatabase._accountItemPropertiesBoxName);
     accountsBox =
         await Hive.openBox<HiveStoreAccount>(HiveDatabase._accountsBoxName);
   }

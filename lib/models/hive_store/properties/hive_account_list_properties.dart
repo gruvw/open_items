@@ -4,10 +4,10 @@ import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/list.dart';
 
-part 'hive_list_properties.g.dart';
+part 'hive_account_list_properties.g.dart';
 
 @HiveType(typeId: 2)
-class HiveStoreListProperties with HiveObjectMixin {
+class HiveStoreAccountListProperties with HiveObjectMixin {
   @HiveField(0)
   String hiveListKey;
 
@@ -23,7 +23,7 @@ class HiveStoreListProperties with HiveObjectMixin {
   @HiveField(4)
   bool hiveShouldStackDone;
 
-  HiveStoreListProperties({
+  HiveStoreAccountListProperties({
     required this.hiveListKey,
     required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
@@ -32,63 +32,63 @@ class HiveStoreListProperties with HiveObjectMixin {
   });
 }
 
-class HiveListProperties extends AccountListProperties {
-  final HiveStoreListProperties hiveStoreListProperties;
+class HiveAccountListProperties extends AccountListProperties {
+  final HiveStoreAccountListProperties hiveStoreAccountListProperties;
   final HiveDatabase hiveDatabase;
 
-  HiveListProperties({
+  HiveAccountListProperties({
     required this.hiveDatabase,
-    required this.hiveStoreListProperties,
+    required this.hiveStoreAccountListProperties,
   });
 
   @override
   Database get database => hiveDatabase;
 
   @override
-  String get id => hiveStoreListProperties.key;
+  String get id => hiveStoreAccountListProperties.key;
 
   @override
   // TODO: implement list
   Liste get list => throw UnimplementedError();
 
   @override
-  String get lexoRank => hiveStoreListProperties.hiveLexoRank;
+  String get lexoRank => hiveStoreAccountListProperties.hiveLexoRank;
 
   @override
   set lexoRank(String newLexoRank) {
-    hiveStoreListProperties.hiveLexoRank = newLexoRank;
-    hiveStoreListProperties.save();
+    hiveStoreAccountListProperties.hiveLexoRank = newLexoRank;
+    hiveStoreAccountListProperties.save();
   }
 
   @override
-  int get itemsOrderingIndex => hiveStoreListProperties.hiveItemsOrderingIndex;
+  int get itemsOrderingIndex => hiveStoreAccountListProperties.hiveItemsOrderingIndex;
 
   @override
   set itemsOrderingIndex(int newItemsOrderingIndex) {
-    hiveStoreListProperties.hiveItemsOrderingIndex = newItemsOrderingIndex;
-    hiveStoreListProperties.save();
+    hiveStoreAccountListProperties.hiveItemsOrderingIndex = newItemsOrderingIndex;
+    hiveStoreAccountListProperties.save();
   }
 
   @override
-  bool get shouldReverseOrder => hiveStoreListProperties.hiveShouldReverseOrder;
+  bool get shouldReverseOrder => hiveStoreAccountListProperties.hiveShouldReverseOrder;
 
   @override
   set shouldReverseOrder(bool newShouldReverseOrder) {
-    hiveStoreListProperties.hiveShouldReverseOrder = newShouldReverseOrder;
-    hiveStoreListProperties.save();
+    hiveStoreAccountListProperties.hiveShouldReverseOrder = newShouldReverseOrder;
+    hiveStoreAccountListProperties.save();
   }
 
   @override
-  bool get shouldStackDone => hiveStoreListProperties.hiveShouldStackDone;
+  bool get shouldStackDone => hiveStoreAccountListProperties.hiveShouldStackDone;
 
   @override
   set shouldStackDone(bool newShouldStackDone) {
-    hiveStoreListProperties.hiveShouldStackDone = newShouldStackDone;
-    hiveStoreListProperties.save();
+    hiveStoreAccountListProperties.hiveShouldStackDone = newShouldStackDone;
+    hiveStoreAccountListProperties.save();
   }
 
   @override
   void delete() {
-    hiveStoreListProperties.delete();
+    hiveStoreAccountListProperties.delete();
   }
 }
