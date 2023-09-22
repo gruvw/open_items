@@ -3,6 +3,8 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
+import 'package:open_items/models/hive_store/properties/hive_item_properties.dart';
+import 'package:open_items/models/hive_store/properties/hive_list_properties.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
@@ -10,9 +12,6 @@ part 'hive_account.g.dart';
 
 @HiveType(typeId: 1)
 class HiveStoreAccount with HiveObjectMixin {
-  @HiveField(0)
-  final String hiveId;
-
   @HiveField(1)
   final String hiveServer;
 
@@ -26,7 +25,6 @@ class HiveStoreAccount with HiveObjectMixin {
   List<String> hiveListIds;
 
   HiveStoreAccount({
-    required this.hiveId,
     required this.hiveServer,
     required this.hiveName,
     required this.hiveListsOrderingIndex,
@@ -47,7 +45,7 @@ class HiveAccount extends Account {
   Database get database => hiveDatabase;
 
   @override
-  String get id => hiveStoreAccount.hiveId;
+  String get id => hiveStoreAccount.key;
 
   @override
   String get server => hiveStoreAccount.hiveServer;
@@ -76,14 +74,26 @@ class HiveAccount extends Account {
 
   @override
   AccountListProperties listProperties(Liste list) {
-    // TODO: implement listProperties
-    throw UnimplementedError();
+    final hiveListProperties = hiveDatabase.listPropertiesBox.values
+        .where((lp) => lp.hiveListKey == list.id)
+        .firstOrNull!;
+
+    return HiveListProperties(
+      hiveDatabase: hiveDatabase,
+      hiveStoreListProperties: hiveListProperties,
+    );
   }
 
   @override
   AccountItemProperties itemProperties(Item item) {
-    // TODO: implement itemProperties
-    throw UnimplementedError();
+    final hiveItemProperties = hiveDatabase.itemPropertiesBox.values
+        .where((ip) => ip.hiveItemKey == item.id)
+        .firstOrNull!;
+
+    return HiveItemProperties(
+      hiveDatabase: hiveDatabase,
+      hiveStoreItemProperties: hiveItemProperties,
+    );
   }
 
   @override

@@ -2,13 +2,14 @@ import 'package:hive/hive.dart';
 import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
+import 'package:open_items/models/list.dart';
 
 part 'hive_list_properties.g.dart';
 
 @HiveType(typeId: 2)
 class HiveStoreListProperties with HiveObjectMixin {
   @HiveField(0)
-  final String hiveId;
+  String hiveListKey;
 
   @HiveField(1)
   String hiveLexoRank;
@@ -23,7 +24,7 @@ class HiveStoreListProperties with HiveObjectMixin {
   bool hiveShouldStackDone;
 
   HiveStoreListProperties({
-    required this.hiveId,
+    required this.hiveListKey,
     required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
     required this.hiveShouldReverseOrder,
@@ -44,7 +45,11 @@ class HiveListProperties extends AccountListProperties {
   Database get database => hiveDatabase;
 
   @override
-  String get id => hiveStoreListProperties.hiveId;
+  String get id => hiveStoreListProperties.key;
+
+  @override
+  // TODO: implement list
+  Liste get list => throw UnimplementedError();
 
   @override
   String get lexoRank => hiveStoreListProperties.hiveLexoRank;

@@ -42,13 +42,12 @@ class HiveDatabase extends Database {
     required String server,
   }) {
     final hiveStoreAccount = HiveStoreAccount(
-      hiveId: nanoid(),
       hiveServer: server,
       hiveName: name,
       hiveListsOrderingIndex: ListsOrdering.custom.index,
       hiveListIds: [],
     );
-    accountsBox.add(hiveStoreAccount);
+    accountsBox.put(nanoid(), hiveStoreAccount);
 
     final hiveAccount = HiveAccount(
       hiveDatabase: this,
@@ -56,20 +55,6 @@ class HiveDatabase extends Database {
     );
 
     return hiveAccount;
-  }
-
-  @override
-  Item createItem({
-    required Collection parent,
-    required String text,
-    required String position,
-    required bool isDone,
-    required int creationTime,
-    required int editionTime,
-    required bool isOutOfSync,
-  }) {
-    // TODO: implement createItem
-    throw UnimplementedError();
   }
 
   @override
@@ -86,6 +71,21 @@ class HiveDatabase extends Database {
     required bool isOutOfSync,
   }) {
     // TODO: implement createListe
+    throw UnimplementedError();
+  }
+
+  @override
+  Item createItem({
+    required Account account,
+    required Collection parent,
+    required String text,
+    required String position,
+    required bool isDone,
+    required int creationTime,
+    required int editionTime,
+    required bool isOutOfSync,
+  }) {
+    // TODO: implement createItem
     throw UnimplementedError();
   }
 

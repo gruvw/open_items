@@ -1,4 +1,6 @@
 import 'package:open_items/models/database.dart';
+import 'package:open_items/models/item.dart';
+import 'package:open_items/models/list.dart';
 
 enum ItemsOrdering {
   custom("Custom"),
@@ -29,6 +31,8 @@ abstract class AccountListProperties extends AccountCollectionProperties {
 
   abstract int itemsOrderingIndex;
 
+  Liste get list;
+
   @override
   DatabaseObjectType get dbType => DatabaseObjectType.listProperties;
 
@@ -39,6 +43,8 @@ abstract class AccountListProperties extends AccountCollectionProperties {
 }
 
 abstract class AccountItemProperties extends AccountCollectionProperties {
+  Item get item;
+
   @override
   DatabaseObjectType get dbType => DatabaseObjectType.itemProperties;
 }
