@@ -1,7 +1,7 @@
-import 'package:open_items/models/account_collection_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_collection_properties.dart';
 
 enum ListsOrdering {
   custom("Custom"),

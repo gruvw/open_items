@@ -1,8 +1,9 @@
-import 'package:hive/hive.dart';
-import 'package:open_items/models/account_collection_properties.dart';
+import 'package:hive/hive.dart' hide HiveList;
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
+import 'package:open_items/models/hive_store/hive_list.dart';
 import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_collection_properties.dart';
 
 part 'hive_account_list_properties.g.dart';
 
@@ -12,7 +13,7 @@ class HiveStoreAccountListProperties with HiveObjectMixin {
   String hiveServerId;
 
   @HiveField(1)
-  String hiveListKey;
+  String hiveListLocalId;
 
   @HiveField(2)
   String hiveLexoRank;
@@ -28,7 +29,7 @@ class HiveStoreAccountListProperties with HiveObjectMixin {
 
   HiveStoreAccountListProperties({
     required this.hiveServerId,
-    required this.hiveListKey,
+    required this.hiveListLocalId,
     required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
     required this.hiveShouldReverseOrder,
@@ -55,8 +56,14 @@ class HiveAccountListProperties extends AccountListProperties {
   String get serverId => hiveStoreAccountListProperties.hiveServerId;
 
   @override
-  // TODO: implement list
-  Liste get list => throw UnimplementedError();
+  Liste get list {
+    final hiveStoreList = hiveDatabase.listsBox.get(hiveStoreAccountListProperties.hiveListLocalId)!;
+
+    return HiveList(
+      hiveDatabase: hiveDatabase,
+      hiveStoreList: hiveStoreList,
+    );
+  }
 
   @override
   String get lexoRank => hiveStoreAccountListProperties.hiveLexoRank;

@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
+import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
+import 'package:open_items/models/hive_store/hive_account.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
@@ -12,7 +14,7 @@ class HiveStoreList with HiveObjectMixin {
   String hiveServerId;
 
   @HiveField(1)
-  final String hiveOwnerAccount;
+  final String hiveOwnerAccountLocalId;
 
   @HiveField(2)
   String hiveTitle;
@@ -31,7 +33,7 @@ class HiveStoreList with HiveObjectMixin {
 
   HiveStoreList({
     required this.hiveServerId,
-    required this.hiveOwnerAccount,
+    required this.hiveOwnerAccountLocalId,
     required this.hiveTitle,
     required this.hiveTypeIndex,
     required this.hiveCreationTime,
@@ -59,7 +61,15 @@ class HiveList extends Liste {
   String get serverId => hiveStoreList.hiveServerId;
 
   @override
-  String get ownerAccountId => hiveStoreList.hiveOwnerAccount;
+  Account get ownerAccount {
+    final hiveStoreAccount =
+        hiveDatabase.accountsBox.get(hiveStoreList.hiveOwnerAccountLocalId)!;
+
+    return HiveAccount(
+      hiveDatabase: hiveDatabase,
+      hiveStoreAccount: hiveStoreAccount,
+    );
+  }
 
   @override
   String get title => hiveStoreList.hiveTitle;
@@ -103,6 +113,7 @@ class HiveList extends Liste {
       item.delete();
     }
 
+    ownerAccount.properties!.listProperties(this).delete();
     hiveStoreList.delete();
   }
 }

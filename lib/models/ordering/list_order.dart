@@ -1,6 +1,6 @@
 import 'package:open_items/models/account.dart';
-import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_properties.dart';
 
 int Function(Liste, Liste) listsOrdering(Account account) {
   final properties = account.properties!;

@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/account.dart';
-import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
+import 'package:open_items/models/properties/account_properties.dart';
 
 part 'hive_account.g.dart';
 
@@ -20,13 +20,13 @@ class HiveStoreAccount with HiveObjectMixin {
   String hiveName;
 
   @HiveField(3)
-  final String hivePropertiesLocalId;
+  final String hiveAccountPropertiesLocalId;
 
   HiveStoreAccount({
     required this.hiveServerId,
     required this.hiveServer,
     required this.hiveName,
-    required this.hivePropertiesLocalId,
+    required this.hiveAccountPropertiesLocalId,
   });
 }
 
@@ -61,12 +61,14 @@ class HiveAccount extends Account {
   }
 
   @override
-  // TODO: implement properties
   AccountProperties? get properties {
-    final propertiesLocalId = hiveStoreAccount.hivePropertiesLocalId;
+    final propertiesLocalId = hiveStoreAccount.hiveAccountPropertiesLocalId;
     if (propertiesLocalId == ValuesTheme.unknownLocalId) return null;
 
-    return hiveDatabase.accountPropertiesBox.get(propertiesLocalId);
+    return HiveAccountProperties(
+      hiveDatabase: hiveDatabase,
+      hiveStoreAccountProperties: hiveDatabase.accountPropertiesBox.get(propertiesLocalId)!,
+    );
   }
 
   @override

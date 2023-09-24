@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-import 'package:open_items/models/account_collection_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/item.dart';
+import 'package:open_items/models/properties/account_collection_properties.dart';
 
 part 'hive_account_item_properties.g.dart';
 
@@ -12,14 +12,14 @@ class HiveStoreAccountItemProperties with HiveObjectMixin {
   String hiveServerId;
 
   @HiveField(1)
-  String hiveItemKey;
+  String hiveItemLocalId;
 
   @HiveField(2)
   String hiveLexoRank;
 
   HiveStoreAccountItemProperties({
     required this.hiveServerId,
-    required this.hiveItemKey,
+    required this.hiveItemLocalId,
     required this.hiveLexoRank,
   });
 }

@@ -76,7 +76,7 @@ class HiveDatabase extends Database {
       hiveServerId: serverId,
       hiveServer: server,
       hiveName: name,
-      hivePropertiesLocalId: propertiesLocalId ?? ValuesTheme.unknownLocalId,
+      hiveAccountPropertiesLocalId: propertiesLocalId ?? ValuesTheme.unknownLocalId,
     );
     accountsBox.put(nanoid(), hiveStoreAccount);
 
