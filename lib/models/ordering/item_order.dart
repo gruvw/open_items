@@ -1,14 +1,15 @@
 import 'package:open_items/models/account.dart';
-import 'package:open_items/models/account_properties.dart';
+import 'package:open_items/models/account_collection_properties.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
 int Function(Item, Item) itemsOrdering(Account account) {
+  final properties = account.properties!;
   int itemsPositionCompare(Item i1, Item i2) {
     final list = i1.list; // supposes the two items have the same list
-    final listProperties = account.listProperties(list);
-    final i1Properties = account.itemProperties(i1);
-    final i2Properties = account.itemProperties(i2);
+    final listProperties = properties.listProperties(list);
+    final i1Properties = properties.itemProperties(i1);
+    final i2Properties = properties.itemProperties(i2);
 
     final order = listProperties.itemsOrdering;
     final stackDone = listProperties.shouldStackDone;

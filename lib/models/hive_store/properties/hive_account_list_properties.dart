@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:open_items/models/account_properties.dart';
+import 'package:open_items/models/account_collection_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/list.dart';
@@ -9,21 +9,25 @@ part 'hive_account_list_properties.g.dart';
 @HiveType(typeId: 2)
 class HiveStoreAccountListProperties with HiveObjectMixin {
   @HiveField(0)
-  String hiveListKey;
+  String hiveServerId;
 
   @HiveField(1)
-  String hiveLexoRank;
+  String hiveListKey;
 
   @HiveField(2)
-  int hiveItemsOrderingIndex;
+  String hiveLexoRank;
 
   @HiveField(3)
-  bool hiveShouldReverseOrder;
+  int hiveItemsOrderingIndex;
 
   @HiveField(4)
+  bool hiveShouldReverseOrder;
+
+  @HiveField(5)
   bool hiveShouldStackDone;
 
   HiveStoreAccountListProperties({
+    required this.hiveServerId,
     required this.hiveListKey,
     required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
@@ -45,7 +49,10 @@ class HiveAccountListProperties extends AccountListProperties {
   Database get database => hiveDatabase;
 
   @override
-  String get id => hiveStoreAccountListProperties.key;
+  String get localId => hiveStoreAccountListProperties.key;
+
+  @override
+  String get serverId => hiveStoreAccountListProperties.hiveServerId;
 
   @override
   // TODO: implement list

@@ -13,11 +13,15 @@ abstract class Database {
   Future<void> init() async {}
 
   Account createAccount({
+    required String serverId,
     required String name,
-    required String server, // server is set to "local" if offline account
+    required String server,
+    required bool isLocal,
+    int? listsOrderingIndex,
   });
 
   Liste createListe({
+    required String serverId,
     required Account account,
     required String title,
     required String position,
@@ -31,6 +35,7 @@ abstract class Database {
   });
 
   Item createItem({
+    required String serverId,
     required Account account,
     required Collection parent,
     required String text,
@@ -46,8 +51,8 @@ abstract class Database {
   // List<Item> getItems();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
-  Stream<Event<DatabaseObject>> watchObject(DatabaseObject object) {
-    return eventsController.stream.where((event) => event.object.id == object.id);
+  Stream<Event<DatabaseObject>> watchObject(DatabaseServerObject object) {
+    return eventsController.stream.where((event) => event.object.localId == object.localId);
   }
   Stream<Event<DatabaseObject>> watchAccounts() {
     return eventsController.stream
@@ -59,6 +64,7 @@ enum DatabaseObjectType {
   account,
   list,
   item,
+  accountProperties,
   listProperties,
   itemProperties,
 }
@@ -69,13 +75,17 @@ abstract class DatabaseObject {
 
   DatabaseObjectType get dbType;
 
-  String get id;
+  String get localId;
 
   void delete();
 
   void notify(EventType eventType) {
     database.eventsController.add(Event(type: eventType, object: this));
   }
+}
+
+abstract class DatabaseServerObject extends DatabaseObject{
+  String get serverId;
 }
 
 enum EventType {

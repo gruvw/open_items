@@ -23,8 +23,8 @@ enum ListType {
       ListType.values.elementAt(typeIndex);
 }
 
-abstract class Liste implements Collection {
-  Account get owner;
+abstract class Liste extends Collection {
+  Account get ownerAccount;
 
   abstract String title;
 
@@ -50,7 +50,7 @@ abstract class Liste implements Collection {
   bool isChildOf(Collection collection, {bool direct = false}) => false;
 
   Map<String, dynamic> toJsonFor(Account account) {
-    final properties = account.listProperties(this);
+    final properties = account.properties!.listProperties(this);
     final orderedItems = items..sort(itemsOrdering(account));
 
     return {

@@ -1,12 +1,14 @@
 import 'package:open_items/models/account.dart';
+import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/list.dart';
 
 int Function(Liste, Liste) listsOrdering(Account account) {
-  final order = account.listsOrdering;
+  final properties = account.properties!;
+  final order = properties.listsOrdering;
 
   int listPositionCompare(Liste l1, Liste l2) {
-    final l1Properties = account.listProperties(l1);
-    final l2Properties = account.listProperties(l2);
+    final l1Properties = properties.listProperties(l1);
+    final l2Properties = properties.listProperties(l2);
 
     switch (order) {
       case ListsOrdering.alphabetical:

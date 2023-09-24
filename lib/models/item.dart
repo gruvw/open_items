@@ -4,7 +4,7 @@ import 'package:open_items/global/data_fields.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 
-abstract class Item implements Collection {
+abstract class Item extends Collection {
   abstract String text;
   abstract bool isDone;
   abstract int doneTime;
@@ -22,13 +22,13 @@ abstract class Item implements Collection {
 
   @override
   bool isChildOf(Collection collection, {bool direct = false}) {
-    if (parent.id == collection.id) return true;
+    if (parent.localId == collection.localId) return true;
     if (direct) return false;
     return parent.isChildOf(collection);
   }
 
   Map<String, dynamic> toJsonFor(Account account) {
-    final properties = account.itemProperties(this);
+    final properties = account.properties!.itemProperties(this);
     final orderedItems = items..sort(itemsOrdering(account));
 
     return {

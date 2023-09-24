@@ -21,7 +21,7 @@ enum ItemsOrdering {
 
 // Account object properties
 
-abstract class AccountCollectionProperties extends DatabaseObject {
+abstract class AccountCollectionProperties extends DatabaseServerObject {
   abstract String lexoRank;
 }
 

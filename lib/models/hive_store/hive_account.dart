@@ -1,17 +1,18 @@
 import 'package:hive/hive.dart';
+import 'package:open_items/global/values.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/account_properties.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_item_properties.dart';
-import 'package:open_items/models/item.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
 
 part 'hive_account.g.dart';
 
 @HiveType(typeId: 1)
 class HiveStoreAccount with HiveObjectMixin {
+  @HiveField(0)
+  String hiveServerId;
+
   @HiveField(1)
   final String hiveServer;
 
@@ -19,16 +20,13 @@ class HiveStoreAccount with HiveObjectMixin {
   String hiveName;
 
   @HiveField(3)
-  int hiveListsOrderingIndex;
-
-  @HiveField(4)
-  List<String> hiveListIds;
+  final String hivePropertiesLocalId;
 
   HiveStoreAccount({
+    required this.hiveServerId,
     required this.hiveServer,
     required this.hiveName,
-    required this.hiveListsOrderingIndex,
-    required this.hiveListIds,
+    required this.hivePropertiesLocalId,
   });
 }
 
@@ -45,7 +43,10 @@ class HiveAccount extends Account {
   Database get database => hiveDatabase;
 
   @override
-  String get id => hiveStoreAccount.key;
+  String get localId => hiveStoreAccount.key;
+
+  @override
+  String get serverId => hiveStoreAccount.hiveServerId;
 
   @override
   String get server => hiveStoreAccount.hiveServer;
@@ -60,47 +61,20 @@ class HiveAccount extends Account {
   }
 
   @override
-  int get listsOrderingIndex => hiveStoreAccount.hiveListsOrderingIndex;
+  // TODO: implement properties
+  AccountProperties? get properties {
+    final propertiesLocalId = hiveStoreAccount.hivePropertiesLocalId;
+    if (propertiesLocalId == ValuesTheme.unknownLocalId) return null;
 
-  @override
-  set listsOrderingIndex(int newListsOrderingIndex) {
-    hiveStoreAccount.hiveListsOrderingIndex = newListsOrderingIndex;
-    hiveStoreAccount.save();
-  }
-
-  @override
-  // TODO: implement lists
-  List<Liste> get lists => throw UnimplementedError();
-
-  @override
-  AccountListProperties listProperties(Liste list) {
-    final hiveListProperties = hiveDatabase.accountListPropertiesBox.values
-        .where((lp) => lp.hiveListKey == list.id)
-        .firstOrNull!;
-
-    return HiveAccountListProperties(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccountListProperties: hiveListProperties,
-    );
-  }
-
-  @override
-  AccountItemProperties itemProperties(Item item) {
-    final hiveItemProperties = hiveDatabase.accountItemPropertiesBox.values
-        .where((ip) => ip.hiveItemKey == item.id)
-        .firstOrNull!;
-
-    return HiveAccountItemProperties(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccountItemProperties: hiveItemProperties,
-    );
+    return hiveDatabase.accountPropertiesBox.get(propertiesLocalId);
   }
 
   @override
   void delete() {
-    for (final list in lists) {
+    for (final list in properties!.lists) {
       list.delete();
     }
+    properties!.delete();
     hiveStoreAccount.delete();
   }
 }
