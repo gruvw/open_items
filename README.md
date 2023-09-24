@@ -10,3 +10,5 @@ A **list** (or **collection**) is a grouping of **items**.
 This application aims to be versatile and will handle various types of lists including checklists, ordered lists, and unordered lists.
 Examples of lists can range from groceries to task lists, shopping lists, recipe ingredients, top-ten lists, and more.
 Each item can also be a collection itself, enabling infinite collections nesting for improved organization and readability.
+
+Please take a look at the [Project Specifications](./specifications.md).
