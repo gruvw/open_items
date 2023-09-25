@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' hide HiveList;
 import 'package:nanoid/nanoid.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/account.dart';
@@ -83,32 +83,51 @@ class HiveDatabase extends Database {
 
   @override
   Liste createListe({
+    required Account owner,
+    required Account user,
     required String listServerId,
-    required Account account,
     required String title,
-    required String lexoRank,
     required int typeIndex,
-    required int orderIndex,
-    required bool shouldReverseOrder,
-    required bool shouldStackDone,
     required int creationTime,
     required int editionTime,
-    required bool isOutOfSync,
+    required String accountListPropertiesServerId,
+    required int itemsOrderingIndex,
+    required String lexoRank,
+    required bool shouldReverseOrder,
+    required bool shouldStackDone,
   }) {
     final hiveStoreList = HiveStoreList(
       hiveServerId: listServerId,
-      hiveOwnerAccountLocalId: account.localId,
+      hiveOwnerAccountLocalId: owner.localId,
       hiveTitle: title,
       hiveTypeIndex: typeIndex,
       hiveCreationTime: creationTime,
       hiveEditionTime: editionTime,
       hiveItemLocalIds: [],
     );
-    final listLocalId = nanoid();
-    listsBox.put(listLocalId, hiveStoreList);
+    listsBox.put(nanoid(), hiveStoreList);
 
-    final hiveStoreAccountListProperties = HiveStoreAccountListProperties(hiveServerId: hiveServerId, hiveListLocalId: hiveListLocalId, hiveItemsOrderingIndex: hiveItemsOrderingIndex, hiveLexoRank: hiveLexoRank, hiveShouldReverseOrder: hiveShouldReverseOrder, hiveShouldStackDone: hiveShouldStackDone)
-    throw UnimplementedError();
+    final list = HiveList(
+      hiveDatabase: this,
+      hiveStoreList: hiveStoreList,
+    );
+
+    final hiveStoreAccountListProperties = HiveStoreAccountListProperties(
+      hiveServerId: accountListPropertiesServerId,
+      hiveListLocalId: list.localId,
+      hiveItemsOrderingIndex: itemsOrderingIndex,
+      hiveLexoRank: lexoRank,
+      hiveShouldReverseOrder: shouldReverseOrder,
+      hiveShouldStackDone: shouldStackDone,
+    );
+    accountListPropertiesBox.put(nanoid(), hiveStoreAccountListProperties);
+
+    user.properties!.linkListProperties(HiveAccountListProperties(
+      hiveDatabase: this,
+      hiveStoreAccountListProperties: hiveStoreAccountListProperties,
+    ));
+
+    return list;
   }
 
   @override

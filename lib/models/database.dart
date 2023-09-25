@@ -21,17 +21,18 @@ abstract class Database {
   });
 
   Liste createListe({
+    required Account owner,
+    required Account user, // must be local
     required String listServerId,
-    required Account account,
     required String title,
     required int typeIndex,
     required int creationTime,
     required int editionTime,
     required String accountListPropertiesServerId,
+    required int itemsOrderingIndex,
     required String lexoRank,
     required bool shouldReverseOrder,
     required bool shouldStackDone,
-    required int orderIndex,
   });
 
   Item createItem({
@@ -52,8 +53,10 @@ abstract class Database {
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
   Stream<Event<DatabaseObject>> watchObject(DatabaseServerObject object) {
-    return eventsController.stream.where((event) => event.object.localId == object.localId);
+    return eventsController.stream
+        .where((event) => event.object.localId == object.localId);
   }
+
   Stream<Event<DatabaseObject>> watchAccounts() {
     return eventsController.stream
         .where((event) => event.object.dbType == DatabaseObjectType.account);
@@ -83,7 +86,7 @@ abstract class DatabaseObject {
   }
 }
 
-abstract class DatabaseServerObject extends DatabaseObject{
+abstract class DatabaseServerObject extends DatabaseObject {
   String get serverId;
 }
 

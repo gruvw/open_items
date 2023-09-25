@@ -1,6 +1,5 @@
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class Account extends DatabaseServerObject {

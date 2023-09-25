@@ -1,4 +1,3 @@
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
 import 'package:open_items/models/database.dart';
