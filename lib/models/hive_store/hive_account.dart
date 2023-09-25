@@ -73,10 +73,10 @@ class HiveAccount extends Account {
 
   @override
   void delete() {
-    for (final list in properties!.lists) {
-      list.delete();
+    if (isLocal) {
+      properties!.delete();
     }
-    properties!.delete();
+
     hiveStoreAccount.delete();
   }
 }

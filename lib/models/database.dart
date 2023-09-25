@@ -21,17 +21,17 @@ abstract class Database {
   });
 
   Liste createListe({
-    required String serverId,
+    required String listServerId,
     required Account account,
     required String title,
-    required String position,
     required int typeIndex,
-    required int orderIndex,
-    required bool shouldReverseOrder,
-    required bool shouldStackDone,
     required int creationTime,
     required int editionTime,
-    required bool isOutOfSync,
+    required String accountListPropertiesServerId,
+    required String lexoRank,
+    required bool shouldReverseOrder,
+    required bool shouldStackDone,
+    required int orderIndex,
   });
 
   Item createItem({
@@ -66,7 +66,6 @@ enum DatabaseObjectType {
   item,
   accountProperties,
   listProperties,
-  itemProperties,
 }
 
 abstract class DatabaseObject {

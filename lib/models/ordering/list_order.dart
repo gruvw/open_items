@@ -1,14 +1,13 @@
 import 'package:open_items/models/account.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
-int Function(Liste, Liste) listsOrdering(Account account) {
-  final properties = account.properties!;
-  final order = properties.listsOrdering;
+int Function(AccountListProperties, AccountListProperties) listsOrdering(Account account) {
+  final order = account.properties!.listsOrdering;
 
-  int listPositionCompare(Liste l1, Liste l2) {
-    final l1Properties = properties.listProperties(l1);
-    final l2Properties = properties.listProperties(l2);
+  int listPositionCompare(AccountListProperties lp1, AccountListProperties lp2) {
+    final l1 = lp1.list;
+    final l2 = lp2.list;
 
     switch (order) {
       case ListsOrdering.alphabetical:
@@ -18,7 +17,7 @@ int Function(Liste, Liste) listsOrdering(Account account) {
       case ListsOrdering.edition:
         return l1.editionTime.compareTo(l2.editionTime);
       case ListsOrdering.custom:
-        return l1Properties.lexoRank.compareTo(l2Properties.lexoRank);
+        return lp1.lexoRank.compareTo(lp2.lexoRank);
     }
   }
 

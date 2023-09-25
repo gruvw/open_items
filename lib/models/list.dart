@@ -5,6 +5,7 @@ import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
 enum ListType {
   check("ToDo", Icons.checklist),
@@ -49,21 +50,20 @@ abstract class Liste extends Collection {
   @override
   bool isChildOf(Collection collection, {bool direct = false}) => false;
 
-  Map<String, dynamic> toJsonFor(Account account) {
-    final properties = account.properties!.listProperties(this);
-    final orderedItems = items..sort(itemsOrdering(account));
+  Map<String, dynamic> toJsonWith(AccountListProperties listProperties) {
+    final orderedItems = items..sort(itemsOrdering(listProperties));
 
     return {
       ListFields.title: title,
       ListFields.typeIndex: typeIndex,
-      ListFields.orderIndex: properties.itemsOrderingIndex,
-      ListFields.shouldReverseOrder: properties.shouldReverseOrder,
-      ListFields.shouldStackDone: properties.shouldStackDone,
-      ListFields.positon: properties.lexoRank,
+      ListFields.orderIndex: listProperties.itemsOrderingIndex,
+      ListFields.shouldReverseOrder: listProperties.shouldReverseOrder,
+      ListFields.shouldStackDone: listProperties.shouldStackDone,
+      ListFields.positon: listProperties.lexoRank,
       CollectionFields.creationTime: creationTime,
       CollectionFields.editionTime: editionTime,
       ListFields.items: [
-        for (final item in orderedItems) item.toJsonFor(account)
+        for (final item in orderedItems) item.toJsonWith(listProperties)
       ]
     };
   }

@@ -3,9 +3,11 @@ import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
 abstract class Item extends Collection {
   abstract String text;
+  abstract String lexoRank;
   abstract bool isDone;
   abstract int doneTime;
 
@@ -27,19 +29,18 @@ abstract class Item extends Collection {
     return parent.isChildOf(collection);
   }
 
-  Map<String, dynamic> toJsonFor(Account account) {
-    final properties = account.properties!.itemProperties(this);
-    final orderedItems = items..sort(itemsOrdering(account));
+  Map<String, dynamic> toJsonWith(AccountListProperties listProperties) {
+    final orderedItems = items..sort(itemsOrdering(listProperties));
 
     return {
       ItemFields.text: text,
       ItemFields.isDone: isDone,
-      ItemFields.position: properties.lexoRank,
+      ItemFields.position: lexoRank,
       CollectionFields.creationTime: creationTime,
       CollectionFields.editionTime: editionTime,
       ItemFields.doneTime: doneTime,
       ItemFields.subitems: [
-        for (final item in orderedItems) item.toJsonFor(account)
+        for (final item in orderedItems) item.toJsonWith(listProperties)
       ]
     };
   }

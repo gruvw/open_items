@@ -18,7 +18,6 @@ class HiveDatabase extends Database {
   static const String _itemsBoxName = "items";
   static const String _accountPropertiesBoxName = "account_properties";
   static const String _accountListPropertiesBoxName = "account_list_properties";
-  static const String _accountItemPropertiesBoxName = "account_item_properties";
 
   HiveDatabase();
 
@@ -27,7 +26,6 @@ class HiveDatabase extends Database {
   late final Box<HiveStoreItem> itemsBox;
   late final Box<HiveStoreAccountProperties> accountPropertiesBox;
   late final Box<HiveStoreAccountListProperties> accountListPropertiesBox;
-  late final Box<HiveStoreAccountItemProperties> accountItemPropertiesBox;
 
   @override
   Future<void> init() async {
@@ -38,7 +36,6 @@ class HiveDatabase extends Database {
     Hive.registerAdapter(HiveStoreItemAdapter());
     Hive.registerAdapter(HiveStoreAccountPropertiesAdapter());
     Hive.registerAdapter(HiveStoreAccountListPropertiesAdapter());
-    Hive.registerAdapter(HiveStoreAccountItemPropertiesAdapter());
 
     accountsBox =
         await Hive.openBox<HiveStoreAccount>(HiveDatabase._accountsBoxName);
@@ -49,9 +46,6 @@ class HiveDatabase extends Database {
     accountListPropertiesBox =
         await Hive.openBox<HiveStoreAccountListProperties>(
             HiveDatabase._accountListPropertiesBoxName);
-    accountItemPropertiesBox =
-        await Hive.openBox<HiveStoreAccountItemProperties>(
-            HiveDatabase._accountItemPropertiesBoxName);
   }
 
   @override
@@ -66,7 +60,7 @@ class HiveDatabase extends Database {
     if (isLocal) {
       final properties = HiveStoreAccountProperties(
         hiveListsOrderingIndex: listsOrderingIndex!,
-        hiveListLocalIds: [],
+        hiveAccountListPropertiesLocalIds: [],
       );
       propertiesLocalId = nanoid();
       accountPropertiesBox.put(propertiesLocalId, properties);
@@ -76,7 +70,8 @@ class HiveDatabase extends Database {
       hiveServerId: serverId,
       hiveServer: server,
       hiveName: name,
-      hiveAccountPropertiesLocalId: propertiesLocalId ?? ValuesTheme.unknownLocalId,
+      hiveAccountPropertiesLocalId:
+          propertiesLocalId ?? ValuesTheme.unknownLocalId,
     );
     accountsBox.put(nanoid(), hiveStoreAccount);
 
@@ -88,10 +83,10 @@ class HiveDatabase extends Database {
 
   @override
   Liste createListe({
-    required String serverId,
+    required String listServerId,
     required Account account,
     required String title,
-    required String position,
+    required String lexoRank,
     required int typeIndex,
     required int orderIndex,
     required bool shouldReverseOrder,
@@ -100,7 +95,19 @@ class HiveDatabase extends Database {
     required int editionTime,
     required bool isOutOfSync,
   }) {
-    // TODO: implement createListe
+    final hiveStoreList = HiveStoreList(
+      hiveServerId: listServerId,
+      hiveOwnerAccountLocalId: account.localId,
+      hiveTitle: title,
+      hiveTypeIndex: typeIndex,
+      hiveCreationTime: creationTime,
+      hiveEditionTime: editionTime,
+      hiveItemLocalIds: [],
+    );
+    final listLocalId = nanoid();
+    listsBox.put(listLocalId, hiveStoreList);
+
+    final hiveStoreAccountListProperties = HiveStoreAccountListProperties(hiveServerId: hiveServerId, hiveListLocalId: hiveListLocalId, hiveItemsOrderingIndex: hiveItemsOrderingIndex, hiveLexoRank: hiveLexoRank, hiveShouldReverseOrder: hiveShouldReverseOrder, hiveShouldStackDone: hiveShouldStackDone)
     throw UnimplementedError();
   }
 

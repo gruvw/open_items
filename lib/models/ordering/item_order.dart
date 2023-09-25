@@ -1,22 +1,19 @@
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
-import 'package:open_items/models/properties/account_collection_properties.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
-int Function(Item, Item) itemsOrdering(Account account) {
-  final properties = account.properties!;
+int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
+  // Supposes the two items are members of the pased list
+  final list = listProperties.list;
+  final order = listProperties.itemsOrdering;
+  final stackDone = listProperties.shouldStackDone;
+  final reversed = listProperties.shouldReverseOrder ? -1 : 1;
+
   int itemsPositionCompare(Item i1, Item i2) {
-    final list = i1.list; // supposes the two items have the same list
-    final listProperties = properties.listProperties(list);
-    final i1Properties = properties.itemProperties(i1);
-    final i2Properties = properties.itemProperties(i2);
-
-    final order = listProperties.itemsOrdering;
-    final stackDone = listProperties.shouldStackDone;
-    final reversed = listProperties.shouldReverseOrder ? -1 : 1;
-
     // Stack done items
-    if (list.listType == ListType.check && stackDone && i1.isDone != i2.isDone) {
+    if (list.listType == ListType.check &&
+        stackDone &&
+        i1.isDone != i2.isDone) {
       return reversed * (i1.isDone ? 1 : -1);
     }
 
@@ -35,7 +32,7 @@ int Function(Item, Item) itemsOrdering(Account account) {
         res = i1.doneTime.compareTo(i2.doneTime);
         break;
       case ItemsOrdering.custom:
-        res = i1Properties.lexoRank.compareTo(i2Properties.lexoRank);
+        res = i1.lexoRank.compareTo(i2.lexoRank);
         break;
     }
 

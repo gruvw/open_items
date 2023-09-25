@@ -1,7 +1,6 @@
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
-import 'package:open_items/models/properties/account_collection_properties.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
 enum ListsOrdering {
   custom("Custom"),
@@ -23,15 +22,20 @@ enum ListsOrdering {
 abstract class AccountProperties extends DatabaseObject {
   abstract int listsOrderingIndex;
 
-  List<Liste> get lists;
+  List<AccountListProperties> get listsProperties;
 
-  AccountListProperties listProperties(Liste list);
-  AccountItemProperties itemProperties(Item item);
+  void linkListProperties(AccountListProperties listProperties);
+  void unlinkListProperties(AccountListProperties listProperties);
 
   @override
   DatabaseObjectType get dbType => DatabaseObjectType.account;
 
   // Helper methods
+
+  bool isOwnerOf(Liste list) {
+    final owner = list.ownerAccount;
+    return owner.isLocal && owner.properties!.localId == localId;
+  }
 
   ListsOrdering get listsOrdering => ListsOrdering.ofIndex(listsOrderingIndex);
   set listsOrdering(ListsOrdering newOrder) =>

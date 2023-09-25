@@ -1,5 +1,4 @@
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
 enum ItemsOrdering {
@@ -19,13 +18,10 @@ enum ItemsOrdering {
   factory ItemsOrdering.ofIndex(int orderIndex) => ItemsOrdering.values.elementAt(orderIndex);
 }
 
-// Account object properties
+// Account list properties
 
-abstract class AccountCollectionProperties extends DatabaseServerObject {
+abstract class AccountListProperties extends DatabaseServerObject {
   abstract String lexoRank;
-}
-
-abstract class AccountListProperties extends AccountCollectionProperties {
   abstract bool shouldReverseOrder;
   abstract bool shouldStackDone;
 
@@ -40,11 +36,4 @@ abstract class AccountListProperties extends AccountCollectionProperties {
 
   ItemsOrdering get itemsOrdering => ItemsOrdering.ofIndex(itemsOrderingIndex);
   set itemsOrdering(ItemsOrdering newOrder) => itemsOrderingIndex = newOrder.index;
-}
-
-abstract class AccountItemProperties extends AccountCollectionProperties {
-  Item get item;
-
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.itemProperties;
 }

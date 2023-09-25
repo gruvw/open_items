@@ -1,12 +1,8 @@
 import 'package:hive/hive.dart' hide HiveList;
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/hive_list.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_item_properties.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
-import 'package:open_items/models/item.dart';
-import 'package:open_items/models/list.dart';
-import 'package:open_items/models/properties/account_collection_properties.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
 @HiveType(typeId: 5)
@@ -15,11 +11,11 @@ class HiveStoreAccountProperties with HiveObjectMixin {
   int hiveListsOrderingIndex;
 
   @HiveField(1)
-  List<String> hiveListLocalIds;
+  List<String> hiveAccountListPropertiesLocalIds;
 
   HiveStoreAccountProperties({
     required this.hiveListsOrderingIndex,
-    required this.hiveListLocalIds,
+    required this.hiveAccountListPropertiesLocalIds,
   });
 }
 
@@ -49,39 +45,38 @@ class HiveAccountProperties extends AccountProperties {
   }
 
   @override
-  List<Liste> get lists {
-    return hiveStoreAccountProperties.hiveListLocalIds.map((id) => HiveList(
+  List<HiveAccountListProperties> get listsProperties {
+    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.map((id) => HiveAccountListProperties(
           hiveDatabase: hiveDatabase,
-          hiveStoreList: hiveDatabase.listsBox.get(id)!,
+          hiveStoreAccountListProperties: hiveDatabase.accountListPropertiesBox.get(id)!,
         )).toList();
   }
 
   @override
-  AccountListProperties listProperties(Liste list) {
-    final hiveListProperties = hiveDatabase.accountListPropertiesBox.values
-        .where((lp) => lp.hiveListLocalId == list.localId)
-        .firstOrNull!;
-
-    return HiveAccountListProperties(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccountListProperties: hiveListProperties,
-    );
+  void linkListProperties(AccountListProperties listProperties) {
+    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.add(listProperties.localId);
+    hiveStoreAccountProperties.save();
   }
 
   @override
-  AccountItemProperties itemProperties(Item item) {
-    final hiveItemProperties = hiveDatabase.accountItemPropertiesBox.values
-        .where((ip) => ip.hiveItemLocalId == item.localId)
-        .firstOrNull!;
-
-    return HiveAccountItemProperties(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccountItemProperties: hiveItemProperties,
-    );
+  void unlinkListProperties(AccountListProperties listProperties) {
+    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
+        .removeWhere((id) => id == listProperties.localId);
+    hiveStoreAccountProperties.save();
+    listProperties.delete();
   }
 
   @override
   void delete() {
+    for (final listProperties in listsProperties) {
+      final list = listProperties.list;
+      if (isOwnerOf(list)) {
+        list.delete();
+      } else {
+        unlinkListProperties(listProperties);
+      }
+    }
+
     hiveStoreAccountProperties.delete();
   }
 }

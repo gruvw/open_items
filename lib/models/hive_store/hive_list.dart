@@ -113,7 +113,14 @@ class HiveList extends Liste {
       item.delete();
     }
 
-    ownerAccount.properties!.listProperties(this).delete();
+    // Unlink and delete the list properties (corresponding to this list) from the owner account
+    if (ownerAccount.isLocal) {
+      final ownerProperties = ownerAccount.properties!;
+      ownerProperties.unlinkListProperties(ownerProperties.listsProperties
+          .where((lp) => lp.list.localId == localId)
+          .firstOrNull!);
+    }
+
     hiveStoreList.delete();
   }
 }
