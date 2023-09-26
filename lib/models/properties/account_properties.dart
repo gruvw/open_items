@@ -1,3 +1,4 @@
+import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
@@ -22,20 +23,13 @@ enum ListsOrdering {
 abstract class AccountProperties extends DatabaseObject {
   abstract int listsOrderingIndex;
 
+  Account get account;
   List<AccountListProperties> get listsProperties;
 
-  void linkListProperties(AccountListProperties listProperties);
-  void unlinkListProperties(AccountListProperties listProperties);
-
   @override
-  DatabaseObjectType get dbType => DatabaseObjectType.account;
+  DatabaseObjectType get dbType => DatabaseObjectType.accountProperties;
 
   // Helper methods
-
-  bool isOwnerOf(Liste list) {
-    final owner = list.ownerAccount;
-    return owner.isLocal && owner.properties!.localId == localId;
-  }
 
   ListsOrdering get listsOrdering => ListsOrdering.ofIndex(listsOrderingIndex);
   set listsOrdering(ListsOrdering newOrder) =>

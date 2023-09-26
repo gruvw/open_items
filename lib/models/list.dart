@@ -32,11 +32,13 @@ abstract class Liste extends Collection {
   @protected
   abstract int typeIndex;
 
-  ListType get listType => ListType.ofIndex(typeIndex);
-  set listType(ListType newType) => typeIndex = newType.index;
+  // Helper methods
 
   @override
   DatabaseObjectType get dbType => DatabaseObjectType.list;
+
+  ListType get listType => ListType.ofIndex(typeIndex);
+  set listType(ListType newType) => typeIndex = newType.index;
 
   @override
   Liste get list => this;

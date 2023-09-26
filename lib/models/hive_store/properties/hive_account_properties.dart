@@ -1,19 +1,24 @@
 import 'package:hive/hive.dart' hide HiveList;
+import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
+import 'package:open_items/models/hive_store/hive_account.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
-import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
-@HiveType(typeId: 5)
+@HiveType(typeId: 4)
 class HiveStoreAccountProperties with HiveObjectMixin {
   @HiveField(0)
   int hiveListsOrderingIndex;
 
   @HiveField(1)
+  int hiveAccountLocalId;
+
+  @HiveField(2)
   List<String> hiveAccountListPropertiesLocalIds;
 
   HiveStoreAccountProperties({
+    required this.hiveAccountLocalId,
     required this.hiveListsOrderingIndex,
     required this.hiveAccountListPropertiesLocalIds,
   });
@@ -45,35 +50,32 @@ class HiveAccountProperties extends AccountProperties {
   }
 
   @override
+  Account get account {
+    final hiveStoreAccount = hiveDatabase.accountsBox
+        .get(hiveStoreAccountProperties.hiveAccountLocalId)!;
+
+    return HiveAccount(
+      hiveDatabase: hiveDatabase,
+      hiveStoreAccount: hiveStoreAccount,
+    );
+  }
+
+  @override
   List<HiveAccountListProperties> get listsProperties {
-    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.map((id) => HiveAccountListProperties(
+    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.map((alpId) => HiveAccountListProperties(
           hiveDatabase: hiveDatabase,
-          hiveStoreAccountListProperties: hiveDatabase.accountListPropertiesBox.get(id)!,
+          hiveStoreAccountListProperties: hiveDatabase.accountListPropertiesBox.get(alpId)!,
         )).toList();
-  }
-
-  @override
-  void linkListProperties(AccountListProperties listProperties) {
-    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.add(listProperties.localId);
-    hiveStoreAccountProperties.save();
-  }
-
-  @override
-  void unlinkListProperties(AccountListProperties listProperties) {
-    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
-        .removeWhere((id) => id == listProperties.localId);
-    hiveStoreAccountProperties.save();
-    listProperties.delete();
   }
 
   @override
   void delete() {
     for (final listProperties in listsProperties) {
       final list = listProperties.list;
-      if (isOwnerOf(list)) {
+      if (account.isOwnerOf(list)) {
         list.delete();
       } else {
-        unlinkListProperties(listProperties);
+        listProperties.delete();
       }
     }
 

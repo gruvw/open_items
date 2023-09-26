@@ -5,6 +5,7 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
 abstract class Database {
   final StreamController<Event<DatabaseObject>> eventsController =
@@ -22,13 +23,17 @@ abstract class Database {
 
   Liste createListe({
     required Account owner,
-    required Account user, // must be local
     required String listServerId,
     required String title,
     required int typeIndex,
-    required int creationTime,
-    required int editionTime,
-    required String accountListPropertiesServerId,
+    required DateTime creationTime,
+    required DateTime editionTime,
+  });
+
+  AccountListProperties createAccountListProperties({
+    required Account user, // must be local
+    required String serverId,
+    required String listLocalId,
     required int itemsOrderingIndex,
     required String lexoRank,
     required bool shouldReverseOrder,
@@ -42,8 +47,8 @@ abstract class Database {
     required String text,
     required String position,
     required bool isDone,
-    required int creationTime,
-    required int editionTime,
+    required DateTime creationTime,
+    required DateTime editionTime,
     required bool isOutOfSync,
   });
 
@@ -68,7 +73,7 @@ enum DatabaseObjectType {
   list,
   item,
   accountProperties,
-  listProperties,
+  accountListProperties,
 }
 
 abstract class DatabaseObject {

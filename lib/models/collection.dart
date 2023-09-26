@@ -5,14 +5,18 @@ import 'package:open_items/models/item.dart';
 abstract class Collection extends DatabaseServerObject {
   static const String displayPathSeparator = " > ";
 
-  abstract int editionTime;
+  abstract DateTime editionTime;
 
-  int get creationTime;
+  DateTime get creationTime;
   String get content;
   Liste get list;
 
   List<Item> get items;
   List<Collection> get collectionPath;
+
+  bool isChildOf(Collection collection, {bool direct = false});
+
+  // Helper methods
 
   String get displayPath => collectionPath
       .map((collection) => collection.content)
@@ -20,6 +24,4 @@ abstract class Collection extends DatabaseServerObject {
 
   List<Collection> get deepFlattened =>
       [this, for (final item in items) ...item.deepFlattened];
-
-  bool isChildOf(Collection collection, {bool direct = false});
 }

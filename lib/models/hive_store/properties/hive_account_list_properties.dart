@@ -1,7 +1,10 @@
 import 'package:hive/hive.dart' hide HiveList;
+import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
+import 'package:open_items/models/hive_store/hive_account.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/hive_store/hive_list.dart';
+import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
 import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
@@ -13,22 +16,26 @@ class HiveStoreAccountListProperties with HiveObjectMixin {
   String hiveServerId;
 
   @HiveField(1)
-  String hiveListLocalId;
+  String hiveAccountLocalId;
 
   @HiveField(2)
-  String hiveLexoRank;
+  String hiveListLocalId;
 
   @HiveField(3)
-  int hiveItemsOrderingIndex;
+  String hiveLexoRank;
 
   @HiveField(4)
-  bool hiveShouldReverseOrder;
+  int hiveItemsOrderingIndex;
 
   @HiveField(5)
+  bool hiveShouldReverseOrder;
+
+  @HiveField(6)
   bool hiveShouldStackDone;
 
   HiveStoreAccountListProperties({
     required this.hiveServerId,
+    required this.hiveAccountLocalId,
     required this.hiveListLocalId,
     required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
@@ -57,11 +64,23 @@ class HiveAccountListProperties extends AccountListProperties {
 
   @override
   Liste get list {
-    final hiveStoreList = hiveDatabase.listsBox.get(hiveStoreAccountListProperties.hiveListLocalId)!;
+    final hiveStoreList = hiveDatabase.listsBox
+        .get(hiveStoreAccountListProperties.hiveListLocalId)!;
 
     return HiveList(
       hiveDatabase: hiveDatabase,
       hiveStoreList: hiveStoreList,
+    );
+  }
+
+  @override
+  Account get user {
+    final hiveStoreAccount = hiveDatabase.accountsBox
+        .get(hiveStoreAccountListProperties.hiveAccountLocalId)!;
+
+    return HiveAccount(
+      hiveDatabase: hiveDatabase,
+      hiveStoreAccount: hiveStoreAccount,
     );
   }
 
@@ -75,25 +94,30 @@ class HiveAccountListProperties extends AccountListProperties {
   }
 
   @override
-  int get itemsOrderingIndex => hiveStoreAccountListProperties.hiveItemsOrderingIndex;
+  int get itemsOrderingIndex =>
+      hiveStoreAccountListProperties.hiveItemsOrderingIndex;
 
   @override
   set itemsOrderingIndex(int newItemsOrderingIndex) {
-    hiveStoreAccountListProperties.hiveItemsOrderingIndex = newItemsOrderingIndex;
+    hiveStoreAccountListProperties.hiveItemsOrderingIndex =
+        newItemsOrderingIndex;
     hiveStoreAccountListProperties.save();
   }
 
   @override
-  bool get shouldReverseOrder => hiveStoreAccountListProperties.hiveShouldReverseOrder;
+  bool get shouldReverseOrder =>
+      hiveStoreAccountListProperties.hiveShouldReverseOrder;
 
   @override
   set shouldReverseOrder(bool newShouldReverseOrder) {
-    hiveStoreAccountListProperties.hiveShouldReverseOrder = newShouldReverseOrder;
+    hiveStoreAccountListProperties.hiveShouldReverseOrder =
+        newShouldReverseOrder;
     hiveStoreAccountListProperties.save();
   }
 
   @override
-  bool get shouldStackDone => hiveStoreAccountListProperties.hiveShouldStackDone;
+  bool get shouldStackDone =>
+      hiveStoreAccountListProperties.hiveShouldStackDone;
 
   @override
   set shouldStackDone(bool newShouldStackDone) {
@@ -103,6 +127,14 @@ class HiveAccountListProperties extends AccountListProperties {
 
   @override
   void delete() {
+    final hiveAccountProperties = user.properties! as HiveAccountProperties;
+    final hiveStoreAccountProperties =
+        hiveAccountProperties.hiveStoreAccountProperties;
+
+    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
+        .removeWhere((alpId) => alpId == localId);
+    hiveStoreAccountProperties.save();
+
     hiveStoreAccountListProperties.delete();
   }
 }

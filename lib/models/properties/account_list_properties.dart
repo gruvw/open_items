@@ -1,3 +1,4 @@
+import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/list.dart';
 
@@ -27,10 +28,11 @@ abstract class AccountListProperties extends DatabaseServerObject {
 
   abstract int itemsOrderingIndex;
 
+  Account get user;
   Liste get list;
 
   @override
-  DatabaseObjectType get dbType => DatabaseObjectType.listProperties;
+  DatabaseObjectType get dbType => DatabaseObjectType.accountListProperties;
 
   // Helper methods
 

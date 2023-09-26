@@ -8,7 +8,7 @@ import 'package:open_items/models/list.dart';
 
 part 'hive_list.g.dart';
 
-@HiveType(typeId: 4)
+@HiveType(typeId: 3)
 class HiveStoreList with HiveObjectMixin {
   @HiveField(0)
   String hiveServerId;
@@ -90,14 +90,16 @@ class HiveList extends Liste {
   }
 
   @override
-  int get creationTime => hiveStoreList.hiveCreationTime;
+  DateTime get creationTime =>
+      DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveCreationTime);
 
   @override
-  int get editionTime => hiveStoreList.hiveEditionTime;
+  DateTime get editionTime =>
+      DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
 
   @override
-  set editionTime(int newEditionTime) {
-    hiveStoreList.hiveEditionTime = newEditionTime;
+  set editionTime(DateTime newEditionTime) {
+    hiveStoreList.hiveEditionTime = newEditionTime.millisecondsSinceEpoch;
     hiveStoreList.save();
   }
 
@@ -113,12 +115,11 @@ class HiveList extends Liste {
       item.delete();
     }
 
-    // Unlink and delete the list properties (corresponding to this list) from the owner account
     if (ownerAccount.isLocal) {
-      final ownerProperties = ownerAccount.properties!;
-      ownerProperties.unlinkListProperties(ownerProperties.listsProperties
+      ownerAccount.properties!.listsProperties
           .where((lp) => lp.list.localId == localId)
-          .firstOrNull!);
+          .firstOrNull!
+          .delete();
     }
 
     hiveStoreList.delete();

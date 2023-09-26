@@ -11,6 +11,7 @@ import 'package:open_items/models/hive_store/properties/hive_account_list_proper
 import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
+import 'package:open_items/models/properties/account_list_properties.dart';
 
 class HiveDatabase extends Database {
   static const String _accountsBoxName = "accounts";
@@ -84,17 +85,11 @@ class HiveDatabase extends Database {
   @override
   Liste createListe({
     required Account owner,
-    required Account user,
     required String listServerId,
     required String title,
     required int typeIndex,
-    required int creationTime,
-    required int editionTime,
-    required String accountListPropertiesServerId,
-    required int itemsOrderingIndex,
-    required String lexoRank,
-    required bool shouldReverseOrder,
-    required bool shouldStackDone,
+    required DateTime creationTime,
+    required DateTime editionTime,
   }) {
     final hiveStoreList = HiveStoreList(
       hiveServerId: listServerId,
@@ -112,9 +107,23 @@ class HiveDatabase extends Database {
       hiveStoreList: hiveStoreList,
     );
 
+    return list;
+  }
+
+  @override
+  AccountListProperties createAccountListProperties({
+    required Account user,
+    required String serverId,
+    required String listLocalId,
+    required int itemsOrderingIndex,
+    required String lexoRank,
+    required bool shouldReverseOrder,
+    required bool shouldStackDone,
+  }) {
     final hiveStoreAccountListProperties = HiveStoreAccountListProperties(
-      hiveServerId: accountListPropertiesServerId,
-      hiveListLocalId: list.localId,
+      hiveServerId: serverId,
+      hiveAccountLocalId: user.localId,
+      hiveListLocalId: listLocalId,
       hiveItemsOrderingIndex: itemsOrderingIndex,
       hiveLexoRank: lexoRank,
       hiveShouldReverseOrder: shouldReverseOrder,
@@ -122,12 +131,17 @@ class HiveDatabase extends Database {
     );
     accountListPropertiesBox.put(nanoid(), hiveStoreAccountListProperties);
 
-    user.properties!.linkListProperties(HiveAccountListProperties(
+    final hiveUserProperties = user.properties! as HiveAccountProperties;
+    final hiveStoreUserProperties =
+        hiveUserProperties.hiveStoreAccountProperties;
+    hiveStoreUserProperties.hiveAccountListPropertiesLocalIds
+        .add(hiveStoreAccountListProperties.key);
+    hiveStoreUserProperties.save();
+
+    return HiveAccountListProperties(
       hiveDatabase: this,
       hiveStoreAccountListProperties: hiveStoreAccountListProperties,
-    ));
-
-    return list;
+    );
   }
 
   @override
@@ -138,8 +152,8 @@ class HiveDatabase extends Database {
     required String text,
     required String position,
     required bool isDone,
-    required int creationTime,
-    required int editionTime,
+    required DateTime creationTime,
+    required DateTime editionTime,
     required bool isOutOfSync,
   }) {
     // TODO: implement createItem

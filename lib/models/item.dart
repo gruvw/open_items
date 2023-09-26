@@ -8,9 +8,13 @@ abstract class Item extends Collection {
   abstract String text;
   abstract String lexoRank;
   abstract bool isDone;
-  abstract int doneTime;
+  abstract DateTime doneTime;
 
   Collection get parent;
+
+  bool get isFirstLevel;
+
+  // Helper methods
 
   @override
   DatabaseObjectType get dbType => DatabaseObjectType.item;
