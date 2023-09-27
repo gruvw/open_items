@@ -37,8 +37,8 @@ class HiveStoreAccountListProperties with HiveObjectMixin {
     required this.hiveServerId,
     required this.hiveAccountLocalId,
     required this.hiveListLocalId,
-    required this.hiveItemsOrderingIndex,
     required this.hiveLexoRank,
+    required this.hiveItemsOrderingIndex,
     required this.hiveShouldReverseOrder,
     required this.hiveShouldStackDone,
   });

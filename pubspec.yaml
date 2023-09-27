@@ -46,7 +46,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  hive_generator: ^2.0.0
+  hive_generator: ^2.0.0 # `flutter packages pub run build_runner build`
   build_runner: ^2.1.7
   flutter_lints: ^2.0.2
 
