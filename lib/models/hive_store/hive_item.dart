@@ -103,10 +103,22 @@ class HiveItem extends Item {
   }
 
   @override
-  String lexoRank;
+  String get lexoRank => hiveStoreItem.hiveLexoRank;
 
   @override
-  bool isDone;
+  set lexoRank(String newLexoRank) {
+    hiveStoreItem.hiveLexoRank = newLexoRank;
+    hiveStoreItem.save();
+  }
+
+  @override
+  bool get isDone => hiveStoreItem.hiveIsDone;
+
+  @override
+  set isDone(bool newIsDone) {
+    hiveStoreItem.hiveIsDone = newIsDone;
+    hiveStoreItem.save();
+  }
 
   @override
   bool get isFirstLevel =>

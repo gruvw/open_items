@@ -9,10 +9,10 @@ import 'package:open_items/models/properties/account_properties.dart';
 @HiveType(typeId: 4)
 class HiveStoreAccountProperties with HiveObjectMixin {
   @HiveField(0)
-  int hiveListsOrderingIndex;
+  String hiveAccountLocalId;
 
   @HiveField(1)
-  int hiveAccountLocalId;
+  int hiveListsOrderingIndex;
 
   @HiveField(2)
   List<String> hiveAccountListPropertiesLocalIds;

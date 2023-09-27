@@ -18,7 +18,7 @@ abstract class Database {
     required String name,
     required String server,
     required bool isLocal,
-    int? listsOrderingIndex,
+    int? listsOrderingIndex, // must be specified if local account
   });
 
   Liste createListe({

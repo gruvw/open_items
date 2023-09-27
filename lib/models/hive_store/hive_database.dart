@@ -5,8 +5,8 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_account.dart';
+import 'package:open_items/models/hive_store/hive_item.dart';
 import 'package:open_items/models/hive_store/hive_list.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_item_properties.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
 import 'package:open_items/models/item.dart';
@@ -57,9 +57,12 @@ class HiveDatabase extends Database {
     required bool isLocal,
     int? listsOrderingIndex,
   }) {
+    String accountLocalId = nanoid();
+
     String? propertiesLocalId;
     if (isLocal) {
       final properties = HiveStoreAccountProperties(
+        hiveAccountLocalId: accountLocalId,
         hiveListsOrderingIndex: listsOrderingIndex!,
         hiveAccountListPropertiesLocalIds: [],
       );
@@ -74,7 +77,7 @@ class HiveDatabase extends Database {
       hiveAccountPropertiesLocalId:
           propertiesLocalId ?? ValuesTheme.unknownLocalId,
     );
-    accountsBox.put(nanoid(), hiveStoreAccount);
+    accountsBox.put(accountLocalId, hiveStoreAccount);
 
     return HiveAccount(
       hiveDatabase: this,
@@ -96,8 +99,8 @@ class HiveDatabase extends Database {
       hiveOwnerAccountLocalId: owner.localId,
       hiveTitle: title,
       hiveTypeIndex: typeIndex,
-      hiveCreationTime: creationTime,
-      hiveEditionTime: editionTime,
+      hiveCreationTime: creationTime.millisecondsSinceEpoch,
+      hiveEditionTime: editionTime.millisecondsSinceEpoch,
       hiveItemLocalIds: [],
     );
     listsBox.put(nanoid(), hiveStoreList);
@@ -162,7 +165,11 @@ class HiveDatabase extends Database {
 
   @override
   List<Account> getAccounts() {
-    // TODO: implement getAccounts
-    throw UnimplementedError();
+    return accountsBox.values
+        .map((hsa) => HiveAccount(
+              hiveDatabase: this,
+              hiveStoreAccount: hsa,
+            ))
+        .toList();
   }
 }
