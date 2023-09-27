@@ -101,7 +101,7 @@ class HiveDatabase extends Database {
       hiveTypeIndex: typeIndex,
       hiveCreationTime: creationTime.millisecondsSinceEpoch,
       hiveEditionTime: editionTime.millisecondsSinceEpoch,
-      hiveItemLocalIds: [],
+      hiveItemsLocalIds: [],
     );
     listsBox.put(nanoid(), hiveStoreList);
 
@@ -150,21 +150,46 @@ class HiveDatabase extends Database {
   @override
   Item createItem({
     required String serverId,
-    required Account account,
     required Collection parent,
     required String text,
-    required String position,
-    required bool isDone,
+    required String lexoRank,
     required DateTime creationTime,
     required DateTime editionTime,
-    required bool isOutOfSync,
+    required DateTime doneTime,
+    required bool isDone,
   }) {
-    // TODO: implement createItem
-    throw UnimplementedError();
+    final hiveStoreItem = HiveStoreItem(
+      hiveServerId: serverId,
+      hiveText: text,
+      hiveCreationTime: creationTime.millisecondsSinceEpoch,
+      hiveEditionTime: editionTime.millisecondsSinceEpoch,
+      hiveDoneTime: doneTime.millisecondsSinceEpoch,
+      hiveLexoRank: lexoRank,
+      hiveIsDone: isDone,
+      hiveListLocalId: parent.list.localId,
+      hiveParentLocalId: parent.localId,
+      hiveItemsLocalIds: [],
+    );
+    itemsBox.put(nanoid(), hiveStoreItem);
+
+    // https://github.com/dart-lang/language/issues/1618
+    final HiveStoreCollection hiveStoreParent;
+    if (parent is HiveList) {
+      hiveStoreParent = parent.hiveStoreList;
+    } else {
+      hiveStoreParent = (parent as HiveItem).hiveStoreItem;
+    }
+    hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
+    hiveStoreParent.save();
+
+    return HiveItem(
+      hiveDatabase: this,
+      hiveStoreItem: hiveStoreItem,
+    );
   }
 
   @override
-  List<Account> getAccounts() {
+  List<Account> getLocalAccounts() {
     return accountsBox.values
         .map((hsa) => HiveAccount(
               hiveDatabase: this,
