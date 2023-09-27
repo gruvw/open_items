@@ -6,6 +6,7 @@ import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
+import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class Database {
   final StreamController<Event<DatabaseObject>> eventsController =
@@ -42,19 +43,16 @@ abstract class Database {
 
   Item createItem({
     required String serverId,
-    required Account account,
     required Collection parent,
     required String text,
-    required String position,
-    required bool isDone,
+    required String lexoRank,
     required DateTime creationTime,
     required DateTime editionTime,
-    required bool isOutOfSync,
+    required DateTime doneTime,
+    required bool isDone,
   });
 
-  List<Account> getAccounts();
-  // List<Liste> getLists();
-  // List<Item> getItems();
+  List<AccountProperties> getAccountsProperties();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
   Stream<Event<DatabaseObject>> watchObject(DatabaseServerObject object) {
@@ -62,25 +60,17 @@ abstract class Database {
         .where((event) => event.object.localId == object.localId);
   }
 
-  Stream<Event<DatabaseObject>> watchAccounts() {
-    return eventsController.stream
-        .where((event) => event.object.dbType == DatabaseObjectType.account);
+  Stream<Event<DatabaseObject>> watchLocalAccounts() {
+    return eventsController.stream.where((event) {
+      final object = event.object;
+      return object is Account && object.isLocal;
+    });
   }
-}
-
-enum DatabaseObjectType {
-  account,
-  list,
-  item,
-  accountProperties,
-  accountListProperties,
 }
 
 abstract class DatabaseObject {
   @protected
   Database get database;
-
-  DatabaseObjectType get dbType;
 
   String get localId;
 

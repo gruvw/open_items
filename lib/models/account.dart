@@ -10,9 +10,6 @@ abstract class Account extends DatabaseServerObject {
 
   AccountProperties? get properties;
 
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.account;
-
   // Helper methods
 
   bool isOwnerOf(Liste list) {

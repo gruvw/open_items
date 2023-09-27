@@ -3,13 +3,19 @@ import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/hive_store/hive_account.dart';
 import 'package:open_items/models/hive_store/hive_database.dart';
+import 'package:open_items/models/hive_store/hive_item.dart';
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 
 part 'hive_list.g.dart';
 
+abstract class HiveStoreCollection {
+  List<String> get hiveItemsLocalIds;
+  Future<void> save();
+}
+
 @HiveType(typeId: 3)
-class HiveStoreList with HiveObjectMixin {
+class HiveStoreList with HiveObjectMixin implements HiveStoreCollection {
   @HiveField(0)
   String hiveServerId;
 
@@ -28,8 +34,9 @@ class HiveStoreList with HiveObjectMixin {
   @HiveField(5)
   int hiveEditionTime;
 
+  @override
   @HiveField(6)
-  List<String> hiveItemLocalIds;
+  List<String> hiveItemsLocalIds;
 
   HiveStoreList({
     required this.hiveServerId,
@@ -38,7 +45,7 @@ class HiveStoreList with HiveObjectMixin {
     required this.hiveTypeIndex,
     required this.hiveCreationTime,
     required this.hiveEditionTime,
-    required this.hiveItemLocalIds,
+    required this.hiveItemsLocalIds,
   });
 }
 
@@ -105,8 +112,12 @@ class HiveList extends Liste {
 
   @override
   List<Item> get items {
-    // TODO
-    hiveStoreList.hiveItemLocalIds.map((id) => hiveDatabase.itemsBox.get(id));
+    return hiveStoreList.hiveItemsLocalIds
+        .map((itemId) => HiveItem(
+              hiveDatabase: hiveDatabase,
+              hiveStoreItem: hiveDatabase.itemsBox.get(itemId)!,
+            ))
+        .toList();
   }
 
   @override

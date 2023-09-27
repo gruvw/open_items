@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 enum ListsOrdering {
@@ -21,13 +21,11 @@ enum ListsOrdering {
 }
 
 abstract class AccountProperties extends DatabaseObject {
+  @protected
   abstract int listsOrderingIndex;
 
   Account get account;
   List<AccountListProperties> get listsProperties;
-
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.accountProperties;
 
   // Helper methods
 

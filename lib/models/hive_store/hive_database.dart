@@ -12,6 +12,7 @@ import 'package:open_items/models/hive_store/properties/hive_account_properties.
 import 'package:open_items/models/item.dart';
 import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
+import 'package:open_items/models/properties/account_properties.dart';
 
 class HiveDatabase extends Database {
   static const String _accountsBoxName = "accounts";
@@ -189,11 +190,11 @@ class HiveDatabase extends Database {
   }
 
   @override
-  List<Account> getLocalAccounts() {
-    return accountsBox.values
-        .map((hsa) => HiveAccount(
+  List<AccountProperties> getAccountsProperties() {
+    return accountPropertiesBox.values
+        .map((hsap) => HiveAccountProperties(
               hiveDatabase: this,
-              hiveStoreAccount: hsa,
+              hiveStoreAccountProperties: hsap,
             ))
         .toList();
   }

@@ -1,6 +1,5 @@
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
-import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
@@ -15,9 +14,6 @@ abstract class Item extends Collection {
   bool get isFirstLevel;
 
   // Helper methods
-
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.item;
 
   @override
   String get content => text;

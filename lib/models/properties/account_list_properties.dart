@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/list.dart';
@@ -26,13 +27,11 @@ abstract class AccountListProperties extends DatabaseServerObject {
   abstract bool shouldReverseOrder;
   abstract bool shouldStackDone;
 
+  @protected
   abstract int itemsOrderingIndex;
 
   Account get user;
   Liste get list;
-
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.accountListProperties;
 
   // Helper methods
 

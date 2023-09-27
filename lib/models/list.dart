@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/global/data_fields.dart';
-import 'package:open_items/models/database.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
@@ -34,9 +33,6 @@ abstract class Liste extends Collection {
 
   // Helper methods
 
-  @override
-  DatabaseObjectType get dbType => DatabaseObjectType.list;
-
   ListType get listType => ListType.ofIndex(typeIndex);
   set listType(ListType newType) => typeIndex = newType.index;
 
@@ -58,7 +54,7 @@ abstract class Liste extends Collection {
     return {
       ListFields.title: title,
       ListFields.typeIndex: typeIndex,
-      ListFields.orderIndex: listProperties.itemsOrderingIndex,
+      ListFields.orderIndex: listProperties.itemsOrdering.index,
       ListFields.shouldReverseOrder: listProperties.shouldReverseOrder,
       ListFields.shouldStackDone: listProperties.shouldStackDone,
       ListFields.positon: listProperties.lexoRank,

@@ -6,6 +6,8 @@ import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
+part 'hive_account_properties.g.dart';
+
 @HiveType(typeId: 4)
 class HiveStoreAccountProperties with HiveObjectMixin {
   @HiveField(0)

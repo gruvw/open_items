@@ -5,8 +5,10 @@ import 'package:open_items/models/hive_store/hive_database.dart';
 import 'package:open_items/models/hive_store/hive_list.dart';
 import 'package:open_items/models/item.dart';
 
+part 'hive_item.g.dart';
+
 @HiveType(typeId: 5)
-class HiveStoreItem with HiveObjectMixin {
+class HiveStoreItem with HiveObjectMixin implements HiveStoreCollection {
   @HiveField(0)
   String hiveServerId;
 
@@ -34,6 +36,7 @@ class HiveStoreItem with HiveObjectMixin {
   @HiveField(8)
   String hiveParentLocalId;
 
+  @override
   @HiveField(9)
   List<String> hiveItemsLocalIds;
 
@@ -142,7 +145,7 @@ class HiveItem extends Item {
     }
 
     final hiveStoreParentItem =
-        hiveDatabase.itemsBox.get(hiveStoreItem.hiveParentLocalId);
+        hiveDatabase.itemsBox.get(hiveStoreItem.hiveParentLocalId)!;
 
     return HiveItem(
       hiveDatabase: hiveDatabase,
@@ -167,7 +170,7 @@ class HiveItem extends Item {
     }
 
     final hiveStoreList = list.hiveStoreList;
-    hiveStoreList.hiveItemLocalIds.removeWhere((itemId) => itemId == localId);
+    hiveStoreList.hiveItemsLocalIds.removeWhere((itemId) => itemId == localId);
     hiveStoreList.save();
 
     hiveStoreItem.delete();

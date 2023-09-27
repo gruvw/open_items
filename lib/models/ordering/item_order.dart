@@ -5,7 +5,6 @@ import 'package:open_items/models/properties/account_list_properties.dart';
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
   // Supposes the two items are members of the pased list
   final list = listProperties.list;
-  final order = listProperties.itemsOrdering;
   final stackDone = listProperties.shouldStackDone;
   final reversed = listProperties.shouldReverseOrder ? -1 : 1;
 
@@ -18,7 +17,7 @@ int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
     }
 
     int res = 0;
-    switch (order) {
+    switch (listProperties.itemsOrdering) {
       case ItemsOrdering.alphabetical:
         res = i1.content.toLowerCase().compareTo(i2.content.toLowerCase());
         break;
