@@ -14,6 +14,8 @@ import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
+const String hiveDatabaseSubdir = "Open-Items_hive";
+
 class HiveDatabase extends Database {
   static const String _accountsBoxName = "accounts";
   static const String _listsBoxName = "lists";
@@ -31,7 +33,7 @@ class HiveDatabase extends Database {
 
   @override
   Future<void> init() async {
-    await Hive.initFlutter();
+    await Hive.initFlutter(hiveDatabaseSubdir);
 
     Hive.registerAdapter(HiveStoreAccountAdapter());
     Hive.registerAdapter(HiveStoreListAdapter());
@@ -91,7 +93,7 @@ class HiveDatabase extends Database {
     required Account owner,
     required String listServerId,
     required String title,
-    required int typeIndex,
+    required CollectionType type,
     required DateTime creationTime,
     required DateTime editionTime,
   }) {
@@ -99,7 +101,7 @@ class HiveDatabase extends Database {
       hiveServerId: listServerId,
       hiveOwnerAccountLocalId: owner.localId,
       hiveTitle: title,
-      hiveTypeIndex: typeIndex,
+      hiveTypeIndex: type.index,
       hiveCreationTime: creationTime.millisecondsSinceEpoch,
       hiveEditionTime: editionTime.millisecondsSinceEpoch,
       hiveItemsLocalIds: [],
@@ -119,7 +121,7 @@ class HiveDatabase extends Database {
     required Account user,
     required String serverId,
     required String listLocalId,
-    required int itemsOrderingIndex,
+    required ItemsOrdering itemsOrdering,
     required String lexoRank,
     required bool shouldReverseOrder,
     required bool shouldStackDone,
@@ -128,7 +130,7 @@ class HiveDatabase extends Database {
       hiveServerId: serverId,
       hiveAccountLocalId: user.localId,
       hiveListLocalId: listLocalId,
-      hiveItemsOrderingIndex: itemsOrderingIndex,
+      hiveItemsOrderingIndex: itemsOrdering.index,
       hiveLexoRank: lexoRank,
       hiveShouldReverseOrder: shouldReverseOrder,
       hiveShouldStackDone: shouldStackDone,
@@ -153,6 +155,7 @@ class HiveDatabase extends Database {
     required String serverId,
     required Collection parent,
     required String text,
+    required CollectionType type,
     required String lexoRank,
     required DateTime creationTime,
     required DateTime editionTime,
@@ -162,6 +165,7 @@ class HiveDatabase extends Database {
     final hiveStoreItem = HiveStoreItem(
       hiveServerId: serverId,
       hiveText: text,
+      hiveTypeIndex: type.index,
       hiveCreationTime: creationTime.millisecondsSinceEpoch,
       hiveEditionTime: editionTime.millisecondsSinceEpoch,
       hiveDoneTime: doneTime.millisecondsSinceEpoch,

@@ -26,7 +26,7 @@ abstract class Database {
     required Account owner,
     required String listServerId,
     required String title,
-    required int typeIndex,
+    required CollectionType type,
     required DateTime creationTime,
     required DateTime editionTime,
   });
@@ -35,7 +35,7 @@ abstract class Database {
     required Account user, // must be local
     required String serverId,
     required String listLocalId,
-    required int itemsOrderingIndex,
+    required ItemsOrdering itemsOrdering,
     required String lexoRank,
     required bool shouldReverseOrder,
     required bool shouldStackDone,
@@ -45,6 +45,7 @@ abstract class Database {
     required String serverId,
     required Collection parent,
     required String text,
+    required CollectionType type,
     required String lexoRank,
     required DateTime creationTime,
     required DateTime editionTime,

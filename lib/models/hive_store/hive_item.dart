@@ -16,33 +16,37 @@ class HiveStoreItem with HiveObjectMixin implements HiveStoreCollection {
   String hiveText;
 
   @HiveField(2)
-  final int hiveCreationTime;
+  int hiveTypeIndex;
 
   @HiveField(3)
-  int hiveEditionTime;
+  final int hiveCreationTime;
 
   @HiveField(4)
-  int hiveDoneTime;
+  int hiveEditionTime;
 
   @HiveField(5)
-  String hiveLexoRank;
+  int hiveDoneTime;
 
   @HiveField(6)
-  bool hiveIsDone;
+  String hiveLexoRank;
 
   @HiveField(7)
-  String hiveListLocalId;
+  bool hiveIsDone;
 
   @HiveField(8)
+  String hiveListLocalId;
+
+  @HiveField(9)
   String hiveParentLocalId;
 
   @override
-  @HiveField(9)
+  @HiveField(10)
   List<String> hiveItemsLocalIds;
 
   HiveStoreItem({
     required this.hiveServerId,
     required this.hiveText,
+    required this.hiveTypeIndex,
     required this.hiveCreationTime,
     required this.hiveEditionTime,
     required this.hiveDoneTime,
@@ -78,6 +82,15 @@ class HiveItem extends Item {
   @override
   set text(String newText) {
     hiveStoreItem.hiveText = newText;
+    hiveStoreItem.save();
+  }
+
+  @override
+  int get typeIndex => hiveStoreItem.hiveTypeIndex;
+
+  @override
+  set typeIndex(int newTypeIndex) {
+    hiveStoreItem.hiveTypeIndex = newTypeIndex;
     hiveStoreItem.save();
   }
 

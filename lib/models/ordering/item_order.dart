@@ -1,5 +1,5 @@
+import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/item.dart';
-import 'package:open_items/models/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
@@ -10,7 +10,7 @@ int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
 
   int itemsPositionCompare(Item i1, Item i2) {
     // Stack done items
-    if (list.listType == ListType.check &&
+    if (list.collectionType == CollectionType.check &&
         stackDone &&
         i1.isDone != i2.isDone) {
       return reversed * (i1.isDone ? 1 : -1);
