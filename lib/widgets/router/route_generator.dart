@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/widgets/authenticate/authenticate_page.dart';
+import 'package:open_items/widgets/collections/item_page.dart';
+import 'package:open_items/widgets/collections/list_page.dart';
+import 'package:open_items/widgets/collections/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
 
 enum Routes {
   home("/"),
   list("/list"),
   item("/item"),
-  sign("/sign"),
+  authenticate("/authenticate"),
   error("/error");
 
   static Routes get miss => error;
@@ -21,13 +25,13 @@ enum Routes {
   Widget page(Object? args) {
     switch (this) {
       case home:
-        return throw UnimplementedError("Lists page"); // TODO
+        return const ListsPage();
       case list:
-        return throw UnimplementedError("List page"); // TODO
+        return const ListPage();
       case item:
-        return throw UnimplementedError("Item page"); // TODO
-      case sign:
-        return throw UnimplementedError("Sign page"); // TODO
+        return const ItemPage();
+      case authenticate:
+        return const AuthenticatePage();
       case error:
         return RouteGenerator.errorPage;
     }

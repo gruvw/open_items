@@ -58,7 +58,7 @@ class HiveDatabase extends Database {
     required String name,
     required String server,
     required bool isLocal,
-    int? listsOrderingIndex,
+    ListsOrdering? listsOrdering,
   }) {
     String accountLocalId = nanoid();
 
@@ -66,7 +66,7 @@ class HiveDatabase extends Database {
     if (isLocal) {
       final properties = HiveStoreAccountProperties(
         hiveAccountLocalId: accountLocalId,
-        hiveListsOrderingIndex: listsOrderingIndex!,
+        hiveListsOrderingIndex: listsOrdering!.index,
         hiveAccountListPropertiesLocalIds: [],
       );
       propertiesLocalId = nanoid();
@@ -194,12 +194,13 @@ class HiveDatabase extends Database {
   }
 
   @override
-  List<AccountProperties> getAccountsProperties() {
-    return accountPropertiesBox.values
-        .map((hsap) => HiveAccountProperties(
+  List<Account> getLocalAccounts() {
+    return accountsBox.values
+        .map((hsa) => HiveAccount(
               hiveDatabase: this,
-              hiveStoreAccountProperties: hsap,
+              hiveStoreAccount: hsa,
             ))
+        .where((account) => account.isLocal)
         .toList();
   }
 }

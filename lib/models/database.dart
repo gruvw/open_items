@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:open_items/global/values.dart';
 import 'package:open_items/models/account.dart';
 import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/item.dart';
@@ -19,7 +20,7 @@ abstract class Database {
     required String name,
     required String server,
     required bool isLocal,
-    int? listsOrderingIndex, // must be specified if local account
+    ListsOrdering? listsOrdering, // must be specified if local account
   });
 
   Liste createListe({
@@ -53,7 +54,7 @@ abstract class Database {
     required bool isDone,
   });
 
-  List<AccountProperties> getAccountsProperties();
+  List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
   Stream<Event<DatabaseObject>> watchObject(DatabaseServerObject object) {
@@ -67,6 +68,19 @@ abstract class Database {
       return object is Account && object.isLocal;
     });
   }
+
+  // Helper methods
+
+  Account createOfflineAccount({
+    required String name,
+  }) =>
+      createAccount(
+        serverId: ValuesTheme.offlineServer,
+        name: name,
+        server: ValuesTheme.offlineServer,
+        isLocal: true,
+        listsOrdering: ValuesTheme.defaultListsOrdering,
+      );
 }
 
 abstract class DatabaseObject {

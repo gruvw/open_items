@@ -1,4 +1,5 @@
-abstract class FontSize {
+abstract class FontTheme {
+  static const String fontFamily = "Roboto";
   // static const double appBarTitle = 22;
   // static const double scaffoldMessengerContent = 16;
   // static const double titleLarge = 22;

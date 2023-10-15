@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 // TODO
-class ListPage extends StatelessWidget {
-  const ListPage({super.key});
+class AuthenticatePage extends StatelessWidget {
+  const AuthenticatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("List Page"),
+      body: Text("Authenticate Page"),
     );
   }
 }
