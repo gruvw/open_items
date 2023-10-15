@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/models/account.dart';
+import 'package:open_items/state/providers/application.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/item_page.dart';
 import 'package:open_items/widgets/collections/list_page.dart';
@@ -7,6 +9,7 @@ import 'package:open_items/widgets/router/error_page.dart';
 
 enum Routes {
   home("/"),
+  lists("/lists"),
   list("/list"),
   item("/item"),
   authenticate("/authenticate"),
@@ -25,7 +28,13 @@ enum Routes {
   Widget page(Object? args) {
     switch (this) {
       case home:
-        return const ListsPage();
+        final accounts = database.getLocalAccounts();
+        return accounts.isEmpty ? const AuthenticatePage() : ListsPage(account: accounts.first);
+      case lists:
+        if (args is Account) {
+          return ListsPage(account: args);
+        }
+        return RouteGenerator.errorPage;
       case list:
         return const ListPage();
       case item:

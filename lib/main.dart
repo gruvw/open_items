@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:open_items/global/styles/font.dart';
+import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/providers/application.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
@@ -25,7 +25,7 @@ void main() async {
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home.name,
         onGenerateRoute: RouteGenerator.generateRoute,
-        theme: ThemeData(fontFamily: FontTheme.fontFamily),
+        theme: ThemeData(fontFamily: TextsTheme.fontFamily),
         builder: (context, child) => ScrollConfiguration(
           behavior: AppScrollBehavior(),
           child: child!,
