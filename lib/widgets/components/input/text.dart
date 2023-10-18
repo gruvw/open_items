@@ -3,13 +3,22 @@ import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 
 class TextInput extends StatelessWidget {
+  static const _border = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: ColorTheme.primary,
+      width: 2,
+    ),
+  );
+
   final TextEditingController? controller;
   final String? placeholder;
+  final String? errorText;
 
   const TextInput({
     super.key,
     this.placeholder,
     this.controller,
+    this.errorText,
   });
 
   @override
@@ -17,21 +26,14 @@ class TextInput extends StatelessWidget {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: ColorTheme.primary,
-            width: 2,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-          color: ColorTheme.primary,
-          width: 2,
-            )
-          ),
+        enabledBorder: _border,
+        focusedBorder: _border,
         focusColor: ColorTheme.primary,
         hintText: placeholder,
-        hintStyle: TextsTheme.normalText.apply(color: ColorTheme.secondaryText,),
+        errorText: errorText,
+        hintStyle: TextsTheme.normalText.apply(
+          color: ColorTheme.secondaryText,
+        ),
       ),
     );
   }

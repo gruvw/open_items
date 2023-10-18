@@ -21,7 +21,7 @@ void main() async {
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
-        title: ValuesTheme.applicationTitle,
+        title: UIValuesTheme.applicationTitle,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home.name,
         onGenerateRoute: RouteGenerator.generateRoute,

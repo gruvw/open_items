@@ -8,10 +8,10 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(ValuesTheme.errorRouteText),
+        title: const Text(UIValuesTheme.errorRouteText),
       ),
       body: const Center(
-        child: Text(ValuesTheme.errorRouteText),
+        child: Text(UIValuesTheme.errorRouteText),
       ),
     );
   }
