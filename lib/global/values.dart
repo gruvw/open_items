@@ -18,6 +18,6 @@ abstract class UIValuesTheme {
 
   static const String emailPlaceholder = "email@example.com";
   static const String usernamePlaceholder = "my_username";
-  static const String offlineNamePlaceholder = "my_offline_account";
+  static const String offlineNamePlaceholder = "My Account";
   static const String passwordPlaceholder = "********";
 }

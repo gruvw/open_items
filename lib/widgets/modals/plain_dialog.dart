@@ -35,19 +35,21 @@ class PlainDialog extends StatelessWidget {
       shape: _border,
       child: Padding(
         padding: _padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextsTheme.titleText,
-            ),
-            _spacer,
-            body,
-            _spacer,
-            actions,
-          ],
+        child: IntrinsicWidth(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextsTheme.titleText,
+              ),
+              _spacer,
+              body,
+              _spacer,
+              actions,
+            ],
+          ),
         ),
       ),
     );

@@ -11,9 +11,13 @@ import 'package:open_items/widgets/modals/confirm.dart';
 import 'package:open_items/widgets/validation/accounts.dart';
 
 enum Tabs {
-  newOnlineAccount,
-  newOfflineAccount,
-  logIn,
+  newOnlineAccount("Create"),
+  newOfflineAccount("Add"),
+  logIn("Log in");
+
+  final String submitText;
+
+  const Tabs(this.submitText);
 }
 
 class AuthenticatePage extends HookWidget {
@@ -91,55 +95,65 @@ class AuthenticatePage extends HookWidget {
               ),
             if (activeTab.value == Tabs.newOnlineAccount)
               TextInput(
+                key: const ValueKey(0),
                 controller: emailController,
                 placeholder:UIValuesTheme.emailPlaceholder,
               ),
             if (onlineSelected)
               TextInput(
+                key: const ValueKey(1),
                 controller: usernameController,
                 placeholder: UIValuesTheme.usernamePlaceholder,
               ),
             if (activeTab.value == Tabs.newOfflineAccount)
               TextInput(
+                key: const ValueKey(2),
                 controller: offlineNameController,
                 placeholder: UIValuesTheme.offlineNamePlaceholder,
                 errorText: offlineNameError.value,
               ),
             if (onlineSelected)
               TextInput(
+                key: const ValueKey(3),
                 controller: passwordController,
                 placeholder: UIValuesTheme.passwordPlaceholder,
               ),
-            SolidButtonSecondary(
-              text: "",
-              onPressed: () {
-                // Only offline accounts supported
-                if (activeTab.value != Tabs.newOfflineAccount) {
-                  // Switch to active tab
-                  activeTab.value = Tabs.newOfflineAccount;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SolidButtonPrimary(
+                  text: activeTab.value.submitText,
+                  onPressed: () {
+                    // Only offline accounts supported
+                    if (activeTab.value != Tabs.newOfflineAccount) {
+                      // Switch to active tab
+                      activeTab.value = Tabs.newOfflineAccount;
 
-                  // Pre-fill the offline account name with username if user entered
-                  if (usernameController.text.isNotEmpty) {
-                    offlineNameController.text = usernameController.text;
-                  }
+                      // Pre-fill the offline account name with username if user entered
+                      if (usernameController.text.isNotEmpty) {
+                        offlineNameController.text = usernameController.text;
+                      }
 
-                  showDialog(
-                    context: context,
-                    builder: (_) => _notSupportedDialog
-                  );
-                  return;
-                }
+                      showDialog(
+                        context: context,
+                        builder: (_) => _notSupportedDialog
+                      );
+                      return;
+                    }
 
-                final name = usernameController.text;
-                final validation = validNewOfflineName(name);
+                    final name = usernameController.text;
+                    final validation = validNewOfflineName(name);
 
-                if (!validation.isValid) {
-                  offlineNameError.value = validation.nameError;
-                  return;
-                }
+                    if (!validation.isValid) {
+                      offlineNameError.value = validation.nameError;
+                      return;
+                    }
 
-                // final account = database.createOfflineAccount(name: name);
-              },
+                    offlineNameError.value = null;
+                    // final account = database.createOfflineAccount(name: name);
+                  },
+                ),
+              ],
             ),
           ],
         ),
