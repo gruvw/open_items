@@ -111,6 +111,7 @@ class AuthenticatePage extends HookWidget {
                 controller: offlineNameController,
                 placeholder: UIValues.offlineNamePlaceholder,
                 errorText: offlineNameError.value,
+                onChanged: (value) => offlineNameError.value = null,
               ),
             if (onlineSelected)
               TextInput(
@@ -141,7 +142,7 @@ class AuthenticatePage extends HookWidget {
                       return;
                     }
 
-                    final name = usernameController.text;
+                    final name = offlineNameController.text;
                     final validation = validNewOfflineName(name);
 
                     if (!validation.isValid) {

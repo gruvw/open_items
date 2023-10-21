@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 
+// TODO fix error border
 class TextInput extends HookWidget {
   static const _border = OutlineInputBorder(
     borderSide: BorderSide(
@@ -14,12 +15,14 @@ class TextInput extends HookWidget {
   final TextEditingController? controller;
   final String? placeholder;
   final String? errorText;
+  final void Function(String value)? onChanged;
 
   const TextInput({
     super.key,
     this.placeholder,
     this.controller,
     this.errorText,
+    this.onChanged,
   });
 
   @override
@@ -29,7 +32,10 @@ class TextInput extends HookWidget {
 
     return TextField(
       controller: textController,
-      onChanged: (value) => isEmpty.value = value.isEmpty,
+      onChanged: (value) {
+        isEmpty.value = value.isEmpty;
+        onChanged?.call(value);
+      },
       decoration: InputDecoration(
         enabledBorder: _border,
         focusedBorder: _border,
@@ -44,6 +50,7 @@ class TextInput extends HookWidget {
                 onPressed: () {
                   textController.clear();
                   isEmpty.value = true;
+                  onChanged?.call(textController.text);
                 },
                 color: UIColors.primary,
                 icon: const Icon(Icons.clear),
