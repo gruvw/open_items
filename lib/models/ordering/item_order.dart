@@ -1,5 +1,5 @@
-import 'package:open_items/models/collection.dart';
-import 'package:open_items/models/item.dart';
+import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/text.dart';
-import 'package:open_items/models/account.dart';
+import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/widgets/modals/confirm.dart';
 
 class ListsPage extends ConsumerWidget {
@@ -36,10 +36,10 @@ const _testingDialog = ConfirmationDialog(
   confirmedText: "I understand",
   body: Text.rich(
     TextSpan(
-      style: TextsTheme.normalText,
+      style: UITexts.normalText,
       children: [
         TextSpan(text: "This is a "),
-        TextSpan(text: "test", style: TextsTheme.normalBold),
+        TextSpan(text: "test", style: UITexts.normalBold),
         TextSpan(
             text:
                 " version of the application.\nDon't store valuable data and only use for testing purposes."),

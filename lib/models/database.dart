@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/account.dart';
-import 'package:open_items/models/collection.dart';
-import 'package:open_items/models/item.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
+import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
@@ -75,11 +75,11 @@ abstract class Database {
     required String name,
   }) =>
       createAccount(
-        serverId: ValuesTheme.offlineServer,
+        serverId: CoreValues.offlineServer,
         name: name,
-        server: ValuesTheme.offlineServer,
+        server: CoreValues.offlineServer,
         isLocal: true,
-        listsOrdering: ValuesTheme.defaultListsOrdering,
+        listsOrdering: CoreValues.defaultListsOrdering,
       );
 }
 

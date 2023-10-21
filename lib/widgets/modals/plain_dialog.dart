@@ -12,7 +12,7 @@ class PlainDialog extends StatelessWidget {
   static const _border = RoundedRectangleBorder(
     side: BorderSide(
       width: 2,
-      color: ColorTheme.primary,
+      color: UIColors.primary,
     ),
     borderRadius: BorderRadius.all(Radius.circular(4)),
   );
@@ -42,7 +42,7 @@ class PlainDialog extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextsTheme.titleText,
+                style: UITexts.titleText,
               ),
               _spacer,
               body,

@@ -1,6 +1,6 @@
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class Account extends DatabaseServerObject {
@@ -19,7 +19,7 @@ abstract class Account extends DatabaseServerObject {
 
   String get accountId => "$name@$server";
 
-  bool get isOffline => server == ValuesTheme.offlineServer;
+  bool get isOffline => server == CoreValues.offlineServer;
 
   // Does the current client have access to this account
   bool get isLocal => properties != null;

@@ -7,9 +7,9 @@ class OutlinedButtonPrimary extends PlainButton {
     required super.text,
     required super.onPressed,
   }) : super(
-          foregroundColor: ColorTheme.secondary,
-          backgroundColor: ColorTheme.primary,
-          borderColor: ColorTheme.secondary,
+          foregroundColor: UIColors.secondary,
+          backgroundColor: UIColors.primary,
+          borderColor: UIColors.secondary,
         );
 }
 
@@ -19,8 +19,8 @@ class OutlinedButtonSecondary extends PlainButton {
     required super.text,
     required super.onPressed,
   }) : super(
-          foregroundColor: ColorTheme.primary,
-          backgroundColor: ColorTheme.secondary,
-          borderColor: ColorTheme.primary,
+          foregroundColor: UIColors.primary,
+          backgroundColor: UIColors.secondary,
+          borderColor: UIColors.primary,
         );
 }

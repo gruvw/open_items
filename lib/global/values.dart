@@ -1,6 +1,6 @@
 import 'package:open_items/models/properties/account_properties.dart';
 
-abstract class ValuesTheme {
+abstract class CoreValues {
   static const String offlineServer = "offline";
 
   static const String unknownLocalId = "unknown_local_id";
@@ -10,11 +10,12 @@ abstract class ValuesTheme {
   static const ListsOrdering defaultListsOrdering = ListsOrdering.custom;
 }
 
-abstract class UIValuesTheme {
+abstract class UIValues {
   static const String applicationTitle = "Open-Items";
   static const String errorRouteText = "ERROR";
 
   static const String offlineAccountNameDefault = "Offline Account";
+  static const String confirmButtonTextDefault = "Confirm";
 
   static const String emailPlaceholder = "email@example.com";
   static const String usernamePlaceholder = "my_username";

@@ -34,7 +34,7 @@ class AuthenticatePage extends HookWidget {
     final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
     final offlineNameController = useTextEditingController(
-      text: UIValuesTheme.offlineAccountNameDefault,
+      text: UIValues.offlineAccountNameDefault,
     );
 
     final createAccountSelected = activeTab.value == Tabs.newOfflineAccount ||
@@ -56,7 +56,7 @@ class AuthenticatePage extends HookWidget {
       appBar: AppBar(
         leading: cancellable ? const Icon(Icons.arrow_left) : null,
         title: const Text("Add Account"),
-        backgroundColor: ColorTheme.primary,
+        backgroundColor: UIColors.primary,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -97,26 +97,26 @@ class AuthenticatePage extends HookWidget {
               TextInput(
                 key: const ValueKey(0),
                 controller: emailController,
-                placeholder:UIValuesTheme.emailPlaceholder,
+                placeholder:UIValues.emailPlaceholder,
               ),
             if (onlineSelected)
               TextInput(
                 key: const ValueKey(1),
                 controller: usernameController,
-                placeholder: UIValuesTheme.usernamePlaceholder,
+                placeholder: UIValues.usernamePlaceholder,
               ),
             if (activeTab.value == Tabs.newOfflineAccount)
               TextInput(
                 key: const ValueKey(2),
                 controller: offlineNameController,
-                placeholder: UIValuesTheme.offlineNamePlaceholder,
+                placeholder: UIValues.offlineNamePlaceholder,
                 errorText: offlineNameError.value,
               ),
             if (onlineSelected)
               TextInput(
                 key: const ValueKey(3),
                 controller: passwordController,
-                placeholder: UIValuesTheme.passwordPlaceholder,
+                placeholder: UIValues.passwordPlaceholder,
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -169,7 +169,7 @@ const _accountDialog = ConfirmationDialog(
   confirmedText: "Let's go!",
   body: Text(
     "Welcome to Open-Items!\nYou can add an offline account and use the application right away or you can create an online account and benefit from online functionalities (syncing, sharing, ...).",
-    style: TextsTheme.normalText,
+    style: UITexts.normalText,
   ),
 );
 
@@ -177,6 +177,6 @@ const _notSupportedDialog = ConfirmationDialog(
   title: "Not Supported",
   body: Text(
     "Sorry this functionality is not yet supported.",
-    style: TextsTheme.normalText,
+    style: UITexts.normalText,
   ),
 );

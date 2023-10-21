@@ -38,7 +38,7 @@ class PlainTab extends StatelessWidget {
                 if (icon != null) icon!,
                 Text(
                   text,
-                  style: TextsTheme.titleText.apply(
+                  style: UITexts.titleText.apply(
                     color: foregroundColor,
                   ),
                 ),

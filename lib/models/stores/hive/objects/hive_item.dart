@@ -1,9 +1,9 @@
 import 'package:hive_flutter/hive_flutter.dart' hide HiveList;
-import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/hive_list.dart';
-import 'package:open_items/models/item.dart';
+import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
+import 'package:open_items/models/stores/hive/hive_database.dart';
+import 'package:open_items/models/stores/hive/objects/hive_list.dart';
 
 part 'hive_item.g.dart';
 

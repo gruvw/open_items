@@ -31,7 +31,10 @@ class PlainButton extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
       ),
-      child: Text(text, style: TextsTheme.normalText.apply(color: foregroundColor),),
+      child: Text(
+        text,
+        style: UITexts.normalText.apply(color: foregroundColor),
+      ),
     );
   }
 }

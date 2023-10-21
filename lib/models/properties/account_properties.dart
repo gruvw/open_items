@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
+import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 enum ListsOrdering {

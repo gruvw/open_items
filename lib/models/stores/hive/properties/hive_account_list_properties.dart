@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart' hide HiveList;
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/hive_store/hive_account.dart';
-import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/hive_list.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
+import 'package:open_items/models/stores/hive/hive_database.dart';
+import 'package:open_items/models/stores/hive/objects/hive_account.dart';
+import 'package:open_items/models/stores/hive/objects/hive_list.dart';
+import 'package:open_items/models/stores/hive/properties/hive_account_properties.dart';
 
 part 'hive_account_list_properties.g.dart';
 

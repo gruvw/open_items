@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/hive_store/hive_database.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
+import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/properties/account_properties.dart';
+import 'package:open_items/models/stores/hive/hive_database.dart';
+import 'package:open_items/models/stores/hive/properties/hive_account_properties.dart';
 
 part 'hive_account.g.dart';
 
@@ -63,7 +63,7 @@ class HiveAccount extends Account {
   @override
   AccountProperties? get properties {
     final propertiesLocalId = hiveStoreAccount.hiveAccountPropertiesLocalId;
-    if (propertiesLocalId == ValuesTheme.unknownLocalId) return null;
+    if (propertiesLocalId == CoreValues.unknownLocalId) return null;
 
     return HiveAccountProperties(
       hiveDatabase: hiveDatabase,

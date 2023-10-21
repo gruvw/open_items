@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:open_items/models/account.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/objects/list.dart';
 
 enum ItemsOrdering {
   custom("Custom"),

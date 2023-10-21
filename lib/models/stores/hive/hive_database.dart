@@ -1,20 +1,20 @@
 import 'package:hive_flutter/hive_flutter.dart' hide HiveList;
 import 'package:nanoid/nanoid.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/account.dart';
-import 'package:open_items/models/collection.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/hive_store/hive_account.dart';
-import 'package:open_items/models/hive_store/hive_item.dart';
-import 'package:open_items/models/hive_store/hive_list.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_list_properties.dart';
-import 'package:open_items/models/hive_store/properties/hive_account_properties.dart';
-import 'package:open_items/models/item.dart';
-import 'package:open_items/models/list.dart';
+import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
+import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
+import 'package:open_items/models/stores/hive/objects/hive_account.dart';
+import 'package:open_items/models/stores/hive/objects/hive_item.dart';
+import 'package:open_items/models/stores/hive/objects/hive_list.dart';
+import 'package:open_items/models/stores/hive/properties/hive_account_list_properties.dart';
+import 'package:open_items/models/stores/hive/properties/hive_account_properties.dart';
 
-const String hiveDatabaseSubdir = "Open-Items_hive";
+const String _hiveDatabaseSubdir = "Open-Items_hive";
 
 class HiveDatabase extends Database {
   static const String _accountsBoxName = "accounts";
@@ -33,7 +33,7 @@ class HiveDatabase extends Database {
 
   @override
   Future<void> init() async {
-    await Hive.initFlutter(hiveDatabaseSubdir);
+    await Hive.initFlutter(_hiveDatabaseSubdir);
 
     Hive.registerAdapter(HiveStoreAccountAdapter());
     Hive.registerAdapter(HiveStoreListAdapter());
@@ -78,7 +78,7 @@ class HiveDatabase extends Database {
       hiveServer: server,
       hiveName: name,
       hiveAccountPropertiesLocalId:
-          propertiesLocalId ?? ValuesTheme.unknownLocalId,
+          propertiesLocalId ?? CoreValues.unknownLocalId,
     );
     accountsBox.put(accountLocalId, hiveStoreAccount);
 

@@ -21,11 +21,11 @@ void main() async {
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
-        title: UIValuesTheme.applicationTitle,
+        title: UIValues.applicationTitle,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home.name,
         onGenerateRoute: RouteGenerator.generateRoute,
-        theme: ThemeData(fontFamily: TextsTheme.fontFamily),
+        theme: ThemeData(fontFamily: UITexts.fontFamily),
         builder: (context, child) => ScrollConfiguration(
           behavior: AppScrollBehavior(),
           child: child!,

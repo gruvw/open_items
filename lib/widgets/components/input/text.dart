@@ -6,7 +6,7 @@ import 'package:open_items/global/styles/text.dart';
 class TextInput extends HookWidget {
   static const _border = OutlineInputBorder(
     borderSide: BorderSide(
-      color: ColorTheme.primary,
+      color: UIColors.primary,
       width: 2,
     ),
   );
@@ -33,11 +33,11 @@ class TextInput extends HookWidget {
       decoration: InputDecoration(
         enabledBorder: _border,
         focusedBorder: _border,
-        focusColor: ColorTheme.primary,
+        focusColor: UIColors.primary,
         hintText: placeholder,
         errorText: errorText,
-        hintStyle: TextsTheme.normalText.apply(
-          color: ColorTheme.secondaryText,
+        hintStyle: UITexts.normalText.apply(
+          color: UIColors.secondaryText,
         ),
         suffixIcon: !isEmpty.value
             ? IconButton(
@@ -45,7 +45,7 @@ class TextInput extends HookWidget {
                   textController.clear();
                   isEmpty.value = true;
                 },
-                color: ColorTheme.primary,
+                color: UIColors.primary,
                 icon: const Icon(Icons.clear),
               )
             : null,

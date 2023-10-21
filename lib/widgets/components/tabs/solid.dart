@@ -8,8 +8,8 @@ class SolidTabPrimary extends PlainTab {
     required isActive,
     super.onPressed,
   }) : super(
-          foregroundColor: isActive ? ColorTheme.secondary : ColorTheme.primary,
-          backgroundColor: isActive ? ColorTheme.primary : ColorTheme.secondary,
-          borderColor: ColorTheme.primary,
+          foregroundColor: isActive ? UIColors.secondary : UIColors.primary,
+          backgroundColor: isActive ? UIColors.primary : UIColors.secondary,
+          borderColor: UIColors.primary,
         );
 }
