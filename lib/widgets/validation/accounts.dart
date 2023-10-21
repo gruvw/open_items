@@ -16,6 +16,13 @@ NewOfflineNameResult validNewOfflineName(String name) {
       .where((a) => a.isOffline)
       .map((oa) => oa.name);
 
+  if (name.isEmpty) {
+    return NewOfflineNameResult(
+      false,
+      nameError: "Account name is mandatory.",
+    );
+  }
+
   if (name.length < 2) {
     return NewOfflineNameResult(
       false,

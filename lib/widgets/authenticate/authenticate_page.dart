@@ -97,7 +97,7 @@ class AuthenticatePage extends HookWidget {
               TextInput(
                 key: const ValueKey(0),
                 controller: emailController,
-                placeholder:UIValues.emailPlaceholder,
+                placeholder: UIValues.emailPlaceholder,
               ),
             if (onlineSelected)
               TextInput(
@@ -111,7 +111,10 @@ class AuthenticatePage extends HookWidget {
                 controller: offlineNameController,
                 placeholder: UIValues.offlineNamePlaceholder,
                 errorText: offlineNameError.value,
-                onChanged: (value) => offlineNameError.value = null,
+                onChanged: (value) {
+                    final validation = validNewOfflineName(offlineNameController.text);
+                    offlineNameError.value = validation.nameError;
+                },
               ),
             if (onlineSelected)
               TextInput(
@@ -136,9 +139,8 @@ class AuthenticatePage extends HookWidget {
                       }
 
                       showDialog(
-                        context: context,
-                        builder: (_) => _notSupportedDialog
-                      );
+                          context: context,
+                          builder: (_) => _notSupportedDialog);
                       return;
                     }
 

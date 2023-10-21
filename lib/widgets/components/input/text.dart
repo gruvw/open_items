@@ -28,6 +28,8 @@ class TextInput extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textController = controller ?? useTextEditingController();
+
+    // Used to display (or not) the clear button
     final isEmpty = useState(textController.text.isEmpty);
 
     return TextField(
