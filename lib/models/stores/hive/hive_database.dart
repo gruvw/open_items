@@ -1,3 +1,4 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:hive_flutter/hive_flutter.dart' hide HiveList;
 import 'package:nanoid/nanoid.dart';
 import 'package:open_items/global/values.dart';
@@ -191,6 +192,21 @@ class HiveDatabase extends Database {
       hiveDatabase: this,
       hiveStoreItem: hiveStoreItem,
     );
+  }
+
+  @override
+  Option<HiveAccount> getLocalAccount(String accountId) {
+    final accountStore = accountsBox.get(accountId);
+    if (accountStore == null) {
+      return const None();
+    }
+
+    final account = HiveAccount(hiveDatabase: this, hiveStoreAccount: accountStore);
+    if (!account.isLocal) {
+      return const None();
+    }
+
+    return Some(account);
   }
 
   @override

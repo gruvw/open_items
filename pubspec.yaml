@@ -46,6 +46,8 @@ dependencies:
   url_strategy: ^0.2.0
   flutter_native_splash: ^2.3.3
   flutter_markdown: ^0.6.18
+  shared_preferences: ^2.2.2
+  fpdart: ^1.1.0
 
 dev_dependencies:
   flutter_test:

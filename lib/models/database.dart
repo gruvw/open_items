@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/objects/collection.dart';
@@ -54,6 +55,7 @@ abstract class Database {
     required bool isDone,
   });
 
+  Option<Account> getLocalAccount(String accountId);
   List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;

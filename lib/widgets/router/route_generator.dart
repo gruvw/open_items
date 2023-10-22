@@ -6,6 +6,7 @@ import 'package:open_items/widgets/collections/item_page.dart';
 import 'package:open_items/widgets/collections/list_page.dart';
 import 'package:open_items/widgets/collections/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
+import 'package:open_items/widgets/router/home_page.dart';
 
 enum Routes {
   home("/"),
@@ -28,8 +29,7 @@ enum Routes {
   Widget page(Object? args) {
     switch (this) {
       case home:
-        final accounts = database.getLocalAccounts();
-        return accounts.isEmpty ? const AuthenticatePage() : ListsPage(account: accounts.first);
+        return const HomePage();
       case lists:
         if (args is Account) {
           return ListsPage(account: args);

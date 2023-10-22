@@ -112,8 +112,9 @@ class AuthenticatePage extends HookWidget {
                 placeholder: UIValues.offlineNamePlaceholder,
                 errorText: offlineNameError.value,
                 onChanged: (value) {
-                    final validation = validNewOfflineName(offlineNameController.text);
-                    offlineNameError.value = validation.nameError;
+                  final validation =
+                      validNewOfflineName(offlineNameController.text);
+                  offlineNameError.value = validation.nameError;
                 },
               ),
             if (onlineSelected)
