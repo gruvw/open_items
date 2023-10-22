@@ -14,7 +14,7 @@ abstract class UIValues {
   static const String applicationTitle = "Open-Items";
   static const String errorRouteText = "ERROR";
 
-  static const String offlineAccountNameDefault = "Offline Account";
+  static const String offlineAccountNameDefault = "offline_account";
   static const String confirmButtonTextDefault = "Confirm";
 
   static const String emailPlaceholder = "email@example.com";

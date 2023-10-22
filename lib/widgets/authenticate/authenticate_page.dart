@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/global/values.dart';
+import 'package:open_items/state/application/database.dart';
 import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
@@ -23,6 +24,8 @@ enum Tabs {
   const Tabs(this.submitText);
 }
 
+// TODO Try to use the default TabBar (https://docs.flutter.dev/cookbook/design/tabs)
+
 class AuthenticatePage extends HookConsumerWidget {
   const AuthenticatePage({
     super.key,
@@ -30,6 +33,8 @@ class AuthenticatePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cancellable = ref.watch(localAccountsProvider).isNotEmpty;
+
     final activeTab = useState(Tabs.newOfflineAccount);
     final welcomeShown = useState(false);
     final offlineNameError = useState<String?>(null);
@@ -37,14 +42,13 @@ class AuthenticatePage extends HookConsumerWidget {
     final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
     final offlineNameController = useTextEditingController(
-      text: UIValues.offlineAccountNameDefault,
+      text: !cancellable ? UIValues.offlineAccountNameDefault : null,
     );
 
     final createAccountSelected = activeTab.value == Tabs.newOfflineAccount ||
         activeTab.value == Tabs.newOnlineAccount;
     final onlineSelected = activeTab.value == Tabs.newOnlineAccount ||
         activeTab.value == Tabs.logIn;
-    final cancellable = database.getLocalAccounts().isNotEmpty;
 
     // Account dialog
     if (!cancellable && !welcomeShown.value) {
@@ -184,7 +188,7 @@ const _accountDialog = ConfirmationDialog(
   title: "Account creation",
   confirmedText: "Let's go!",
   body: Text(
-    "Welcome to Open-Items!\nYou can add an offline account and use the application right away or you can create an online account and benefit from online functionalities (syncing, sharing, ...).",
+    "Welcome to Open-Items!\nYou can either create an account online and benefit from the online functionalities (syncing, sharing, ...) or you can add an offline account and use the application right away.",
     style: UITexts.normalText,
   ),
 );

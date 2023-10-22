@@ -1,13 +1,18 @@
 import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
+final _offlineNamePattern = RegExp(r"^\w*$");
+
 class NewOfflineNameResult implements ValidationResult {
   @override
   final bool isValid;
 
   final String? nameError;
 
-  NewOfflineNameResult(this.isValid, {this.nameError});
+  NewOfflineNameResult(
+    this.isValid, {
+    this.nameError,
+  });
 }
 
 NewOfflineNameResult validNewOfflineName(String name) {
@@ -23,10 +28,18 @@ NewOfflineNameResult validNewOfflineName(String name) {
     );
   }
 
-  if (name.length < 2) {
+  if (2 > name.length || name.length > 20) {
     return NewOfflineNameResult(
       false,
-      nameError: "Account name must have at least 2 characters.",
+      nameError: "Account names must have between 2 and 20 characters.",
+    );
+  }
+
+  if (!_offlineNamePattern.hasMatch(name)) {
+    return NewOfflineNameResult(
+      false,
+      nameError:
+          "Account names must only contain alphanumeric characters or underscores.",
     );
   }
 

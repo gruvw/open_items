@@ -32,7 +32,7 @@ class ListsPage extends ConsumerWidget {
 // Dialogs
 
 const _testingDialog = ConfirmationDialog(
-  title: "Testing Version",
+  title: "Test Version",
   confirmedText: "I understand",
   body: Text.rich(
     TextSpan(
