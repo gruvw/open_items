@@ -11,4 +11,4 @@ This application aims to be versatile and will handle various types of lists inc
 Examples of lists can range from groceries to task lists, shopping lists, recipe ingredients, top-ten lists, and more.
 Each item can also be a collection itself, enabling infinite collections nesting for improved organization and readability.
 
-Please take a look at the [Project Specifications](./specifications.md).
+You can take a look at the [Project Specifications](./specifications.md).

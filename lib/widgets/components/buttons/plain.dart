@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 
 class PlainButton extends StatelessWidget {
   final String text;
+  final bool enabled;
   final VoidCallback? onPressed;
   final Color backgroundColor;
   final Color foregroundColor;
@@ -15,14 +17,19 @@ class PlainButton extends StatelessWidget {
     required this.foregroundColor,
     required this.backgroundColor,
     required this.borderColor,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: onPressed,
+      onPressed: enabled ? onPressed : null,
       style: OutlinedButton.styleFrom(
         backgroundColor: backgroundColor,
+        disabledForegroundColor:
+            foregroundColor.withOpacity(UIColors.disabledOpacity),
+        disabledBackgroundColor:
+            backgroundColor.withOpacity(UIColors.disabledOpacity),
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 2,

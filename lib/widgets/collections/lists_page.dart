@@ -31,16 +31,16 @@ class ListsPage extends ConsumerWidget {
 
 // Dialogs
 
-const _testingDialog = ConfirmationDialog(
+final _testingDialog = ConfirmationDialog(
   title: "Test Version",
   confirmedText: "I understand",
   body: Text.rich(
     TextSpan(
       style: UITexts.normalText,
       children: [
-        TextSpan(text: "This is a "),
+        const TextSpan(text: "This is a "),
         TextSpan(text: "test", style: UITexts.normalBold),
-        TextSpan(
+        const TextSpan(
             text:
                 " version of the application.\nDon't store valuable data and only use for testing purposes."),
       ],

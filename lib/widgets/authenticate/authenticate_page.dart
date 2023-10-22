@@ -8,35 +8,56 @@ import 'package:open_items/state/application/database.dart';
 import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
+import 'package:open_items/widgets/components/input/tab.dart';
 import 'package:open_items/widgets/components/input/text.dart';
-import 'package:open_items/widgets/components/tabs/solid.dart';
 import 'package:open_items/widgets/modals/confirm.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
+import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/accounts.dart';
 
 enum Tabs {
-  newOnlineAccount("Create"),
-  newOfflineAccount("Add"),
-  logIn("Log in");
+  newOnlineAccount("Create", 0, 0),
+  newOfflineAccount("Add", 0, 1),
+  logIn("Log in", 1, 0);
+
+  static const primaryTabLength = 2;
+  static const secondaryTabLength = 2;
 
   final String submitText;
+  final int primaryTabIndex;
+  final int secondaryTabIndex;
 
-  const Tabs(this.submitText);
+  const Tabs(
+    this.submitText,
+    this.primaryTabIndex,
+    this.secondaryTabIndex,
+  );
+
+  factory Tabs.of(int primaryTabIndex, int secondaryTabIndex) {
+    if (primaryTabIndex == 0) {
+      return Tabs.values[secondaryTabIndex];
+    }
+
+    return Tabs.logIn;
+  }
 }
 
-// TODO Try to use the default TabBar (https://docs.flutter.dev/cookbook/design/tabs)
-
 class AuthenticatePage extends HookConsumerWidget {
+  static const _initialTab = Tabs.newOfflineAccount;
+
   const AuthenticatePage({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // State
+
     final cancellable = ref.watch(localAccountsProvider).isNotEmpty;
 
-    final activeTab = useState(Tabs.newOfflineAccount);
     final welcomeShown = useState(false);
+
+    // Form state
     final offlineNameError = useState<String?>(null);
     final emailController = useTextEditingController();
     final usernameController = useTextEditingController();
@@ -45,12 +66,75 @@ class AuthenticatePage extends HookConsumerWidget {
       text: !cancellable ? UIValues.offlineAccountNameDefault : null,
     );
 
-    final createAccountSelected = activeTab.value == Tabs.newOfflineAccount ||
-        activeTab.value == Tabs.newOnlineAccount;
-    final onlineSelected = activeTab.value == Tabs.newOnlineAccount ||
-        activeTab.value == Tabs.logIn;
+    useListener(() {
+      final validation = validNewOfflineName(offlineNameController.text);
+      offlineNameError.value = validation.nameError;
+    }, [offlineNameController]);
+
+    // Tabs
+
+    final primaryTabController = useTabController(
+      initialLength: Tabs.primaryTabLength,
+      initialIndex: _initialTab.primaryTabIndex,
+    );
+    final secondaryTabController = useTabController(
+      initialLength: Tabs.secondaryTabLength,
+      initialIndex: _initialTab.secondaryTabIndex,
+    );
+
+    useListenable(primaryTabController);
+    useListenable(secondaryTabController);
+    final activeTab = Tabs.of(
+      primaryTabController.index,
+      secondaryTabController.index,
+    );
+
+    void updateActiveTab(Tabs tab) {
+      primaryTabController.index = _initialTab.primaryTabIndex;
+      secondaryTabController.index = _initialTab.secondaryTabIndex;
+    }
+
+    final createAccountSelected = activeTab == Tabs.newOfflineAccount ||
+        activeTab == Tabs.newOnlineAccount;
+    final onlineSelected =
+        activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
+
+    // Form
+
+    void onSubmit() {
+      // Only offline accounts supported
+      if (activeTab != Tabs.newOfflineAccount) {
+        updateActiveTab(_initialTab);
+
+        // Pre-fill the offline account name with username if user entered
+        if (usernameController.text.isNotEmpty) {
+          offlineNameController.text = usernameController.text;
+        }
+
+        showDialog(
+          context: context,
+          builder: (_) => _notSupportedDialog,
+        );
+
+        return;
+      }
+
+      final name = offlineNameController.text;
+      final validation = validNewOfflineName(name);
+      offlineNameError.value = validation.nameError;
+
+      if (!validation.isValid) {
+        return;
+      }
+
+      final account = database.createOfflineAccount(name: name);
+      ref.read(selectedAccountProvider.notifier).updateAccount(account);
+
+      Navigator.pushNamed(context, Routes.lists.name, arguments: account);
+    }
 
     // Account dialog
+
     if (!cancellable && !welcomeShown.value) {
       welcomeShown.value = true;
       Future.delayed(
@@ -59,124 +143,125 @@ class AuthenticatePage extends HookConsumerWidget {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        // TODO go back on click
-        leading: cancellable ? const Icon(Icons.arrow_back) : null,
-        title: const Text("Add Account"),
-        backgroundColor: UIColors.primary,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SolidTabPrimary(
-                  text: "Create Account",
-                  isActive: createAccountSelected,
-                  onPressed: () => activeTab.value = Tabs.newOnlineAccount,
+    // Widgets
+
+    final tabBars = Container(
+      color: UIColors.primary,
+      child: Column(
+        children: [
+          TabBar(
+            controller: primaryTabController,
+            labelStyle: UITexts.normalText,
+            indicatorColor: UIColors.secondary,
+            unselectedLabelColor: UIColors.hintText,
+            indicatorWeight: 2,
+            tabs: const [
+              IconTab(
+                text: "Create Account",
+                icon: Icon(Icons.person),
+              ),
+              IconTab(
+                text: "Log In",
+                icon: Icon(Icons.login),
+              ),
+            ],
+          ),
+          if (createAccountSelected)
+            TabBar(
+              dividerColor: UIColors.primary,
+              controller: secondaryTabController,
+              labelStyle: UITexts.normalText,
+              indicatorColor: UIColors.secondary,
+              unselectedLabelColor: UIColors.hintText,
+              indicatorSize: TabBarIndicatorSize.label,
+              tabs: const [
+                IconTab(
+                  text: "Online Account",
+                  icon: Icon(Icons.language),
                 ),
-                SolidTabPrimary(
-                  text: "Log in",
-                  isActive: !createAccountSelected,
-                  onPressed: () => activeTab.value = Tabs.logIn,
+                IconTab(
+                  text: "Offline Account",
+                  icon: Icon(Icons.cloud_off),
                 ),
               ],
             ),
-            if (createAccountSelected)
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SolidTabPrimary(
-                    text: "Online",
-                    isActive: activeTab.value == Tabs.newOnlineAccount,
-                    onPressed: () => activeTab.value = Tabs.newOnlineAccount,
-                  ),
-                  SolidTabPrimary(
-                    text: "Offline",
-                    isActive: activeTab.value == Tabs.newOfflineAccount,
-                    onPressed: () => activeTab.value = Tabs.newOfflineAccount,
-                  ),
-                ],
-              ),
-            if (activeTab.value == Tabs.newOnlineAccount)
-              TextInput(
-                key: const ValueKey(0),
-                controller: emailController,
-                placeholder: UIValues.emailPlaceholder,
-              ),
-            if (onlineSelected)
-              TextInput(
-                key: const ValueKey(1),
-                controller: usernameController,
-                placeholder: UIValues.usernamePlaceholder,
-              ),
-            if (activeTab.value == Tabs.newOfflineAccount)
-              TextInput(
-                key: const ValueKey(2),
-                controller: offlineNameController,
-                placeholder: UIValues.offlineNamePlaceholder,
-                errorText: offlineNameError.value,
-                onChanged: (value) {
-                  final validation =
-                      validNewOfflineName(offlineNameController.text);
-                  offlineNameError.value = validation.nameError;
-                },
-              ),
-            if (onlineSelected)
-              TextInput(
-                key: const ValueKey(3),
-                controller: passwordController,
-                placeholder: UIValues.passwordPlaceholder,
-              ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SolidButtonPrimary(
-                  text: activeTab.value.submitText,
-                  onPressed: () {
-                    // Only offline accounts supported
-                    if (activeTab.value != Tabs.newOfflineAccount) {
-                      // Switch to active tab
-                      activeTab.value = Tabs.newOfflineAccount;
+          const Divider(
+            color: UIColors.primary,
+            height: 8,
+            thickness: 8,
+          ),
+        ],
+      ),
+    );
 
-                      // Pre-fill the offline account name with username if user entered
-                      if (usernameController.text.isNotEmpty) {
-                        offlineNameController.text = usernameController.text;
-                      }
-
-                      showDialog(
-                          context: context,
-                          builder: (_) => _notSupportedDialog);
-                      return;
-                    }
-
-                    final name = offlineNameController.text;
-                    final validation = validNewOfflineName(name);
-
-                    if (!validation.isValid) {
-                      offlineNameError.value = validation.nameError;
-                      return;
-                    }
-
-                    offlineNameError.value = null;
-
-                    final account = database.createOfflineAccount(name: name);
-                    ref.read(selectedAccountProvider.notifier).updateAccount(account);
-
-                    Navigator.pushNamed(
-                      context,
-                      Routes.lists.name,
-                      arguments: account
-                    );
-                  },
-                ),
-              ],
+    final form = Column(
+      children: [
+        if (activeTab == Tabs.newOnlineAccount)
+          TextInput(
+            key: const ValueKey(0),
+            controller: emailController,
+            placeholder: UIValues.emailPlaceholder,
+          ),
+        if (onlineSelected)
+          TextInput(
+            key: const ValueKey(1),
+            controller: usernameController,
+            placeholder: UIValues.usernamePlaceholder,
+          ),
+        if (activeTab == Tabs.newOfflineAccount)
+          TextInput(
+            key: const ValueKey(2),
+            controller: offlineNameController,
+            placeholder: UIValues.offlineNamePlaceholder,
+            errorText: offlineNameError.value,
+            onChanged: (value) {},
+          ),
+        if (onlineSelected)
+          TextInput(
+            key: const ValueKey(3),
+            controller: passwordController,
+            placeholder: UIValues.passwordPlaceholder,
+            obscureText: true,
+          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SolidButtonPrimary(
+              text: activeTab.submitText,
+              onPressed: onSubmit,
+              enabled: activeTab != Tabs.newOfflineAccount ||
+                  offlineNameError.value == null,
             ),
           ],
         ),
+      ],
+    );
+
+    return Scaffold(
+      backgroundColor: UIColors.background,
+      appBar: AppBar(
+        leading: cancellable
+            ? IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+              )
+            : null,
+        title: Text(
+          "Add Account",
+          style: UITexts.titleText.apply(
+            color: UIColors.secondary,
+          ),
+        ),
+        backgroundColor: UIColors.primary,
+      ),
+      body: Column(
+        children: [
+          tabBars,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: form,
+          ),
+        ],
       ),
     );
   }
@@ -184,7 +269,7 @@ class AuthenticatePage extends HookConsumerWidget {
 
 // Dialogs
 
-const _accountDialog = ConfirmationDialog(
+final _accountDialog = ConfirmationDialog(
   title: "Account creation",
   confirmedText: "Let's go!",
   body: Text(
@@ -193,7 +278,7 @@ const _accountDialog = ConfirmationDialog(
   ),
 );
 
-const _notSupportedDialog = ConfirmationDialog(
+final _notSupportedDialog = ConfirmationDialog(
   title: "Not Supported",
   body: Text(
     "Sorry this functionality is not yet supported.",

@@ -1,4 +1,5 @@
 import 'package:open_items/state/application/providers.dart';
+import 'package:open_items/utils/compare.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 final _offlineNamePattern = RegExp(r"^\w*$");
@@ -43,7 +44,7 @@ NewOfflineNameResult validNewOfflineName(String name) {
     );
   }
 
-  if (offlineNames.where((n) => name == n).isNotEmpty) {
+  if (offlineNames.where((n) => relaxedTextEqual(name, n)).isNotEmpty) {
     return NewOfflineNameResult(
       false,
       nameError: "Account name already exists.",

@@ -2,19 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
+import 'package:open_items/utils/lang.dart';
 
-// TODO fix error border
 class TextInput extends HookWidget {
-  static const _border = OutlineInputBorder(
-    borderSide: BorderSide(
-      color: UIColors.primary,
-      width: 2,
-    ),
-  );
-
   final TextEditingController? controller;
   final String? placeholder;
   final String? errorText;
+  final bool? obscureText;
   final void Function(String value)? onChanged;
 
   const TextInput({
@@ -22,6 +16,7 @@ class TextInput extends HookWidget {
     this.placeholder,
     this.controller,
     this.errorText,
+    this.obscureText,
     this.onChanged,
   });
 
@@ -30,35 +25,75 @@ class TextInput extends HookWidget {
     final textController = controller ?? useTextEditingController();
 
     // Used to display (or not) the clear button
-    final isEmpty = useState(textController.text.isEmpty);
+    useListenable(textController);
+    final isEmpty = textController.text.isEmpty;
+
+    // Used to display (or not) the obscure button
+    final obscured = useState(obscureText);
+    final shouldObscure = obscured.value ?? false;
+
+    // Widgets
+
+    final clearButton = IconButton(
+      onPressed: () {
+        textController.clear();
+        onChanged?.call(textController.text);
+      },
+      color: UIColors.primary,
+      icon: const Icon(Icons.clear),
+    );
+
+    final visibilityButton = IconButton(
+      onPressed: () {
+        obscured.value = obscured.value.map((v) => !v);
+      },
+      color: UIColors.primary,
+      icon: Icon(shouldObscure ? Icons.visibility_off : Icons.visibility),
+    );
 
     return TextField(
       controller: textController,
-      onChanged: (value) {
-        isEmpty.value = value.isEmpty;
-        onChanged?.call(value);
-      },
+      obscureText: shouldObscure,
+      enableSuggestions: !shouldObscure,
+      autocorrect: !shouldObscure,
+      style: UITexts.normalText,
+      cursorColor: UIColors.primary,
+      onChanged: onChanged,
       decoration: InputDecoration(
         enabledBorder: _border,
         focusedBorder: _border,
+        errorBorder: _errorBorder,
+        focusedErrorBorder: _errorBorder,
         focusColor: UIColors.primary,
         hintText: placeholder,
         errorText: errorText,
         hintStyle: UITexts.normalText.apply(
-          color: UIColors.secondaryText,
+          color: UIColors.hintText,
         ),
-        suffixIcon: !isEmpty.value
-            ? IconButton(
-                onPressed: () {
-                  textController.clear();
-                  isEmpty.value = true;
-                  onChanged?.call(textController.text);
-                },
-                color: UIColors.primary,
-                icon: const Icon(Icons.clear),
-              )
-            : null,
+        suffixIcon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!isEmpty) clearButton,
+            if (obscureText != null) visibilityButton,
+          ],
+        ),
       ),
     );
   }
 }
+
+// Styles
+
+const _border = OutlineInputBorder(
+  borderSide: BorderSide(
+    color: UIColors.primary,
+    width: 2,
+  ),
+);
+
+const _errorBorder = OutlineInputBorder(
+  borderSide: BorderSide(
+    color: UIColors.danger,
+    width: 2,
+  ),
+);
