@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'selected_account.g.dart';
 
 @riverpod
-class SelectedAccountNotifier extends _$SelectedAccountNotifier {
+class SelectedAccount extends _$SelectedAccount {
   late final SharedPreferences _prefs;
 
   @override

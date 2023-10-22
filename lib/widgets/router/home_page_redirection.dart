@@ -11,7 +11,7 @@ class HomePageRedirection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAccount = ref.watch(selectedAccountNotifierProvider);
+    final selectedAccount = ref.watch(selectedAccountProvider);
 
     return selectedAccount.maybeWhen(
       data: (account) => account == null

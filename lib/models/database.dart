@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/objects/collection.dart';

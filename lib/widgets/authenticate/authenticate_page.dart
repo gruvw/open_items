@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/providers.dart';
+import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/text.dart';
 import 'package:open_items/widgets/components/tabs/solid.dart';
 import 'package:open_items/widgets/modals/confirm.dart';
+import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/validation/accounts.dart';
 
 enum Tabs {
@@ -20,13 +23,13 @@ enum Tabs {
   const Tabs(this.submitText);
 }
 
-class AuthenticatePage extends HookWidget {
+class AuthenticatePage extends HookConsumerWidget {
   const AuthenticatePage({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final activeTab = useState(Tabs.newOfflineAccount);
     final welcomeShown = useState(false);
     final offlineNameError = useState<String?>(null);
@@ -54,7 +57,8 @@ class AuthenticatePage extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: cancellable ? const Icon(Icons.arrow_left) : null,
+        // TODO go back on click
+        leading: cancellable ? const Icon(Icons.arrow_back) : null,
         title: const Text("Add Account"),
         backgroundColor: UIColors.primary,
       ),
@@ -154,7 +158,15 @@ class AuthenticatePage extends HookWidget {
                     }
 
                     offlineNameError.value = null;
-                    // final account = database.createOfflineAccount(name: name);
+
+                    final account = database.createOfflineAccount(name: name);
+                    ref.read(selectedAccountProvider.notifier).updateAccount(account);
+
+                    Navigator.pushNamed(
+                      context,
+                      Routes.lists.name,
+                      arguments: account
+                    );
                   },
                 ),
               ],

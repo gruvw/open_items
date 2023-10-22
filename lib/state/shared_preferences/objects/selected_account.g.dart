@@ -6,22 +6,21 @@ part of 'selected_account.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$selectedAccountNotifierHash() =>
-    r'9e7acb923ee35bb195df060a64eebe83ce29f470';
+String _$selectedAccountHash() => r'195c60987228215e3f60f550112268ce5b045775';
 
-/// See also [SelectedAccountNotifier].
-@ProviderFor(SelectedAccountNotifier)
-final selectedAccountNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    SelectedAccountNotifier, Account?>.internal(
-  SelectedAccountNotifier.new,
-  name: r'selectedAccountNotifierProvider',
+/// See also [SelectedAccount].
+@ProviderFor(SelectedAccount)
+final selectedAccountProvider =
+    AutoDisposeAsyncNotifierProvider<SelectedAccount, Account?>.internal(
+  SelectedAccount.new,
+  name: r'selectedAccountProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$selectedAccountNotifierHash,
+      : _$selectedAccountHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedAccountNotifier = AutoDisposeAsyncNotifier<Account?>;
+typedef _$SelectedAccount = AutoDisposeAsyncNotifier<Account?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
