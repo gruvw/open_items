@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class UIColors {
+  static const Color background = Colors.white;
+
   static const Color primary = Colors.black;
   static const Color secondary = Colors.white;
 

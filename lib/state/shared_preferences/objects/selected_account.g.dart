@@ -7,12 +7,12 @@ part of 'selected_account.dart';
 // **************************************************************************
 
 String _$selectedAccountNotifierHash() =>
-    r'aca09a0db4f427937922c147192df73bb43b577b';
+    r'9e7acb923ee35bb195df060a64eebe83ce29f470';
 
 /// See also [SelectedAccountNotifier].
 @ProviderFor(SelectedAccountNotifier)
 final selectedAccountNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    SelectedAccountNotifier, Option<Account?>?>.internal(
+    SelectedAccountNotifier, Account?>.internal(
   SelectedAccountNotifier.new,
   name: r'selectedAccountNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final selectedAccountNotifierProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedAccountNotifier = AutoDisposeAsyncNotifier<Option<Account?>?>;
+typedef _$SelectedAccountNotifier = AutoDisposeAsyncNotifier<Account?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

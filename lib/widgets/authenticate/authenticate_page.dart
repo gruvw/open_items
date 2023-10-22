@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/state/providers/application.dart';
+import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/text.dart';
 import 'package:open_items/widgets/components/tabs/solid.dart';

@@ -1,4 +1,4 @@
-import 'package:open_items/state/providers/application.dart';
+import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 class NewOfflineNameResult implements ValidationResult {

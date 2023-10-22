@@ -55,7 +55,7 @@ abstract class Database {
     required bool isDone,
   });
 
-  Option<Account> getLocalAccount(String accountId);
+  Account? getLocalAccount(String accountId);
   List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
