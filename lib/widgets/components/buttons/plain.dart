@@ -6,7 +6,8 @@ class PlainButton extends StatelessWidget {
   static const _borderWidth = 2.0;
   static const _borderRadius = 4.0;
   static const _leadingSpacing = 8.0;
-  static const _verticalPadding = 7.0;
+  static const _verticalPadding = 16.0;
+  static const _horizontalPadding = 16.0;
 
   final String content;
   final Widget? leading;
@@ -25,7 +26,7 @@ class PlainButton extends StatelessWidget {
     required this.borderColor,
     this.leading,
     this.enabled = true,
-    this.horizontalPadding = 12,
+    this.horizontalPadding = _horizontalPadding,
     this.onPressed,
   });
 

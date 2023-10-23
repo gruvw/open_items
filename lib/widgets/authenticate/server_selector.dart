@@ -4,16 +4,22 @@ import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/buttons/outlined.dart';
 
 class ServerSelector extends StatelessWidget {
-  const ServerSelector({super.key});
+  final VoidCallback? onPressed;
+
+  const ServerSelector({
+    super.key,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const OutlinedButtonPrimary(
-      leading: Icon(
+    return OutlinedButtonPrimary(
+      leading: const Icon(
         Icons.dns_outlined,
         color: UIColors.primary,
       ),
       content: CoreValues.onlineServerDefault,
+      onPressed: onPressed,
     );
   }
 }

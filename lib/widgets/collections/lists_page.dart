@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/widgets/modals/confirm.dart';
@@ -19,7 +20,11 @@ class ListsPage extends ConsumerWidget {
       _testingMessageShown = true;
       Future.delayed(
         Duration.zero,
-        () => showDialog(context: context, builder: (_) => _testingDialog),
+        () => showDialog(
+          barrierColor: UIColors.dimmed,
+          context: context,
+          builder: (_) => _testingDialog,
+        ),
       );
     }
 

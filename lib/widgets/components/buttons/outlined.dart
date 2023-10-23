@@ -1,7 +1,7 @@
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/widgets/components/buttons/plain.dart';
 
-const _outlinedHorizontalPadding = 7.0;
+const _outlinedHorizontalPadding = 10.0;
 
 class OutlinedButtonPrimary extends PlainButton {
   const OutlinedButtonPrimary({

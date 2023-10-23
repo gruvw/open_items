@@ -8,9 +8,10 @@ abstract class UIColors {
   // Semantic colors
   static const Color danger = Colors.red;
 
-  // Position colors
+  // Specific colors
   static const Color background = Colors.white;
   static const Color hintText = Color(0xFFA5A5A5);
+  static const Color dimmed = Color(0x77000000);
 
   // Others
   static const double disabledOpacity = 0.4;

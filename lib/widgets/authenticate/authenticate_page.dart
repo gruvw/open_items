@@ -46,6 +46,9 @@ enum Tabs {
 class AuthenticatePage extends HookConsumerWidget {
   static const _initialTab = Tabs.newOfflineAccount;
   static const _appBarPadding = 8.0;
+  static const _appBarBottomMargin = 50.0;
+  static const _formMaxWidth = 800.0;
+  static const _formMargin = 40.0;
   static const _formSpacing = 20.0;
 
   const AuthenticatePage({
@@ -115,6 +118,7 @@ class AuthenticatePage extends HookConsumerWidget {
         }
 
         showDialog(
+          barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => _notSupportedDialog,
         );
@@ -143,6 +147,7 @@ class AuthenticatePage extends HookConsumerWidget {
       Future.delayed(
         Duration.zero,
         () => showDialog(
+          barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => _accountDialog,
         ),
@@ -200,54 +205,57 @@ class AuthenticatePage extends HookConsumerWidget {
       ),
     );
 
-    final form = Wrap(
-      runSpacing: _formSpacing,
-      children: [
-        if (activeTab == Tabs.newOnlineAccount)
-          TextInput(
-            key: const ValueKey(0),
-            controller: emailController,
-            placeholder: UIValues.emailPlaceholder,
-          ),
-        if (onlineSelected)
-          TextInput(
-            key: const ValueKey(1),
-            controller: usernameController,
-            placeholder: UIValues.usernamePlaceholder,
-          ),
-        if (activeTab == Tabs.newOfflineAccount)
-          TextInput(
-            key: const ValueKey(2),
-            controller: offlineNameController,
-            placeholder: UIValues.offlineNamePlaceholder,
-            errorText: offlineNameError.value,
-            onChanged: (value) {},
-          ),
-        if (onlineSelected)
-          TextInput(
-            key: const ValueKey(3),
-            controller: passwordController,
-            placeholder: UIValues.passwordPlaceholder,
-            obscureText: true,
-          ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (onlineSelected) const ServerSelector(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SolidButtonPrimary(
-                  content: activeTab.submitText,
-                  onPressed: onSubmit,
-                  enabled: activeTab != Tabs.newOfflineAccount ||
-                      offlineNameError.value == null,
-                ),
-              ],
+    final form = Container(
+      constraints: const BoxConstraints(maxWidth: _formMaxWidth),
+      child: Wrap(
+        runSpacing: _formSpacing,
+        children: [
+          if (activeTab == Tabs.newOnlineAccount)
+            TextInput(
+              key: const ValueKey(0),
+              controller: emailController,
+              placeholder: UIValues.emailPlaceholder,
             ),
-          ],
-        ),
-      ],
+          if (onlineSelected)
+            TextInput(
+              key: const ValueKey(1),
+              controller: usernameController,
+              placeholder: UIValues.usernamePlaceholder,
+            ),
+          if (activeTab == Tabs.newOfflineAccount)
+            TextInput(
+              key: const ValueKey(2),
+              controller: offlineNameController,
+              placeholder: UIValues.offlineNamePlaceholder,
+              errorText: offlineNameError.value,
+              onChanged: (value) {},
+            ),
+          if (onlineSelected)
+            TextInput(
+              key: const ValueKey(3),
+              controller: passwordController,
+              placeholder: UIValues.passwordPlaceholder,
+              obscureText: true,
+            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (onlineSelected) const ServerSelector(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SolidButtonPrimary(
+                    content: activeTab.submitText,
+                    onPressed: onSubmit,
+                    enabled: activeTab != Tabs.newOfflineAccount ||
+                        offlineNameError.value == null,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
 
     return Scaffold(
@@ -271,9 +279,10 @@ class AuthenticatePage extends HookConsumerWidget {
         children: [
           tabBars,
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: _formSpacing,
-              horizontal: 2 * _formSpacing,
+            padding: const EdgeInsets.only(
+              top: _appBarBottomMargin,
+              left: _formMargin,
+              right: _formMargin,
             ),
             child: form,
           ),
@@ -289,13 +298,14 @@ final _accountDialog = ConfirmationDialog(
   title: "Account creation",
   confirmedText: "Let's go!",
   body: Text(
-    "Welcome to Open-Items!\nYou can either create an account online and benefit from the online functionalities (syncing, sharing, ...) or you can add an offline account and use the application right away.",
+    "Welcome to Open-Items!\nYou can create an online account to benefit from the associated functionalities such as syncing and sharing, or use an offline account and access the application right away.",
     style: UITexts.normalText,
   ),
 );
 
 final _notSupportedDialog = ConfirmationDialog(
   title: "Not Supported",
+  confirmedText: "Ok",
   body: Text(
     "Sorry this functionality is not yet supported.",
     style: UITexts.normalText,

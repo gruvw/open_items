@@ -8,15 +8,15 @@ abstract class UITexts {
   );
 
   static final TextStyle titleText = base.copyWith(
-    fontSize: 18,
+    fontSize: 22,
   );
 
   static final TextStyle normalText = base.copyWith(
-    fontSize: 16,
+    fontSize: 20,
   );
 
   static final TextStyle normalBold = base.copyWith(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 }
