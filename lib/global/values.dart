@@ -1,6 +1,7 @@
 import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class CoreValues {
+  static const String onlineServerDefault = "open-items.org";
   static const String offlineServer = "offline";
 
   static const String unknownLocalId = "unknown_local_id";

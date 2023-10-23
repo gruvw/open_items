@@ -7,6 +7,7 @@ import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/database.dart';
 import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
+import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
 import 'package:open_items/widgets/components/input/text.dart';
@@ -44,6 +45,8 @@ enum Tabs {
 
 class AuthenticatePage extends HookConsumerWidget {
   static const _initialTab = Tabs.newOfflineAccount;
+  static const _appBarPadding = 8.0;
+  static const _formSpacing = 20.0;
 
   const AuthenticatePage({
     super.key,
@@ -139,7 +142,10 @@ class AuthenticatePage extends HookConsumerWidget {
       welcomeShown.value = true;
       Future.delayed(
         Duration.zero,
-        () => showDialog(context: context, builder: (_) => _accountDialog),
+        () => showDialog(
+          context: context,
+          builder: (_) => _accountDialog,
+        ),
       );
     }
 
@@ -187,14 +193,15 @@ class AuthenticatePage extends HookConsumerWidget {
             ),
           const Divider(
             color: UIColors.primary,
-            height: 8,
-            thickness: 8,
+            height: _appBarPadding,
+            thickness: _appBarPadding,
           ),
         ],
       ),
     );
 
-    final form = Column(
+    final form = Wrap(
+      runSpacing: _formSpacing,
       children: [
         if (activeTab == Tabs.newOnlineAccount)
           TextInput(
@@ -223,14 +230,20 @@ class AuthenticatePage extends HookConsumerWidget {
             placeholder: UIValues.passwordPlaceholder,
             obscureText: true,
           ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SolidButtonPrimary(
-              text: activeTab.submitText,
-              onPressed: onSubmit,
-              enabled: activeTab != Tabs.newOfflineAccount ||
-                  offlineNameError.value == null,
+            if (onlineSelected) const ServerSelector(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SolidButtonPrimary(
+                  content: activeTab.submitText,
+                  onPressed: onSubmit,
+                  enabled: activeTab != Tabs.newOfflineAccount ||
+                      offlineNameError.value == null,
+                ),
+              ],
             ),
           ],
         ),
@@ -258,7 +271,10 @@ class AuthenticatePage extends HookConsumerWidget {
         children: [
           tabBars,
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            padding: const EdgeInsets.symmetric(
+              vertical: _formSpacing,
+              horizontal: 2 * _formSpacing,
+            ),
             child: form,
           ),
         ],

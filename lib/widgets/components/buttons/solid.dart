@@ -4,9 +4,10 @@ import 'package:open_items/widgets/components/buttons/plain.dart';
 class SolidButtonPrimary extends PlainButton {
   const SolidButtonPrimary({
     super.key,
-    required super.text,
+    required super.content,
     required super.onPressed,
     super.enabled,
+    super.leading,
   }) : super(
           foregroundColor: UIColors.secondary,
           backgroundColor: UIColors.primary,
@@ -17,9 +18,10 @@ class SolidButtonPrimary extends PlainButton {
 class SolidButtonSecondary extends PlainButton {
   const SolidButtonSecondary({
     super.key,
-    required super.text,
+    required super.content,
     required super.onPressed,
     super.enabled,
+    super.leading,
   }) : super(
           foregroundColor: UIColors.primary,
           backgroundColor: UIColors.secondary,

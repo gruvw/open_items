@@ -26,7 +26,7 @@ class ConfirmationDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SolidButtonPrimary(
-            text: confirmedText,
+            content: confirmedText,
             onPressed: modalOnPressed(onPressed, context),
           )
         ],

@@ -2,21 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/colors.dart';
 import 'package:open_items/global/styles/text.dart';
 
-VoidCallback modalOnPressed(VoidCallback? onPressed, BuildContext context) => () {
-  onPressed?.call();
-  Navigator.pop(context);
-};
+VoidCallback modalOnPressed(VoidCallback? onPressed, BuildContext context) {
+  return () {
+    onPressed?.call();
+    Navigator.pop(context);
+  };
+}
 
 class PlainDialog extends StatelessWidget {
   static const _spacer = SizedBox(height: 10);
-  static const _border = RoundedRectangleBorder(
-    side: BorderSide(
-      width: 2,
-      color: UIColors.primary,
-    ),
-    borderRadius: BorderRadius.all(Radius.circular(4)),
-  );
-  static const _padding = EdgeInsets.all(8.0);
+  static const _borderWidth = 3.0;
+  static const _borderRadius = 6.0;
+  static const _outerPadding = 15.0;
 
   final String title;
   final Widget body;
@@ -32,9 +29,15 @@ class PlainDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: _border,
+      shape: const RoundedRectangleBorder(
+        side: BorderSide(
+          width: _borderWidth,
+          color: UIColors.primary,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+      ),
       child: Padding(
-        padding: _padding,
+        padding: const EdgeInsets.all(_outerPadding),
         child: IntrinsicWidth(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -42,7 +45,7 @@ class PlainDialog extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: UITexts.titleText,
+                style: UITexts.titleText.copyWith(fontWeight: FontWeight.w600),
               ),
               _spacer,
               body,
