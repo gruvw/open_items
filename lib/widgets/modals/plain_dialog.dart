@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/layout.dart';
 import 'package:open_items/global/styles/text.dart';
 
 VoidCallback modalOnPressed(VoidCallback? onPressed, BuildContext context) {
@@ -10,13 +11,6 @@ VoidCallback modalOnPressed(VoidCallback? onPressed, BuildContext context) {
 }
 
 class PlainDialog extends StatelessWidget {
-  static const _maxWidth = 800.0;
-  static const _spacer = SizedBox(height: 14);
-  static const _borderWidth = 3.0;
-  static const _borderRadius = 6.0;
-  static const _padding = 16.0;
-  static const _outerMargin = 25.0;
-
   final String title;
   final Widget body;
   final Widget actions;
@@ -33,16 +27,18 @@ class PlainDialog extends StatelessWidget {
     return Dialog(
       shape: const RoundedRectangleBorder(
         side: BorderSide(
-          width: _borderWidth,
+          width: DialogLayout.borderWidth,
           color: UIColors.primary,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        borderRadius:
+            BorderRadius.all(Radius.circular(DialogLayout.borderRadius)),
       ),
-      insetPadding: const EdgeInsets.symmetric(horizontal: _outerMargin),
+      insetPadding:
+          const EdgeInsets.symmetric(horizontal: DialogLayout.outerMargin),
       child: Container(
-        constraints: const BoxConstraints(maxWidth: _maxWidth),
+        constraints: const BoxConstraints(maxWidth: DialogLayout.maxWidth),
         child: Padding(
-          padding: const EdgeInsets.all(_padding),
+          padding: const EdgeInsets.all(DialogLayout.padding),
           child: IntrinsicWidth(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -53,9 +49,12 @@ class PlainDialog extends StatelessWidget {
                   style:
                       UITexts.titleText.copyWith(fontWeight: FontWeight.w600),
                 ),
-                _spacer,
-                body,
-                _spacer,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: DialogLayout.bodyVerticalPadding,
+                  ),
+                  child: body,
+                ),
                 actions,
               ],
             ),

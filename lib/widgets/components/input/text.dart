@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/layout.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/utils/lang.dart';
 
@@ -87,13 +88,13 @@ class TextInput extends HookWidget {
 const _border = OutlineInputBorder(
   borderSide: BorderSide(
     color: UIColors.primary,
-    width: 2,
+    width: TextInputLayout.borderWidth,
   ),
 );
 
 const _errorBorder = OutlineInputBorder(
   borderSide: BorderSide(
     color: UIColors.danger,
-    width: 2,
+    width: TextInputLayout.borderWidth,
   ),
 );

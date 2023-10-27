@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/layout.dart';
 import 'package:open_items/global/styles/text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/database.dart';
@@ -45,11 +46,6 @@ enum Tabs {
 
 class AuthenticatePage extends HookConsumerWidget {
   static const _initialTab = Tabs.newOfflineAccount;
-  static const _appBarPadding = 8.0;
-  static const _appBarBottomMargin = 50.0;
-  static const _formMaxWidth = 800.0;
-  static const _formMargin = 40.0;
-  static const _formSpacing = 20.0;
 
   const AuthenticatePage({
     super.key,
@@ -165,7 +161,7 @@ class AuthenticatePage extends HookConsumerWidget {
             labelStyle: UITexts.normalText,
             indicatorColor: UIColors.secondary,
             unselectedLabelColor: UIColors.hintText,
-            indicatorWeight: 2,
+            indicatorWeight: AuthenticationPageLayout.primaryTabIndicatorWeight,
             tabs: const [
               IconTab(
                 text: "Create Account",
@@ -198,17 +194,18 @@ class AuthenticatePage extends HookConsumerWidget {
             ),
           const Divider(
             color: UIColors.primary,
-            height: _appBarPadding,
-            thickness: _appBarPadding,
+            height: AuthenticationPageLayout.appBarBottomPadding,
+            thickness: AuthenticationPageLayout.appBarBottomPadding,
           ),
         ],
       ),
     );
 
     final form = Container(
-      constraints: const BoxConstraints(maxWidth: _formMaxWidth),
+      constraints:
+          const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
       child: Wrap(
-        runSpacing: _formSpacing,
+        runSpacing: AuthenticationPageLayout.formVerticalSpacing,
         children: [
           if (activeTab == Tabs.newOnlineAccount)
             TextInput(
@@ -280,9 +277,9 @@ class AuthenticatePage extends HookConsumerWidget {
           tabBars,
           Padding(
             padding: const EdgeInsets.only(
-              top: _appBarBottomMargin,
-              left: _formMargin,
-              right: _formMargin,
+              top: AuthenticationPageLayout.formTopMargin,
+              left: AuthenticationPageLayout.formHorizontalMargin,
+              right: AuthenticationPageLayout.formHorizontalMargin,
             ),
             child: form,
           ),

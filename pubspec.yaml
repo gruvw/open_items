@@ -54,12 +54,12 @@ flutter:
     - "assets/icons/splash/open_items.png"
     - "assets/icons/splash/open_items_android_12.png"
 
-# flutter pub run flutter_app_name
+# dart run flutter_app_name
 flutter_app_name:
-  name: "OpenItems"
+  name: "Open-Items"
   id: "org.open_items"
 
-# flutter pub run flutter_launcher_icons
+# dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true

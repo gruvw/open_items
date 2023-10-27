@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/layout.dart';
 
 class IconTab extends StatelessWidget {
   final String text;
@@ -18,9 +19,7 @@ class IconTab extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           icon,
-          const SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: TabLayout.iconHorizontalSpacing),
           Text(text),
         ],
       ),

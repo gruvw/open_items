@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/layout.dart';
 import 'package:open_items/global/styles/text.dart';
 
 class PlainButton extends StatelessWidget {
-  static const _borderWidth = 2.0;
-  static const _borderRadius = 4.0;
-  static const _leadingSpacing = 8.0;
-  static const _verticalPadding = 16.0;
-  static const _horizontalPadding = 16.0;
-
   final String content;
   final Widget? leading;
   final bool enabled;
@@ -26,7 +21,7 @@ class PlainButton extends StatelessWidget {
     required this.borderColor,
     this.leading,
     this.enabled = true,
-    this.horizontalPadding = _horizontalPadding,
+    this.horizontalPadding = ButtonLayout.horizontalPadding,
     this.onPressed,
   });
 
@@ -38,7 +33,7 @@ class PlainButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         foregroundColor: foregroundColor, // used for splash color
         padding: EdgeInsets.symmetric(
-          vertical: _verticalPadding,
+          vertical: ButtonLayout.verticalPadding,
           horizontal: horizontalPadding,
         ),
         backgroundColor: backgroundColor,
@@ -47,7 +42,7 @@ class PlainButton extends StatelessWidget {
         disabledBackgroundColor:
             backgroundColor.withOpacity(UIColors.disabledOpacity),
         side: BorderSide(
-          width: _borderWidth,
+          width: ButtonLayout.borderWidth,
           style: borderColor == backgroundColor
               ? BorderStyle.none
               : BorderStyle.solid,
@@ -56,7 +51,8 @@ class PlainButton extends StatelessWidget {
               : borderColor.withOpacity(UIColors.disabledOpacity),
         ),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+          borderRadius:
+              BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
         ),
       ),
       child: Row(
@@ -64,7 +60,8 @@ class PlainButton extends StatelessWidget {
         children: [
           if (leading != null)
             Padding(
-              padding: const EdgeInsets.only(right: _leadingSpacing),
+              padding:
+                  const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
               child: leading!,
             ),
           Text(
