@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/colors.dart';
-import 'package:open_items/global/styles/layout.dart';
-import 'package:open_items/global/styles/text.dart';
+import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 
 class PlainButton extends StatelessWidget {
   final String content;
@@ -37,22 +37,15 @@ class PlainButton extends StatelessWidget {
           horizontal: horizontalPadding,
         ),
         backgroundColor: backgroundColor,
-        disabledForegroundColor:
-            foregroundColor.withOpacity(UIColors.disabledOpacity),
-        disabledBackgroundColor:
-            backgroundColor.withOpacity(UIColors.disabledOpacity),
+        disabledForegroundColor: foregroundColor.withOpacity(UIColors.disabledOpacity),
+        disabledBackgroundColor: backgroundColor.withOpacity(UIColors.disabledOpacity),
         side: BorderSide(
           width: ButtonLayout.borderWidth,
-          style: borderColor == backgroundColor
-              ? BorderStyle.none
-              : BorderStyle.solid,
-          color: enabled
-              ? borderColor
-              : borderColor.withOpacity(UIColors.disabledOpacity),
+          style: borderColor == backgroundColor ? BorderStyle.none : BorderStyle.solid,
+          color: enabled ? borderColor : borderColor.withOpacity(UIColors.disabledOpacity),
         ),
         shape: const RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
         ),
       ),
       child: Row(
@@ -60,8 +53,7 @@ class PlainButton extends StatelessWidget {
         children: [
           if (leading != null)
             Padding(
-              padding:
-                  const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
+              padding: const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
               child: leading!,
             ),
           Text(

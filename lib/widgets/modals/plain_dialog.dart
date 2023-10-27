@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/colors.dart';
-import 'package:open_items/global/styles/layout.dart';
-import 'package:open_items/global/styles/text.dart';
+import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 
 VoidCallback modalOnPressed(VoidCallback? onPressed, BuildContext context) {
   return () {

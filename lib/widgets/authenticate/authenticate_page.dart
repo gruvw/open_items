@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:open_items/global/styles/colors.dart';
-import 'package:open_items/global/styles/layout.dart';
-import 'package:open_items/global/styles/text.dart';
+import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/database.dart';
 import 'package:open_items/state/application/providers.dart';
@@ -12,7 +12,7 @@ import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
 import 'package:open_items/widgets/components/input/text.dart';
-import 'package:open_items/widgets/modals/confirm.dart';
+import 'package:open_items/widgets/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/accounts.dart';
@@ -96,10 +96,9 @@ class AuthenticatePage extends HookConsumerWidget {
       secondaryTabController.index = _initialTab.secondaryTabIndex;
     }
 
-    final createAccountSelected = activeTab == Tabs.newOfflineAccount ||
-        activeTab == Tabs.newOnlineAccount;
-    final onlineSelected =
-        activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
+    final createAccountSelected =
+        activeTab == Tabs.newOfflineAccount || activeTab == Tabs.newOnlineAccount;
+    final onlineSelected = activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
 
     // Form
 
@@ -202,8 +201,7 @@ class AuthenticatePage extends HookConsumerWidget {
     );
 
     final form = Container(
-      constraints:
-          const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
+      constraints: const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
       child: Wrap(
         runSpacing: AuthenticationPageLayout.formVerticalSpacing,
         children: [
@@ -244,8 +242,7 @@ class AuthenticatePage extends HookConsumerWidget {
                   SolidButtonPrimary(
                     content: activeTab.submitText,
                     onPressed: onSubmit,
-                    enabled: activeTab != Tabs.newOfflineAccount ||
-                        offlineNameError.value == null,
+                    enabled: activeTab != Tabs.newOfflineAccount || offlineNameError.value == null,
                   ),
                 ],
               ),

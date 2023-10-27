@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/layout.dart';
+import 'package:open_items/global/styles/layouts.dart';
 
 class IconTab extends StatelessWidget {
   final String text;

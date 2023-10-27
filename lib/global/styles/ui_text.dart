@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
 
 abstract class UITexts {
   static final TextStyle base = GoogleFonts.roboto(

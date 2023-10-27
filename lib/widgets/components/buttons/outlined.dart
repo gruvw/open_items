@@ -1,4 +1,4 @@
-import 'package:open_items/global/styles/colors.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/widgets/components/buttons/plain.dart';
 
 const _outlinedHorizontalPadding = 10.0;
