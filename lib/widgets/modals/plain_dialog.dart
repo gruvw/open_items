@@ -37,27 +37,24 @@ class PlainDialog extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: DialogLayout.outerMargin),
       child: Container(
         constraints: const BoxConstraints(maxWidth: DialogLayout.maxWidth),
-        child: Padding(
-          padding: const EdgeInsets.all(DialogLayout.padding),
-          child: IntrinsicWidth(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      UITexts.titleText.copyWith(fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.all(DialogLayout.padding),
+        child: IntrinsicWidth(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: UITexts.titleText.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: DialogLayout.bodyVerticalPadding,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DialogLayout.bodyVerticalPadding,
-                  ),
-                  child: body,
-                ),
-                actions,
-              ],
-            ),
+                child: body,
+              ),
+              actions,
+            ],
           ),
         ),
       ),

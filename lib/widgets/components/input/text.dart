@@ -63,6 +63,11 @@ class TextInput extends HookWidget {
       cursorColor: UIColors.primary,
       onChanged: onChanged,
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: TextInputLayout.contentVerticalPadding,
+          horizontal: TextInputLayout.contentHorizontalPadding,
+        ),
+        errorMaxLines: 3,
         hintText: placeholder,
         labelText: label,
         errorText: errorText,
