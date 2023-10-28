@@ -1,15 +1,10 @@
-import 'package:flutter/rendering.dart';
-
-abstract class UILayout {
-  // static const double formDialogWidthRatio = 0.7;
-  static const TextOverflow listTileOverflow = TextOverflow.ellipsis;
-}
+abstract class UILayout {}
 
 abstract class AuthenticationPageLayout {
-  static const appBarBottomPadding = 8.0;
-  static const primaryTabIndicatorWeight = 2.0;
-  static const formMaxWidth = 800.0;
-  static const formTopMargin = 50.0;
+  static const appBarBottomPadding = 6.0;
+  static const primaryTabIndicatorWeight = 3.0;
+  static const formMaxWidth = 500.0;
+  static const formTopMargin = 40.0;
   static const formHorizontalMargin = 40.0;
   static const formVerticalSpacing = 20.0;
 }
@@ -18,8 +13,9 @@ abstract class ButtonLayout {
   static const borderWidth = 2.0;
   static const borderRadius = 4.0;
   static const leadingSpacing = 8.0;
-  static const verticalPadding = 16.0;
-  static const horizontalPadding = 16.0;
+  static const verticalPadding = 8.0;
+  static const horizontalPadding = 10.0;
+  static const outlinedHorizontalPadding = 8.0;
 }
 
 abstract class TextInputLayout {

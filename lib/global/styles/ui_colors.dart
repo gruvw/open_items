@@ -10,7 +10,7 @@ abstract class UIColors {
 
   // Specific colors
   static const Color background = Colors.white;
-  static const Color hintText = Color(0xFFA5A5A5);
+  static const Color hintText = Color(0xFF6b6b6b);
   static const Color dimmed = Color(0x77000000);
 
   // Others

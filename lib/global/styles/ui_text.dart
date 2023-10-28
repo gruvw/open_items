@@ -3,20 +3,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 
 abstract class UITexts {
-  static final TextStyle base = GoogleFonts.roboto(
+  static final TextStyle _base = GoogleFonts.roboto(
     color: UIColors.primary,
   );
 
-  static final TextStyle titleText = base.copyWith(
-    fontSize: 22,
-  );
-
-  static final TextStyle normalText = base.copyWith(
-    fontSize: 20,
-  );
-
-  static final TextStyle normalBold = base.copyWith(
+  static final TextStyle titleText = _base.copyWith(
     fontSize: 18,
+  );
+
+  static final TextStyle normalText = _base.copyWith(
+    fontSize: 16,
+  );
+  static final TextStyle normalBold = normalText.copyWith(
     fontWeight: FontWeight.bold,
+  );
+
+  static final TextStyle subText = _base.copyWith(
+    fontSize: 14,
   );
 }

@@ -7,6 +7,7 @@ import 'package:open_items/utils/lang.dart';
 
 class TextInput extends HookWidget {
   final TextEditingController? controller;
+  final String? label;
   final String? placeholder;
   final String? errorText;
   final bool? obscureText;
@@ -14,6 +15,7 @@ class TextInput extends HookWidget {
 
   const TextInput({
     super.key,
+    this.label,
     this.placeholder,
     this.controller,
     this.errorText,
@@ -61,13 +63,23 @@ class TextInput extends HookWidget {
       cursorColor: UIColors.primary,
       onChanged: onChanged,
       decoration: InputDecoration(
+        hintText: placeholder,
+        labelText: label,
+        errorText: errorText,
         enabledBorder: _border,
         focusedBorder: _border,
         errorBorder: _errorBorder,
         focusedErrorBorder: _errorBorder,
         focusColor: UIColors.primary,
-        hintText: placeholder,
-        errorText: errorText,
+        labelStyle: UITexts.normalText.apply(
+          color: UIColors.hintText,
+        ),
+        floatingLabelStyle: UITexts.normalText.apply(
+          color: errorText == null ? UIColors.primary : UIColors.danger,
+        ),
+        errorStyle: UITexts.subText.apply(
+          color: UIColors.danger,
+        ),
         hintStyle: UITexts.normalText.apply(
           color: UIColors.hintText,
         ),

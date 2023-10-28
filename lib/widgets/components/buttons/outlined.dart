@@ -1,7 +1,6 @@
+import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/widgets/components/buttons/plain.dart';
-
-const _outlinedHorizontalPadding = 10.0;
 
 class OutlinedButtonPrimary extends PlainButton {
   const OutlinedButtonPrimary({
@@ -14,7 +13,7 @@ class OutlinedButtonPrimary extends PlainButton {
           foregroundColor: UIColors.primary,
           backgroundColor: UIColors.secondary,
           borderColor: UIColors.primary,
-          horizontalPadding: _outlinedHorizontalPadding,
+          horizontalPadding: ButtonLayout.outlinedHorizontalPadding,
         );
 }
 
@@ -29,6 +28,6 @@ class OutlinedButtonSecondary extends PlainButton {
           foregroundColor: UIColors.secondary,
           backgroundColor: UIColors.primary,
           borderColor: UIColors.secondary,
-          horizontalPadding: _outlinedHorizontalPadding,
+          horizontalPadding: ButtonLayout.outlinedHorizontalPadding,
         );
 }

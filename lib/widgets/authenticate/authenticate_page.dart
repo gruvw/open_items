@@ -96,9 +96,10 @@ class AuthenticatePage extends HookConsumerWidget {
       secondaryTabController.index = _initialTab.secondaryTabIndex;
     }
 
-    final createAccountSelected =
-        activeTab == Tabs.newOfflineAccount || activeTab == Tabs.newOnlineAccount;
-    final onlineSelected = activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
+    final createAccountSelected = activeTab == Tabs.newOfflineAccount ||
+        activeTab == Tabs.newOnlineAccount;
+    final onlineSelected =
+        activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
 
     // Form
 
@@ -201,7 +202,8 @@ class AuthenticatePage extends HookConsumerWidget {
     );
 
     final form = Container(
-      constraints: const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
+      constraints:
+          const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
       child: Wrap(
         runSpacing: AuthenticationPageLayout.formVerticalSpacing,
         children: [
@@ -209,12 +211,14 @@ class AuthenticatePage extends HookConsumerWidget {
             TextInput(
               key: const ValueKey(0),
               controller: emailController,
+              label: "Email address",
               placeholder: UIValues.emailPlaceholder,
             ),
           if (onlineSelected)
             TextInput(
               key: const ValueKey(1),
               controller: usernameController,
+              label: "Username",
               placeholder: UIValues.usernamePlaceholder,
             ),
           if (activeTab == Tabs.newOfflineAccount)
@@ -222,6 +226,7 @@ class AuthenticatePage extends HookConsumerWidget {
               key: const ValueKey(2),
               controller: offlineNameController,
               placeholder: UIValues.offlineNamePlaceholder,
+              label: "Account name",
               errorText: offlineNameError.value,
               onChanged: (value) {},
             ),
@@ -229,6 +234,7 @@ class AuthenticatePage extends HookConsumerWidget {
             TextInput(
               key: const ValueKey(3),
               controller: passwordController,
+              label: "Password",
               placeholder: UIValues.passwordPlaceholder,
               obscureText: true,
             ),
@@ -242,7 +248,8 @@ class AuthenticatePage extends HookConsumerWidget {
                   SolidButtonPrimary(
                     content: activeTab.submitText,
                     onPressed: onSubmit,
-                    enabled: activeTab != Tabs.newOfflineAccount || offlineNameError.value == null,
+                    enabled: activeTab != Tabs.newOfflineAccount ||
+                        offlineNameError.value == null,
                   ),
                 ],
               ),
