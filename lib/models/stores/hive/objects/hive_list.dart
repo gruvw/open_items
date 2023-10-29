@@ -121,18 +121,18 @@ class HiveList extends Liste {
   }
 
   @override
-  void delete() {
+  Future<void> delete() async {
     for (final item in items) {
-      item.delete();
+      await item.delete();
     }
 
     if (ownerAccount.isLocal) {
-      ownerAccount.properties!.listsProperties
+      await ownerAccount.properties!.listsProperties
           .where((lp) => lp.list.localId == localId)
           .firstOrNull!
           .delete();
     }
 
-    hiveStoreList.delete();
+    await hiveStoreList.delete();
   }
 }

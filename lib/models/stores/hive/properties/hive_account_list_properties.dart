@@ -126,15 +126,15 @@ class HiveAccountListProperties extends AccountListProperties {
   }
 
   @override
-  void delete() {
+  Future<void> delete() async {
     final hiveAccountProperties = user.properties! as HiveAccountProperties;
     final hiveStoreAccountProperties =
         hiveAccountProperties.hiveStoreAccountProperties;
 
     hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
         .removeWhere((alpId) => alpId == localId);
-    hiveStoreAccountProperties.save();
+    await hiveStoreAccountProperties.save();
 
-    hiveStoreAccountListProperties.delete();
+    await hiveStoreAccountListProperties.delete();
   }
 }

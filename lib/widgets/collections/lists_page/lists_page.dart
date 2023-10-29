@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/modals/confirmation_dialog.dart';
 
@@ -21,7 +20,7 @@ class ListsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Set viewed account as the selected one
-    ref.read(selectedAccountProvider.notifier).updateAccount(account);
+    // ref.read(selectedAccountProvider.notifier).updateAccount(account);
 
     // Testing dialog
     if (!_testingMessageShown) {

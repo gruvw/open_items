@@ -56,8 +56,9 @@ class AuthenticatePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // State
 
+    final accounts = ref.watch(localAccountsProvider);
+    final cancellable = accounts.isNotEmpty;
     final welcomeShown = useState(false);
-    final cancellable = ref.read(localAccountsProvider).isNotEmpty;
 
     // Form state
     final offlineNameError = useState<String?>(null);
@@ -130,15 +131,16 @@ class AuthenticatePage extends HookConsumerWidget {
         return;
       }
 
-      final account = database.createOfflineAccount(name: name);
-      account.notify(EventType.create);
+      database.createOfflineAccount(name: name).then((account) {
+        account.notify(EventType.create);
 
-      Navigator.pushNamed(
-        context,
-        Routes.lists.name,
-        // (_) => false, // make it first page
-        arguments: account,
-      );
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Routes.lists.name,
+          (_) => false,
+          arguments: account,
+        );
+      });
     }
 
     // Account dialog

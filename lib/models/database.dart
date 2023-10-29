@@ -15,7 +15,7 @@ abstract class Database {
 
   Future<void> init() async {}
 
-  Account createAccount({
+  Future<Account> createAccount({
     required String serverId,
     required String name,
     required String server,
@@ -23,7 +23,7 @@ abstract class Database {
     ListsOrdering? listsOrdering, // must be specified if local account
   });
 
-  Liste createListe({
+  Future<Liste> createListe({
     required Account owner,
     required String listServerId,
     required String title,
@@ -32,7 +32,7 @@ abstract class Database {
     required DateTime editionTime,
   });
 
-  AccountListProperties createAccountListProperties({
+  Future<AccountListProperties> createAccountListProperties({
     required Account user, // must be local
     required String serverId,
     required String listLocalId,
@@ -42,7 +42,7 @@ abstract class Database {
     required bool shouldStackDone,
   });
 
-  Item createItem({
+  Future<Item> createItem({
     required String serverId,
     required Collection parent,
     required String text,
@@ -72,7 +72,7 @@ abstract class Database {
 
   // Helper methods
 
-  Account createOfflineAccount({
+  Future<Account> createOfflineAccount({
     required String name,
   }) =>
       createAccount(
@@ -90,7 +90,7 @@ abstract class DatabaseObject {
 
   String get localId;
 
-  void delete();
+  Future<void> delete();
 
   void notify(EventType eventType) {
     database.eventsController.add(Event(type: eventType, object: this));

@@ -7,8 +7,6 @@ import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/state/application/database.dart';
-import 'package:open_items/state/application/providers.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/account_tile.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/drawer_section.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dart';
@@ -115,10 +113,32 @@ class AccountsDrawer extends ConsumerWidget {
               ),
               onPressed: () {
                 // TODO confirm dialog
-                selectedAccount.delete();
-                selectedAccount.notify(EventType.delete);
 
-                Navigator.pushNamed(context, Routes.home.name);
+                final nextAccount = accounts
+                    .where((a) => a.localId != selectedAccount.localId)
+                    .firstOrNull;
+
+                if (nextAccount == null) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.authenticate.name,
+                    (_) => false,
+                  );
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Routes.lists.name,
+                    arguments: nextAccount,
+                    (_) => false,
+                  );
+                }
+
+                // FIX https://stackoverflow.com/questions/59291336/navigator-pop-callback
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  selectedAccount
+                      .delete()
+                      .then((_) => selectedAccount.notify(EventType.delete));
+                });
               },
             )
           ],

@@ -64,23 +64,26 @@ class HiveAccountProperties extends AccountProperties {
 
   @override
   List<HiveAccountListProperties> get listsProperties {
-    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.map((alpId) => HiveAccountListProperties(
-          hiveDatabase: hiveDatabase,
-          hiveStoreAccountListProperties: hiveDatabase.accountListPropertiesBox.get(alpId)!,
-        )).toList();
+    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
+        .map((alpId) => HiveAccountListProperties(
+              hiveDatabase: hiveDatabase,
+              hiveStoreAccountListProperties:
+                  hiveDatabase.accountListPropertiesBox.get(alpId)!,
+            ))
+        .toList();
   }
 
   @override
-  void delete() {
+  Future<void> delete() async {
     for (final listProperties in listsProperties) {
       final list = listProperties.list;
       if (account.isOwnerOf(list)) {
-        list.delete();
+        await list.delete();
       } else {
-        listProperties.delete();
+        await listProperties.delete();
       }
     }
 
-    hiveStoreAccountProperties.delete();
+    await hiveStoreAccountProperties.delete();
   }
 }

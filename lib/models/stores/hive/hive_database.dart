@@ -54,13 +54,13 @@ class HiveDatabase extends Database {
   }
 
   @override
-  Account createAccount({
+  Future<Account> createAccount({
     required String serverId,
     required String name,
     required String server,
     required bool isLocal,
     ListsOrdering? listsOrdering,
-  }) {
+  }) async {
     String accountLocalId = nanoid();
 
     String? propertiesLocalId;
@@ -71,7 +71,7 @@ class HiveDatabase extends Database {
         hiveAccountListPropertiesLocalIds: [],
       );
       propertiesLocalId = nanoid();
-      accountPropertiesBox.put(propertiesLocalId, properties);
+      await accountPropertiesBox.put(propertiesLocalId, properties);
     }
 
     final hiveStoreAccount = HiveStoreAccount(
@@ -81,7 +81,7 @@ class HiveDatabase extends Database {
       hiveAccountPropertiesLocalId:
           propertiesLocalId ?? CoreValues.unknownLocalId,
     );
-    accountsBox.put(accountLocalId, hiveStoreAccount);
+    await accountsBox.put(accountLocalId, hiveStoreAccount);
 
     return HiveAccount(
       hiveDatabase: this,
@@ -90,14 +90,14 @@ class HiveDatabase extends Database {
   }
 
   @override
-  Liste createListe({
+  Future<Liste> createListe({
     required Account owner,
     required String listServerId,
     required String title,
     required CollectionType type,
     required DateTime creationTime,
     required DateTime editionTime,
-  }) {
+  }) async {
     final hiveStoreList = HiveStoreList(
       hiveServerId: listServerId,
       hiveOwnerAccountLocalId: owner.localId,
@@ -107,7 +107,7 @@ class HiveDatabase extends Database {
       hiveEditionTime: editionTime.millisecondsSinceEpoch,
       hiveItemsLocalIds: [],
     );
-    listsBox.put(nanoid(), hiveStoreList);
+    await listsBox.put(nanoid(), hiveStoreList);
 
     final list = HiveList(
       hiveDatabase: this,
@@ -118,7 +118,7 @@ class HiveDatabase extends Database {
   }
 
   @override
-  AccountListProperties createAccountListProperties({
+  Future<AccountListProperties> createAccountListProperties({
     required Account user,
     required String serverId,
     required String listLocalId,
@@ -126,7 +126,7 @@ class HiveDatabase extends Database {
     required String lexoRank,
     required bool shouldReverseOrder,
     required bool shouldStackDone,
-  }) {
+  }) async {
     final hiveStoreAccountListProperties = HiveStoreAccountListProperties(
       hiveServerId: serverId,
       hiveAccountLocalId: user.localId,
@@ -136,14 +136,15 @@ class HiveDatabase extends Database {
       hiveShouldReverseOrder: shouldReverseOrder,
       hiveShouldStackDone: shouldStackDone,
     );
-    accountListPropertiesBox.put(nanoid(), hiveStoreAccountListProperties);
+    await accountListPropertiesBox.put(
+        nanoid(), hiveStoreAccountListProperties);
 
     final hiveUserProperties = user.properties! as HiveAccountProperties;
     final hiveStoreUserProperties =
         hiveUserProperties.hiveStoreAccountProperties;
     hiveStoreUserProperties.hiveAccountListPropertiesLocalIds
         .add(hiveStoreAccountListProperties.key);
-    hiveStoreUserProperties.save();
+    await hiveStoreUserProperties.save();
 
     return HiveAccountListProperties(
       hiveDatabase: this,
@@ -152,7 +153,7 @@ class HiveDatabase extends Database {
   }
 
   @override
-  Item createItem({
+  Future<Item> createItem({
     required String serverId,
     required Collection parent,
     required String text,
@@ -162,7 +163,7 @@ class HiveDatabase extends Database {
     required DateTime editionTime,
     required DateTime doneTime,
     required bool isDone,
-  }) {
+  }) async {
     final hiveStoreItem = HiveStoreItem(
       hiveServerId: serverId,
       hiveText: text,
@@ -176,7 +177,7 @@ class HiveDatabase extends Database {
       hiveParentLocalId: parent.localId,
       hiveItemsLocalIds: [],
     );
-    itemsBox.put(nanoid(), hiveStoreItem);
+    await itemsBox.put(nanoid(), hiveStoreItem);
 
     // https://github.com/dart-lang/language/issues/1618
     final HiveStoreCollection hiveStoreParent;
@@ -186,7 +187,7 @@ class HiveDatabase extends Database {
       hiveStoreParent = (parent as HiveItem).hiveStoreItem;
     }
     hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
-    hiveStoreParent.save();
+    await hiveStoreParent.save();
 
     return HiveItem(
       hiveDatabase: this,
@@ -197,7 +198,8 @@ class HiveDatabase extends Database {
   @override
   HiveAccount? getLocalAccount(String accountId) {
     final accountStore = accountsBox.get(accountId);
-    final account = accountStore.map((a) => HiveAccount(hiveDatabase: this, hiveStoreAccount: a));
+    final account = accountStore
+        .map((a) => HiveAccount(hiveDatabase: this, hiveStoreAccount: a));
 
     if (account == null || !account.isLocal) {
       return null;

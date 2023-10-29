@@ -67,16 +67,17 @@ class HiveAccount extends Account {
 
     return HiveAccountProperties(
       hiveDatabase: hiveDatabase,
-      hiveStoreAccountProperties: hiveDatabase.accountPropertiesBox.get(propertiesLocalId)!,
+      hiveStoreAccountProperties:
+          hiveDatabase.accountPropertiesBox.get(propertiesLocalId)!,
     );
   }
 
   @override
-  void delete() {
+  Future<void> delete() async {
     if (isLocal) {
-      properties!.delete();
+      await properties!.delete();
     }
 
-    hiveStoreAccount.delete();
+    await hiveStoreAccount.delete();
   }
 }

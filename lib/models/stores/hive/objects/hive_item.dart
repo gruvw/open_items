@@ -177,15 +177,15 @@ class HiveItem extends Item {
   }
 
   @override
-  void delete() {
+  Future<void> delete() async {
     for (final item in items) {
-      item.delete();
+      await item.delete();
     }
 
     final hiveStoreList = list.hiveStoreList;
     hiveStoreList.hiveItemsLocalIds.removeWhere((itemId) => itemId == localId);
-    hiveStoreList.save();
+    await hiveStoreList.save();
 
-    hiveStoreItem.delete();
+    await hiveStoreItem.delete();
   }
 }

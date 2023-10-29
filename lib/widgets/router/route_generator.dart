@@ -29,6 +29,8 @@ enum Routes {
     switch (this) {
       case home:
         return const HomePageRedirection();
+      case authenticate:
+        return const AuthenticatePage();
       case lists:
         if (args is Account) {
           return ListsPage(account: args);
@@ -38,8 +40,6 @@ enum Routes {
         return const ListPage();
       case item:
         return const ItemPage();
-      case authenticate:
-        return const AuthenticatePage();
       case error:
         return RouteGenerator.errorPage;
     }
