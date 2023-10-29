@@ -33,8 +33,9 @@ class PlainDialog extends StatelessWidget {
         borderRadius:
             BorderRadius.all(Radius.circular(DialogLayout.borderRadius)),
       ),
-      insetPadding:
-          const EdgeInsets.symmetric(horizontal: DialogLayout.outerMargin),
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: DialogLayout.outerHorizontalMargin,
+      ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: DialogLayout.maxWidth),
         padding: const EdgeInsets.all(DialogLayout.padding),

@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
+import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/modals/confirmation_dialog.dart';
 
 class ListsPage extends ConsumerWidget {
@@ -11,10 +13,16 @@ class ListsPage extends ConsumerWidget {
 
   final Account account;
 
-  const ListsPage({super.key, required this.account});
+  const ListsPage({
+    super.key,
+    required this.account,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Set viewed account as the selected one
+    ref.read(selectedAccountProvider.notifier).updateAccount(account);
+
     // Testing dialog
     if (!_testingMessageShown) {
       _testingMessageShown = true;
@@ -29,6 +37,12 @@ class ListsPage extends ConsumerWidget {
     }
 
     return Scaffold(
+      backgroundColor: UIColors.background,
+      appBar: AppBar(
+        backgroundColor: UIColors.primary,
+        // leading: const Icon(Icons.cloud_off),
+      ),
+      drawer: AccountsDrawer(selectedAccount: account),
       body: Text("Lists Page: for ${account.name}"),
     );
   }

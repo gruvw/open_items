@@ -3,11 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
+import 'package:open_items/models/database.dart';
 import 'package:open_items/state/application/database.dart';
 import 'package:open_items/state/application/providers.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
@@ -55,9 +56,8 @@ class AuthenticatePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // State
 
-    final cancellable = ref.watch(localAccountsProvider).isNotEmpty;
-
     final welcomeShown = useState(false);
+    final cancellable = ref.read(localAccountsProvider).isNotEmpty;
 
     // Form state
     final offlineNameError = useState<String?>(null);
@@ -131,9 +131,14 @@ class AuthenticatePage extends HookConsumerWidget {
       }
 
       final account = database.createOfflineAccount(name: name);
-      ref.read(selectedAccountProvider.notifier).updateAccount(account);
+      account.notify(EventType.create);
 
-      Navigator.pushNamed(context, Routes.lists.name, arguments: account);
+      Navigator.pushNamed(
+        context,
+        Routes.lists.name,
+        // (_) => false, // make it first page
+        arguments: account,
+      );
     }
 
     // Account dialog
@@ -165,11 +170,11 @@ class AuthenticatePage extends HookConsumerWidget {
             tabs: const [
               IconTab(
                 text: "Create Account",
-                icon: Icon(Icons.person),
+                icon: Icon(UIIcons.account),
               ),
               IconTab(
                 text: "Log In",
-                icon: Icon(Icons.login),
+                icon: Icon(UIIcons.login),
               ),
             ],
           ),
@@ -184,11 +189,11 @@ class AuthenticatePage extends HookConsumerWidget {
               tabs: const [
                 IconTab(
                   text: "Online Account",
-                  icon: Icon(Icons.language),
+                  icon: Icon(UIIcons.online),
                 ),
                 IconTab(
                   text: "Offline Account",
-                  icon: Icon(Icons.cloud_off),
+                  icon: Icon(UIIcons.offline),
                 ),
               ],
             ),
@@ -262,10 +267,11 @@ class AuthenticatePage extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: UIColors.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: cancellable
             ? IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(UIIcons.back),
               )
             : null,
         title: Text(

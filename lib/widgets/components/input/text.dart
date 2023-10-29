@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/utils/lang.dart';
 
@@ -26,6 +27,8 @@ class TextInput extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final textController = controller ?? useTextEditingController();
+    final focus = useFocusNode();
+    useListenable(focus);
 
     // Used to display (or not) the clear button
     useListenable(textController);
@@ -34,6 +37,7 @@ class TextInput extends HookWidget {
     // Used to display (or not) the obscure button
     final obscured = useState(obscureText);
     final shouldObscure = obscured.value ?? false;
+    final hasError = errorText != null && !(focus.hasFocus && isEmpty);
 
     // Widgets
 
@@ -43,7 +47,7 @@ class TextInput extends HookWidget {
         onChanged?.call(textController.text);
       },
       color: UIColors.primary,
-      icon: const Icon(Icons.clear),
+      icon: const Icon(UIIcons.clear),
     );
 
     final visibilityButton = IconButton(
@@ -51,10 +55,11 @@ class TextInput extends HookWidget {
         obscured.value = obscured.value.map((v) => !v);
       },
       color: UIColors.primary,
-      icon: Icon(shouldObscure ? Icons.visibility_off : Icons.visibility),
+      icon: Icon(shouldObscure ? UIIcons.hidden : UIIcons.visible),
     );
 
     return TextField(
+      focusNode: focus,
       controller: textController,
       obscureText: shouldObscure,
       enableSuggestions: !shouldObscure,
@@ -70,7 +75,7 @@ class TextInput extends HookWidget {
         errorMaxLines: 3,
         hintText: placeholder,
         labelText: label,
-        errorText: errorText,
+        errorText: hasError ? errorText : null,
         enabledBorder: _border,
         focusedBorder: _border,
         errorBorder: _errorBorder,
@@ -80,7 +85,7 @@ class TextInput extends HookWidget {
           color: UIColors.hintText,
         ),
         floatingLabelStyle: UITexts.normalText.apply(
-          color: errorText == null ? UIColors.primary : UIColors.danger,
+          color: hasError ? UIColors.danger : UIColors.primary,
         ),
         errorStyle: UITexts.subText.apply(
           color: UIColors.danger,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
 
 enum CollectionType {
-  check("ToDo", Icons.checklist),
-  unordered("Unordered", Icons.format_list_bulleted),
-  ordered("Ordered", Icons.format_list_numbered);
+  check("ToDo", UIIcons.checklist),
+  unordered("Unordered", UIIcons.bulletList),
+  ordered("Ordered", UIIcons.numberedList);
 
   static bool isValidIndex(int typeIndex) =>
       typeIndex >= 0 && typeIndex < CollectionType.values.length;
@@ -48,5 +49,4 @@ abstract class Collection extends DatabaseServerObject {
 
   CollectionType get collectionType => CollectionType.ofIndex(typeIndex);
   set listType(CollectionType newType) => typeIndex = newType.index;
-
 }

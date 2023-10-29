@@ -12,13 +12,13 @@ abstract class UITexts {
   );
 
   static final TextStyle normalText = _base.copyWith(
-    fontSize: 16,
+    fontSize: 15,
   );
   static final TextStyle normalBold = normalText.copyWith(
     fontWeight: FontWeight.bold,
   );
 
   static final TextStyle subText = _base.copyWith(
-    fontSize: 14,
+    fontSize: 13,
   );
 }

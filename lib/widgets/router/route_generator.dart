@@ -3,7 +3,7 @@ import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/item_page.dart';
 import 'package:open_items/widgets/collections/list_page.dart';
-import 'package:open_items/widgets/collections/lists_page.dart';
+import 'package:open_items/widgets/collections/lists_page/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
 import 'package:open_items/widgets/router/home_page_redirection.dart';
 

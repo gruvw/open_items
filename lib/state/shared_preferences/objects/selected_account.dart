@@ -12,14 +12,26 @@ part 'selected_account.g.dart';
 class SelectedAccount extends _$SelectedAccount {
   late final SharedPreferences _prefs;
 
-  @override
-  FutureOr<Account?> build() async {
-    _prefs = await ref.watch(sharedPrefsProvider.future);
+  Account? getState() {
     final selectedAccountId = _prefs.getString(SPFields.selectedAccountIdField);
     return selectedAccountId.map((v) => database.getLocalAccount(v));
   }
 
-  void updateAccount(Account account) {
-    _prefs.setString(SPFields.selectedAccountIdField, account.localId);
+  @override
+  FutureOr<Account?> build() async {
+    _prefs = await ref.watch(sharedPrefsProvider.future);
+    return getState();
+  }
+
+  Future<void> updateAccount(Account? account) async {
+    if (account == null) {
+      await _prefs.remove(SPFields.selectedAccountIdField);
+      state = const AsyncValue.data(null);
+
+      return;
+    }
+
+    await _prefs.setString(SPFields.selectedAccountIdField, account.localId);
+    state = AsyncValue.data(getState());
   }
 }

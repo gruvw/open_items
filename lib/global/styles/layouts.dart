@@ -14,13 +14,13 @@ abstract class ButtonLayout {
   static const borderRadius = 4.0;
   static const leadingSpacing = 8.0;
   static const verticalPadding = 2.0;
-  static const horizontalPadding = 6.0;
+  static const horizontalPadding = 8.0;
   static const outlinedHorizontalPadding = 8.0;
 }
 
 abstract class TextInputLayout {
   static const borderWidth = 2.0;
-  static const contentVerticalPadding = 6.0;
+  static const contentVerticalPadding = 2.0;
   static const contentHorizontalPadding = 10.0;
 }
 
@@ -34,5 +34,13 @@ abstract class DialogLayout {
   static const borderRadius = 6.0;
   static const padding = 12.0;
   static const bodyVerticalPadding = 10.0;
-  static const outerMargin = 25.0;
+  static const outerHorizontalMargin = 25.0;
+}
+
+abstract class DrawerLayout {
+  static const titleVerticalPadding = 4.0;
+  static const sectionDividerWidth = 2.0;
+  static const tileHorizontalPadding = 4.0;
+  static const tileDividerWidth = 2.0;
+  static const sectionSpacing = 10.0;
 }
