@@ -25,15 +25,6 @@ class AccountsDrawer extends ConsumerWidget {
     required this.selectedAccount,
   });
 
-  void sendToAuthenticate(BuildContext context) {
-    Navigator.pushNamed(
-      context,
-      Routes.authenticate.name,
-      // Make it first page if there are no accounts
-      // (_) => database.getLocalAccounts().isNotEmpty,
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(localAccountsProvider);

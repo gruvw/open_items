@@ -1,14 +1,18 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/state/application/providers.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _localAccountsEventsProvider =
-    StreamProvider.autoDispose<Event<DatabaseObject>>((ref) async* {
+part 'database.g.dart';
+
+@riverpod
+Stream<Event<DatabaseObject>> _localAccountsEvents(
+    _LocalAccountsEventsRef ref) async* {
   yield* database.watchLocalAccounts();
-});
+}
 
-final localAccountsProvider = Provider.autoDispose<List<Account>>((ref) {
+@riverpod
+List<Account> localAccounts(LocalAccountsRef ref) {
   ref.watch(_localAccountsEventsProvider);
   return database.getLocalAccounts();
-});
+}
