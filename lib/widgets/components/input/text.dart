@@ -12,6 +12,7 @@ class TextInput extends HookWidget {
   final String? placeholder;
   final String? errorText;
   final bool? obscureText;
+  final bool autoFocus;
   final void Function(String value)? onChanged;
 
   const TextInput({
@@ -22,6 +23,7 @@ class TextInput extends HookWidget {
     this.errorText,
     this.obscureText,
     this.onChanged,
+    this.autoFocus = false,
   });
 
   @override
@@ -60,6 +62,7 @@ class TextInput extends HookWidget {
 
     return TextField(
       focusNode: focus,
+      autofocus: autoFocus,
       controller: textController,
       obscureText: shouldObscure,
       enableSuggestions: !shouldObscure,
@@ -72,7 +75,7 @@ class TextInput extends HookWidget {
           vertical: TextInputLayout.contentVerticalPadding,
           horizontal: TextInputLayout.contentHorizontalPadding,
         ),
-        errorMaxLines: 3,
+        errorMaxLines: TextInputLayout.errorMaxLines,
         hintText: placeholder,
         labelText: label,
         errorText: hasError ? errorText : null,

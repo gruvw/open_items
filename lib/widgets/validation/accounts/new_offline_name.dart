@@ -4,10 +4,10 @@ import 'package:open_items/widgets/validation/core.dart';
 
 final _offlineNamePattern = RegExp(r"^\w*$");
 
-ValidationResult validNewOfflineName(String name) {
+ValidationResult validNewOfflineAccountName(String name, [String? excluded]) {
   final offlineNames = database
       .getLocalAccounts()
-      .where((a) => a.isOffline)
+      .where((a) => a.isOffline && a.name != excluded)
       .map((oa) => oa.name);
 
   if (name.isEmpty) {
@@ -30,4 +30,8 @@ ValidationResult validNewOfflineName(String name) {
   }
 
   return ValidResult();
+}
+
+ValidationFunction<String> validOfflineAccountRename(String actualName) {
+  return (String newName) => validNewOfflineAccountName(newName, actualName);
 }

@@ -6,7 +6,7 @@ import 'package:open_items/widgets/components/modals/plain_dialog.dart';
 class ConfirmationDialog extends StatelessWidget {
   final String title;
   final Widget body;
-  final VoidCallback? onPressed;
+  final ModalCallback? onPressed;
   final String confirmedText;
 
   const ConfirmationDialog({

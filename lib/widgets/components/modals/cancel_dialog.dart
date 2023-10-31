@@ -10,21 +10,25 @@ class CancelDialog extends StatelessWidget {
   final String title;
   final Widget body;
   final bool danger;
-  final VoidCallback? onCancel;
-  final VoidCallback? onConfirm;
+  final ModalCallback? onCancel;
+  final ModalCallback? onConfirm;
   final String confirmedText;
   final String cancelText;
+  final bool confirmEnabled;
 
   const CancelDialog({
     super.key,
     required this.title,
     required this.body,
     this.danger = false,
+    bool? confirmEnabled,
     this.onCancel,
     this.onConfirm,
-    this.confirmedText = UIValues.confirmTextDefault,
-    this.cancelText = UIValues.cancelTextDefault,
-  });
+    String? confirmedText,
+    String? cancelText,
+  })  : confirmedText = confirmedText ?? UIValues.confirmTextDefault,
+        cancelText = cancelText ?? UIValues.cancelTextDefault,
+        confirmEnabled = confirmEnabled ?? true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,7 @@ class CancelDialog extends StatelessWidget {
             SolidButtonPrimary(
               content: confirmedText,
               onPressed: modalOnPressed(context, onConfirm),
+              enabled: confirmEnabled,
             ),
         ],
       ),

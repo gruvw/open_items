@@ -1,10 +1,10 @@
 // Here lies local validations
 // Validation functions must be fast as they are often evaluated on every key press
 
-typedef ValidationCallback<T> = ValidationResult Function(T input);
+typedef ValidationFunction<T> = ValidationResult Function(T input);
 typedef SubmitValidate<T> = ValidationResult? Function(T input);
 
-ValidationCallback alwaysValid<T>(Function(T input) callback) {
+ValidationFunction alwaysValid<T>(Function(T input) callback) {
   return (input) {
     callback(input);
     return ValidResult();

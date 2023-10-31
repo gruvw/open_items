@@ -16,7 +16,7 @@ import 'package:open_items/widgets/components/input/text.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
-import 'package:open_items/widgets/validation/accounts.dart';
+import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
 enum Tabs {
   newOnlineAccount("Create", 0, 0),
@@ -70,7 +70,7 @@ class AuthenticatePage extends HookConsumerWidget {
     );
 
     useListener(() {
-      final validation = validNewOfflineName(offlineNameController.text);
+      final validation = validNewOfflineAccountName(offlineNameController.text);
       offlineNameError.value = validation.errorMessage;
     }, [offlineNameController]);
 
@@ -124,7 +124,7 @@ class AuthenticatePage extends HookConsumerWidget {
       }
 
       final name = offlineNameController.text;
-      final validation = validNewOfflineName(name);
+      final validation = validNewOfflineAccountName(name);
       offlineNameError.value = validation.errorMessage;
 
       if (!validation.isValid) {
@@ -226,16 +226,15 @@ class AuthenticatePage extends HookConsumerWidget {
               key: const ValueKey(1),
               controller: usernameController,
               label: "Username",
-              placeholder: UIValues.usernamePlaceholder,
+              placeholder: UIValues.accountNamePlaceholder,
             ),
           if (activeTab == Tabs.newOfflineAccount)
             TextInput(
               key: const ValueKey(2),
               controller: offlineNameController,
-              placeholder: UIValues.offlineNamePlaceholder,
+              placeholder: UIValues.accountNamePlaceholder,
               label: "Account name",
               errorText: offlineNameError.value,
-              onChanged: (value) {},
             ),
           if (onlineSelected)
             TextInput(

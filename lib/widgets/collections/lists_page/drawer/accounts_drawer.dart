@@ -4,6 +4,7 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/state/application/database.dart';
@@ -13,6 +14,7 @@ import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dar
 import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
+import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
 class AccountsDrawer extends ConsumerWidget {
   final Account selectedAccount;
@@ -43,30 +45,27 @@ class AccountsDrawer extends ConsumerWidget {
             .where((a) => a.localId != selectedAccount.localId)
             .firstOrNull;
 
-        if (nextAccount == null) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            Routes.authenticate.name,
-            (_) => false,
-          );
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            Routes.lists.name,
-            arguments: nextAccount,
-            (_) => false,
-          );
-        }
-
         selectedAccount
             .delete()
             .then((_) => selectedAccount.notify(EventType.delete));
+
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          nextAccount == null ? Routes.authenticate.name : Routes.lists.name,
+          arguments: nextAccount,
+          (_) => false,
+        );
+
+        return false;
       },
     );
 
     final nameDialog = TextDialog(
       title: "Edit Account Name",
       submitText: "Edit",
+      validation: validOfflineAccountRename(selectedAccount.name),
+      placeholder: UIValues.accountNamePlaceholder,
+      initialValue: selectedAccount.name,
       onSubmit: (name) {
         // TODO
       },

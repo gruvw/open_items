@@ -3,10 +3,14 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 
-VoidCallback modalOnPressed(BuildContext context, VoidCallback? onPressed) {
+typedef ModalCallback = bool? Function();
+
+VoidCallback modalOnPressed(BuildContext context, ModalCallback? onPressed) {
   return () {
-    Navigator.pop(context);
-    onPressed?.call();
+    final shouldPop = onPressed?.call() ?? true;
+    if (shouldPop) {
+      Navigator.pop(context);
+    }
   };
 }
 

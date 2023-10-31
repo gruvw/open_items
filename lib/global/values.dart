@@ -1,26 +1,26 @@
 import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class CoreValues {
-  static const String onlineServerDefault = "open-items.org";
-  static const String offlineServer = "offline";
+  static const onlineServerDefault = "open-items.org";
+  static const offlineServer = "offline";
 
-  static const String unknownLocalId = "unknown_local_id";
-  static const String unknownServerId = "unknown_server_id";
-  static const String offlineServerId = "offline_server_id";
+  static const unknownLocalId = "unknown_local_id";
+  static const unknownServerId = "unknown_server_id";
+  static const offlineServerId = "offline_server_id";
 
-  static const ListsOrdering defaultListsOrdering = ListsOrdering.custom;
+  static const defaultListsOrdering = ListsOrdering.custom;
 }
 
 abstract class UIValues {
-  static const String applicationTitle = "Open-Items";
-  static const String errorRouteText = "ERROR";
+  static const applicationTitle = "Open-Items";
+  static const errorRouteText = "ERROR";
 
-  static const String offlineAccountNameDefault = "offline_account";
-  static const String confirmTextDefault = "Confirm";
-  static const String cancelTextDefault = "Cancel";
+  static const offlineAccountNameDefault = "offline_account";
+  static const confirmTextDefault = "Confirm";
+  static const cancelTextDefault = "Cancel";
 
-  static const String emailPlaceholder = "email@example.com";
-  static const String usernamePlaceholder = "my_username";
-  static const String offlineNamePlaceholder = "My Account";
-  static const String passwordPlaceholder = "•••••••••••";
+  static const emailPlaceholder = "email@example.com";
+  static const accountNamePlaceholder = "my_account";
+  static const passwordPlaceholder = "•••••••••••";
+
 }

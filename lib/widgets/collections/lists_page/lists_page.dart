@@ -25,12 +25,13 @@ class ListsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Type error when deleting referenced object from current page
     final accountDeleted = useState(false);
-
     if (accountDeleted.value) return const LoadingPage();
 
     // Set viewed account as the selected one
     useEffect(() {
+      ref.read(selectedAccountProvider);
       ref.read(selectedAccountProvider.notifier).updateAccount(account);
     }, const []);
 
