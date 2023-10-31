@@ -22,10 +22,12 @@ class AccountsDrawer extends ConsumerWidget {
   );
 
   final Account selectedAccount;
+  final ValueNotifier<bool> deleted;
 
   const AccountsDrawer({
     super.key,
     required this.selectedAccount,
+    required this.deleted,
   });
 
   @override
@@ -41,6 +43,8 @@ class AccountsDrawer extends ConsumerWidget {
         style: UITexts.normalText,
       ),
       onConfirm: () {
+        deleted.value = true;
+
         final nextAccount = accounts
             .where((a) => a.localId != selectedAccount.localId)
             .firstOrNull;
@@ -61,11 +65,9 @@ class AccountsDrawer extends ConsumerWidget {
         }
 
         // FIX https://stackoverflow.com/questions/59291336/navigator-pop-callback
-        Future.delayed(const Duration(milliseconds: 500), () {
-          selectedAccount
-              .delete()
-              .then((_) => selectedAccount.notify(EventType.delete));
-        });
+        selectedAccount
+            .delete()
+            .then((_) => selectedAccount.notify(EventType.delete));
       },
     );
 

@@ -8,6 +8,7 @@ import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
+import 'package:open_items/widgets/router/loading_page.dart';
 
 class ListsPage extends HookConsumerWidget {
   // Static because must be shown only once per application opening
@@ -24,6 +25,10 @@ class ListsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final deleted = useState(false);
+
+    if (deleted.value) return LoadingPage();
+
     // Set viewed account as the selected one
     useEffect(() {
       ref.read(selectedAccountProvider.notifier).updateAccount(account);
@@ -61,7 +66,10 @@ class ListsPage extends HookConsumerWidget {
           ],
         ),
       ),
-      drawer: AccountsDrawer(selectedAccount: account),
+      drawer: AccountsDrawer(
+        selectedAccount: account,
+        deleted: deleted,
+      ),
       body: Text("Lists Page: for ${account.name}"),
     );
   }
