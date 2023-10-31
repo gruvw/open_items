@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'selected_account.g.dart';
 
+// TODO fix this class
 @riverpod
 class SelectedAccount extends _$SelectedAccount {
   late final SharedPreferences _prefs;

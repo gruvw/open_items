@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/utils/feedback/progress.dart';
 import 'package:open_items/widgets/validation/core.dart';
@@ -10,7 +9,7 @@ class TextDialog extends StatelessWidget {
   final String? defaultText;
   final ValidationCallback<String>? validation;
   final VoidCallback? onCancel;
-  final ValidationCallback? onSubmit;
+  final SubmitValidate? onSubmit;
   final String? submitText;
   final String? cancelText;
 

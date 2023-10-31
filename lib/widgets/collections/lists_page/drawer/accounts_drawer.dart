@@ -13,21 +13,15 @@ import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dar
 import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
-import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {
-  static const _divider = Divider(
-    height: DrawerLayout.tileDividerWidth,
-    thickness: DrawerLayout.tileDividerWidth,
-  );
-
   final Account selectedAccount;
-  final ValueNotifier<bool> deleted;
+  final ValueNotifier<bool>? accountDeleted;
 
   const AccountsDrawer({
     super.key,
     required this.selectedAccount,
-    required this.deleted,
+    this.accountDeleted,
   });
 
   @override
@@ -43,7 +37,7 @@ class AccountsDrawer extends ConsumerWidget {
         style: UITexts.normalText,
       ),
       onConfirm: () {
-        deleted.value = true;
+        accountDeleted?.value = true;
 
         final nextAccount = accounts
             .where((a) => a.localId != selectedAccount.localId)
@@ -64,20 +58,18 @@ class AccountsDrawer extends ConsumerWidget {
           );
         }
 
-        // FIX https://stackoverflow.com/questions/59291336/navigator-pop-callback
         selectedAccount
             .delete()
             .then((_) => selectedAccount.notify(EventType.delete));
       },
     );
 
-    // LEFT HERE
     final nameDialog = TextDialog(
       title: "Edit Account Name",
       submitText: "Edit",
-      onSubmit: alwaysValid((name) {
+      onSubmit: (name) {
         // TODO
-      }),
+      },
     );
 
     return SafeArea(
@@ -114,45 +106,28 @@ class AccountsDrawer extends ConsumerWidget {
               title: selectedAccount.name,
             ),
             TileButton(
-              leading: const Icon(
-                UIIcons.import,
-                color: UIColors.primary,
-              ),
-              content: Text(
-                "Import data",
-                style: UITexts.normalText,
-              ),
+              leading: const Icon(UIIcons.import, color: UIColors.primary),
+              content: Text("Import data", style: UITexts.normalText),
             ),
             TileButton(
-              leading: const Icon(
-                UIIcons.export,
-                color: UIColors.primary,
-              ),
-              content: Text(
-                "Export data",
-                style: UITexts.normalText,
-              ),
+              leading: const Icon(UIIcons.export, color: UIColors.primary),
+              content: Text("Export data", style: UITexts.normalText),
             ),
             _divider,
             TileButton(
-              leading: const Icon(
-                UIIcons.rename,
-                color: UIColors.primary,
-              ),
-              content: Text(
-                "Rename account",
-                style: UITexts.normalText,
-              ),
+              leading: const Icon(UIIcons.rename, color: UIColors.primary),
+              content: Text("Rename account", style: UITexts.normalText),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => nameDialog,
+                );
+              },
             ),
+            _divider,
             TileButton(
-              leading: const Icon(
-                UIIcons.delete,
-                color: UIColors.danger,
-              ),
-              content: Text(
-                "Delete account",
-                style: UITexts.normalText,
-              ),
+              leading: const Icon(UIIcons.delete, color: UIColors.danger),
+              content: Text("Delete account", style: UITexts.normalText),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -165,4 +140,10 @@ class AccountsDrawer extends ConsumerWidget {
       ),
     );
   }
+
+  static const _divider = Divider(
+    color: UIColors.primary,
+    height: DrawerLayout.tileDividerWidth,
+    thickness: DrawerLayout.tileDividerWidth,
+  );
 }

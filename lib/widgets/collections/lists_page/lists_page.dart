@@ -25,14 +25,14 @@ class ListsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deleted = useState(false);
+    final accountDeleted = useState(false);
 
-    if (deleted.value) return LoadingPage();
+    if (accountDeleted.value) return const LoadingPage();
 
     // Set viewed account as the selected one
     useEffect(() {
       ref.read(selectedAccountProvider.notifier).updateAccount(account);
-    }, []);
+    }, const []);
 
     // Testing dialog
     if (!_testingMessageShown) {
@@ -68,7 +68,7 @@ class ListsPage extends HookConsumerWidget {
       ),
       drawer: AccountsDrawer(
         selectedAccount: account,
-        deleted: deleted,
+        accountDeleted: accountDeleted,
       ),
       body: Text("Lists Page: for ${account.name}"),
     );
