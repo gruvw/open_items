@@ -11,7 +11,7 @@ class OutlinedButtonPrimary extends PlainButton {
     super.enabled,
   }) : super(
           foregroundColor: UIColors.primary,
-          backgroundColor: UIColors.secondary,
+          backgroundColor: UIColors.background,
           borderColor: UIColors.primary,
           horizontalPadding: ButtonLayout.outlinedHorizontalPadding,
         );

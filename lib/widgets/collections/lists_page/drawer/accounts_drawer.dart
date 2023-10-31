@@ -10,7 +10,10 @@ import 'package:open_items/state/application/database.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/account_tile.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/drawer_section.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dart';
+import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
+import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
+import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {
   static const _divider = Divider(
@@ -28,6 +31,52 @@ class AccountsDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(localAccountsProvider);
+
+    final deletionDialog = CancelDialog(
+      title: "Delete Account",
+      confirmedText: "Delete",
+      danger: true,
+      body: Text(
+        "Do you really want to delete this account: ${selectedAccount.name} ?",
+        style: UITexts.normalText,
+      ),
+      onConfirm: () {
+        final nextAccount = accounts
+            .where((a) => a.localId != selectedAccount.localId)
+            .firstOrNull;
+
+        if (nextAccount == null) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.authenticate.name,
+            (_) => false,
+          );
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.lists.name,
+            arguments: nextAccount,
+            (_) => false,
+          );
+        }
+
+        // FIX https://stackoverflow.com/questions/59291336/navigator-pop-callback
+        Future.delayed(const Duration(milliseconds: 500), () {
+          selectedAccount
+              .delete()
+              .then((_) => selectedAccount.notify(EventType.delete));
+        });
+      },
+    );
+
+    // LEFT HERE
+    final nameDialog = TextDialog(
+      title: "Edit Account Name",
+      submitText: "Edit",
+      onSubmit: alwaysValid((name) {
+        // TODO
+      }),
+    );
 
     return SafeArea(
       child: Drawer(
@@ -103,33 +152,10 @@ class AccountsDrawer extends ConsumerWidget {
                 style: UITexts.normalText,
               ),
               onPressed: () {
-                // TODO confirm dialog
-
-                final nextAccount = accounts
-                    .where((a) => a.localId != selectedAccount.localId)
-                    .firstOrNull;
-
-                if (nextAccount == null) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Routes.authenticate.name,
-                    (_) => false,
-                  );
-                } else {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Routes.lists.name,
-                    arguments: nextAccount,
-                    (_) => false,
-                  );
-                }
-
-                // FIX https://stackoverflow.com/questions/59291336/navigator-pop-callback
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  selectedAccount
-                      .delete()
-                      .then((_) => selectedAccount.notify(EventType.delete));
-                });
+                showDialog(
+                  context: context,
+                  builder: (_) => deletionDialog,
+                );
               },
             )
           ],

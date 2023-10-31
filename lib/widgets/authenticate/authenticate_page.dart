@@ -13,7 +13,7 @@ import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
 import 'package:open_items/widgets/components/input/text.dart';
-import 'package:open_items/widgets/modals/confirmation_dialog.dart';
+import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/accounts.dart';
@@ -71,7 +71,7 @@ class AuthenticatePage extends HookConsumerWidget {
 
     useListener(() {
       final validation = validNewOfflineName(offlineNameController.text);
-      offlineNameError.value = validation.nameError;
+      offlineNameError.value = validation.errorMessage;
     }, [offlineNameController]);
 
     // Tabs
@@ -125,7 +125,7 @@ class AuthenticatePage extends HookConsumerWidget {
 
       final name = offlineNameController.text;
       final validation = validNewOfflineName(name);
-      offlineNameError.value = validation.nameError;
+      offlineNameError.value = validation.errorMessage;
 
       if (!validation.isValid) {
         return;

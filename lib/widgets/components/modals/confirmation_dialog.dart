@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
-import 'package:open_items/widgets/modals/plain_dialog.dart';
+import 'package:open_items/widgets/components/modals/plain_dialog.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String title;
@@ -14,7 +14,7 @@ class ConfirmationDialog extends StatelessWidget {
     required this.title,
     required this.body,
     this.onPressed,
-    this.confirmedText = UIValues.confirmButtonTextDefault,
+    this.confirmedText = UIValues.confirmTextDefault,
   });
 
   @override
@@ -27,7 +27,7 @@ class ConfirmationDialog extends StatelessWidget {
         children: [
           SolidButtonPrimary(
             content: confirmedText,
-            onPressed: modalOnPressed(onPressed, context),
+            onPressed: modalOnPressed(context, onPressed),
           )
         ],
       ),
