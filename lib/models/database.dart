@@ -8,6 +8,7 @@ import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
+import 'package:open_items/utils/lang.dart';
 
 abstract class Database {
   final StreamController<Event<DatabaseObject>> eventsController =
@@ -54,7 +55,12 @@ abstract class Database {
     required bool isDone,
   });
 
-  Account? getLocalAccount(String accountId);
+  Account? getAccount(String accountId);
+  Account? getLocalAccount(String accountId) {
+    final account = getAccount(accountId);
+    return account.map((a) => a.isLocal ? a : null);
+  }
+
   List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
@@ -90,6 +96,7 @@ abstract class DatabaseObject {
 
   String get localId;
 
+  Future<void> save();
   Future<void> delete();
 
   void notify(EventType eventType) {

@@ -188,4 +188,10 @@ class HiveItem extends Item {
 
     await hiveStoreItem.delete();
   }
+
+  @override
+  Future<void> save() {
+    // TODO: implement save
+    throw UnimplementedError();
+  }
 }

@@ -34,7 +34,7 @@ class AccountTile extends StatelessWidget {
                   ? () => Navigator.pushNamed(
                         context,
                         Routes.lists.name,
-                        arguments: account,
+                        arguments: account.localId,
                       )
                   : null,
               content: Expanded(

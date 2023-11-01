@@ -196,14 +196,12 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveAccount? getLocalAccount(String accountId) {
+  HiveAccount? getAccount(String accountId) {
     final accountStore = accountsBox.get(accountId);
-    final account = accountStore
-        .map((a) => HiveAccount(hiveDatabase: this, hiveStoreAccount: a));
-
-    if (account == null || !account.isLocal) {
-      return null;
-    }
+    final account = accountStore.map((a) => HiveAccount(
+          hiveDatabase: this,
+          hiveStoreAccount: a,
+        ));
 
     return account;
   }

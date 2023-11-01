@@ -137,4 +137,10 @@ class HiveAccountListProperties extends AccountListProperties {
 
     await hiveStoreAccountListProperties.delete();
   }
+
+  @override
+  Future<void> save() {
+    // TODO: implement save
+    throw UnimplementedError();
+  }
 }

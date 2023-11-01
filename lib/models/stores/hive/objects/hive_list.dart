@@ -135,4 +135,10 @@ class HiveList extends Liste {
 
     await hiveStoreList.delete();
   }
+
+  @override
+  Future<void> save() {
+    // TODO: implement save
+    throw UnimplementedError();
+  }
 }

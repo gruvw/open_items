@@ -31,33 +31,40 @@ class HiveStoreAccount with HiveObjectMixin {
 }
 
 class HiveAccount extends Account {
-  final HiveStoreAccount hiveStoreAccount;
   final HiveDatabase hiveDatabase;
+  final HiveStoreAccount hiveStoreAccount;
+
+  @override
+  final String localId;
+  @override
+  final String serverId;
+  @override
+  final String server;
+  @override
+  final String name;
+  // final AccountProperties properties; // TODO
 
   HiveAccount({
     required this.hiveDatabase,
     required this.hiveStoreAccount,
-  });
+    String? name,
+  })  : localId = hiveStoreAccount.key,
+        serverId = hiveStoreAccount.hiveServerId,
+        server = hiveStoreAccount.hiveServer,
+        name = name ?? hiveStoreAccount.hiveName;
 
   @override
   Database get database => hiveDatabase;
 
   @override
-  String get localId => hiveStoreAccount.key;
-
-  @override
-  String get serverId => hiveStoreAccount.hiveServerId;
-
-  @override
-  String get server => hiveStoreAccount.hiveServer;
-
-  @override
-  String get name => hiveStoreAccount.hiveName;
-
-  @override
-  set name(String newName) {
-    hiveStoreAccount.hiveName = newName;
-    hiveStoreAccount.save();
+  Account copyWith({
+    String? name,
+  }) {
+    return HiveAccount(
+      hiveDatabase: hiveDatabase,
+      hiveStoreAccount: hiveStoreAccount,
+      name: name,
+    );
   }
 
   @override
@@ -73,11 +80,17 @@ class HiveAccount extends Account {
   }
 
   @override
+  Future<void> save() {
+    hiveStoreAccount.hiveName = name;
+    return hiveStoreAccount.save().then((_) => notify(EventType.edit));
+  }
+
+  @override
   Future<void> delete() async {
     if (isLocal) {
       await properties!.delete();
     }
 
-    await hiveStoreAccount.delete();
+    await hiveStoreAccount.delete().then((_) => notify(EventType.delete));
   }
 }

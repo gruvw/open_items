@@ -7,7 +7,7 @@ import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/state/application/database.dart';
+import 'package:open_items/state/application/accounts.dart';
 import 'package:open_items/state/application/providers.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
@@ -138,7 +138,7 @@ class AuthenticatePage extends HookConsumerWidget {
           context,
           Routes.lists.name,
           (_) => false,
-          arguments: account,
+          arguments: account.localId,
         );
       });
     }

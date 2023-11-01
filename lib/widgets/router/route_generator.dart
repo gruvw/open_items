@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/item_page.dart';
 import 'package:open_items/widgets/collections/list_page.dart';
@@ -32,8 +31,8 @@ enum Routes {
       case authenticate:
         return const AuthenticatePage();
       case lists:
-        if (args is Account) {
-          return ListsPage(account: args);
+        if (args is String) {
+          return ListsPage(accountId: args);
         }
         return RouteGenerator.errorPage;
       case list:

@@ -4,11 +4,15 @@ import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class Account extends DatabaseServerObject {
-  abstract String name;
-
+  String get name;
   String get server;
 
   AccountProperties? get properties;
+
+  Account copyWith({
+    String? name,
+    // AccountProperties properties,
+  });
 
   // Helper methods
 
@@ -23,5 +27,4 @@ abstract class Account extends DatabaseServerObject {
 
   // Does the current client have access to this account
   bool get isLocal => properties != null;
-
 }

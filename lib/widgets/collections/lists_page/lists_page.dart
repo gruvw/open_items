@@ -4,8 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
-import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account.dart';
+import 'package:open_items/state/application/account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
@@ -14,25 +13,25 @@ class ListsPage extends HookConsumerWidget {
   // Static because must be shown only once per application opening
   static bool _testingMessageShown = false; // TODO move to global provider
 
-  final Account account;
+  final String accountId;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ListsPage({
     super.key,
-    required this.account,
+    required this.accountId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Type error when deleting referenced object from current page
-    final accountDeleted = useState(false);
+    final account = ref.watch(localAccountProvider(accountId: accountId));
+
+    if (account == null) return const LoadingPage();
 
     // Set viewed account as the selected one
-    useEffect(() {
-      ref.read(selectedAccountProvider);
-      ref.read(selectedAccountProvider.notifier).updateAccount(account);
-    }, const []);
+    // useEffect(() {
+    //   ref.read(selectedAccountProvider.notifier).updateAccount(accountId);
+    // }, const []);
 
     // Testing dialog
     if (!_testingMessageShown) {
@@ -46,8 +45,6 @@ class ListsPage extends HookConsumerWidget {
         ),
       );
     }
-
-    if (accountDeleted.value) return const LoadingPage();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -69,8 +66,8 @@ class ListsPage extends HookConsumerWidget {
         ),
       ),
       drawer: AccountsDrawer(
-        selectedAccount: account,
-        accountDeleted: accountDeleted,
+        selectedAccountId: accountId,
+        // accountDeleted: accountDeleted,
       ),
       body: Text("Lists Page: for ${account.name}"),
     );

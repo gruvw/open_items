@@ -3,7 +3,7 @@ import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/state/application/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'database.g.dart';
+part 'accounts.g.dart';
 
 @riverpod
 Stream<Event<DatabaseObject>> _localAccountsEvents(

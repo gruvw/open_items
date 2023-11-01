@@ -6,8 +6,8 @@ import 'package:open_items/global/styles/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/state/application/database.dart';
+import 'package:open_items/state/application/account.dart';
+import 'package:open_items/state/application/accounts.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/account_tile.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/drawer_section.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dart';
@@ -17,18 +17,21 @@ import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
 class AccountsDrawer extends ConsumerWidget {
-  final Account selectedAccount;
+  final String selectedAccountId;
   final ValueNotifier<bool>? accountDeleted;
 
   const AccountsDrawer({
     super.key,
-    required this.selectedAccount,
+    required this.selectedAccountId,
     this.accountDeleted,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(localAccountsProvider);
+    final selectedAccount = ref.watch(localAccountProvider(
+      accountId: selectedAccountId,
+    ))!;
 
     final deletionDialog = CancelDialog(
       title: "Delete Account",
@@ -52,7 +55,7 @@ class AccountsDrawer extends ConsumerWidget {
         Navigator.pushNamedAndRemoveUntil(
           context,
           nextAccount == null ? Routes.authenticate.name : Routes.lists.name,
-          arguments: nextAccount,
+          arguments: nextAccount?.localId,
           (_) => false,
         );
 
