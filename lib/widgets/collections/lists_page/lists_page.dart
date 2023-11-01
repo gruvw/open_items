@@ -12,7 +12,7 @@ import 'package:open_items/widgets/router/loading_page.dart';
 
 class ListsPage extends HookConsumerWidget {
   // Static because must be shown only once per application opening
-  static bool _testingMessageShown = false;
+  static bool _testingMessageShown = false; // TODO move to global provider
 
   final Account account;
 
@@ -27,7 +27,6 @@ class ListsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Type error when deleting referenced object from current page
     final accountDeleted = useState(false);
-    if (accountDeleted.value) return const LoadingPage();
 
     // Set viewed account as the selected one
     useEffect(() {
@@ -47,6 +46,8 @@ class ListsPage extends HookConsumerWidget {
         ),
       );
     }
+
+    if (accountDeleted.value) return const LoadingPage();
 
     return Scaffold(
       key: _scaffoldKey,
