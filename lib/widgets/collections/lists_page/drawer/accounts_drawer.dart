@@ -14,6 +14,7 @@ import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dar
 import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
+import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
 class AccountsDrawer extends ConsumerWidget {
@@ -63,7 +64,7 @@ class AccountsDrawer extends ConsumerWidget {
       },
     );
 
-    final nameDialog = TextDialog(
+    final renameDialog = TextDialog(
       title: "Edit Account Name",
       submitText: "Edit",
       validation: validOfflineAccountRename(selectedAccount.name),
@@ -110,19 +111,36 @@ class AccountsDrawer extends ConsumerWidget {
             TileButton(
               leading: const Icon(UIIcons.import, color: UIColors.primary),
               content: Text("Import data", style: UITexts.normalText),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => notSupportedDialog,
+                );
+              },
             ),
             TileButton(
               leading: const Icon(UIIcons.export, color: UIColors.primary),
               content: Text("Export data", style: UITexts.normalText),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => notSupportedDialog,
+                );
+              },
             ),
             _divider,
             TileButton(
-              leading: const Icon(UIIcons.rename, color: UIColors.primary),
+              leading: const Icon(
+                UIIcons.rename,
+                color: UIColors.primary,
+                size: 22,
+              ),
               content: Text("Rename account", style: UITexts.normalText),
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) => nameDialog,
+                  barrierDismissible: false,
+                  builder: (_) => renameDialog,
                 );
               },
             ),

@@ -15,6 +15,7 @@ import 'package:open_items/widgets/components/input/tab.dart';
 import 'package:open_items/widgets/components/input/text.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
+import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
@@ -117,7 +118,7 @@ class AuthenticatePage extends HookConsumerWidget {
         showDialog(
           barrierColor: UIColors.dimmed,
           context: context,
-          builder: (_) => _notSupportedDialog,
+          builder: (_) => notSupportedDialog,
         );
 
         return;
@@ -307,15 +308,6 @@ final _accountDialog = ConfirmationDialog(
   confirmedText: "Let's go!",
   body: Text(
     "Welcome to Open-Items!\nYou can create an online account to benefit from the associated functionalities such as syncing and sharing, or use an offline account and access the application right away.",
-    style: UITexts.normalText,
-  ),
-);
-
-final _notSupportedDialog = ConfirmationDialog(
-  title: "Not Supported",
-  confirmedText: "Ok",
-  body: Text(
-    "Sorry this functionality is not yet supported.",
     style: UITexts.normalText,
   ),
 );

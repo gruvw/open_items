@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
@@ -7,6 +8,7 @@ import 'package:open_items/state/application/account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
+import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 
 class ListsPage extends HookConsumerWidget {
   // Static because must be shown only once per application opening
@@ -60,9 +62,20 @@ class ListsPage extends HookConsumerWidget {
             const SizedBox(
               width: DrawerLayout.appBarLeadingSpacing,
             ),
-            const Icon(Icons.cloud_off),
+            const Icon(UIIcons.offline),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(UIIcons.search),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => notSupportedDialog,
+              );
+            },
+          )
+        ],
       ),
       drawer: AccountsDrawer(
         selectedAccountId: accountId,

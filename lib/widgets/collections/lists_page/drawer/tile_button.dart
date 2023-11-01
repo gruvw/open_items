@@ -23,16 +23,21 @@ class TileButton extends StatelessWidget {
         style: TextButton.styleFrom(
           foregroundColor: UIColors.primary,
         ),
-        child: Row(
-          children: [
-            if (leading != null)
-              Row(children: [
-                leading!,
-                SizedBox(width: DrawerLayout.tileButtonSpacing),
-              ]),
-            if (content != null) content!,
-            if (trailing != null) trailing!,
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: DrawerLayout.tileVerticalPadding,
+          ),
+          child: Row(
+            children: [
+              if (leading != null)
+                Row(children: [
+                  leading!,
+                  const SizedBox(width: DrawerLayout.tileButtonSpacing),
+                ]),
+              if (content != null) content!,
+              if (trailing != null) trailing!,
+            ],
+          ),
         ));
   }
 }

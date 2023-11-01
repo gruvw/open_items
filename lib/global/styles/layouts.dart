@@ -42,10 +42,11 @@ abstract class DialogLayout {
 abstract class DrawerLayout {
   static const appBarLeadingSpacing = 10.0;
   static const appBarLeadingWidth = 100.0;
-  static const titleVerticalPadding = 4.0;
+  static const titleVerticalPadding = 10.0;
   static const sectionDividerWidth = 2.0;
   static const tileHorizontalPadding = 4.0;
-  static const tileDividerWidth = 2.0;
+  static const tileVerticalPadding = 2.0;
+  static const tileDividerWidth = 1.0;
   static const sectionSpacing = 10.0;
-  static const tileButtonSpacing = 5.0;
+  static const tileButtonSpacing = 8.0;
 }

@@ -15,6 +15,7 @@ abstract class UIIcons {
   static const add = Icons.add;
   static const rename = OpenItemsIcons.rename;
   static const delete = OpenItemsIcons.delete;
+  static const search = Icons.search;
 
   // Input
   static const visible = Icons.visibility;

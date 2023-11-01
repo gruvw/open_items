@@ -25,19 +25,20 @@ class AccountTile extends StatelessWidget {
       color: isActive ? UIColors.primary : UIColors.background,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DrawerLayout.tileHorizontalPadding,
-            ),
-            child: TileButton(
-              onPressed: !isActive
-                  ? () => Navigator.pushNamed(
-                        context,
-                        Routes.lists.name,
-                        arguments: account.localId,
-                      )
-                  : null,
-              content: Expanded(
+          TileButton(
+            onPressed: !isActive
+                ? () => Navigator.pushNamed(
+                      context,
+                      Routes.lists.name,
+                      arguments: account.localId,
+                    )
+                : null,
+            content: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: DrawerLayout.tileHorizontalPadding,
+                  vertical: DrawerLayout.tileVerticalPadding,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
