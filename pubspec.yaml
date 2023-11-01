@@ -54,6 +54,11 @@ flutter:
     - "assets/icons/splash/open_items.png"
     - "assets/icons/splash/open_items_android_12.png"
 
+  fonts:
+    - family: OpenItemsIcons
+      fonts:
+        - asset: "assets/icons/custom/OpenItemsIcons.ttf"
+
 # dart run flutter_app_name
 flutter_app_name:
   name: "Open-Items"

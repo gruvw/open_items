@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
-import 'package:open_items/global/styles/ui_icons.dart';
+import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
@@ -70,7 +70,7 @@ class AccountsDrawer extends ConsumerWidget {
       placeholder: UIValues.accountNamePlaceholder,
       initialValue: selectedAccount.name,
       onSubmit: (name) {
-        // TODO
+        selectedAccount.copyWith(name: name).save();
       },
     );
 

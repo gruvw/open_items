@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
-import 'package:open_items/global/styles/ui_icons.dart';
+import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/icons/open_items_icons.dart';
 
 abstract class UIIcons {
   // Status
@@ -7,11 +8,13 @@ abstract class UIIcons {
   static const server = Icons.dns_outlined;
   static const account = Icons.person;
   static const login = Icons.login;
-  static const import = Icons.download; // TODO
-  static const export = Icons.download; // TODO
+
+  // Actions
+  static const import = OpenItemsIcons.import;
+  static const export = OpenItemsIcons.export;
   static const add = Icons.add;
-  static const rename = Icons.edit_square; // TODO
-  static const delete = Icons.delete_outline_sharp; // TODO
+  static const rename = OpenItemsIcons.rename;
+  static const delete = OpenItemsIcons.delete;
 
   // Input
   static const visible = Icons.visibility;

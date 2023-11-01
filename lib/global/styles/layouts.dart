@@ -47,4 +47,5 @@ abstract class DrawerLayout {
   static const tileHorizontalPadding = 4.0;
   static const tileDividerWidth = 2.0;
   static const sectionSpacing = 10.0;
+  static const tileButtonSpacing = 5.0;
 }
