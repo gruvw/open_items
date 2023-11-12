@@ -1,5 +1,4 @@
-import 'package:open_items/main.dart';
-import 'package:open_items/state/application/provider.dart';
+import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/state/shared_preferences/fields.dart';
 import 'package:open_items/utils/lang.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

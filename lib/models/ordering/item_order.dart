@@ -2,7 +2,7 @@ import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
-import 'package:open_items/state/application/provider.dart';
+import 'package:open_items/state/application/globals.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
   // Supposes the two items are members of the pased list

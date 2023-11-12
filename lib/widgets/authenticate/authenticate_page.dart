@@ -7,7 +7,7 @@ import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/accounts.dart';
-import 'package:open_items/state/application/provider.dart';
+import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
