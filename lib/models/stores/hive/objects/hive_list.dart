@@ -1,10 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
-import 'package:open_items/models/stores/hive/objects/hive_account.dart';
 import 'package:open_items/models/stores/hive/objects/hive_item.dart';
 
 part 'hive_list.g.dart';
@@ -15,7 +14,7 @@ abstract class HiveStoreCollection {
 }
 
 @HiveType(typeId: 3)
-class HiveStoreList with HiveObjectMixin implements HiveStoreCollection {
+class HiveStoreListe with HiveObjectMixin implements HiveStoreCollection {
   @HiveField(0)
   String hiveServerId;
 
@@ -38,7 +37,7 @@ class HiveStoreList with HiveObjectMixin implements HiveStoreCollection {
   @HiveField(6)
   List<String> hiveItemsLocalIds;
 
-  HiveStoreList({
+  HiveStoreListe({
     required this.hiveServerId,
     required this.hiveOwnerAccountLocalId,
     required this.hiveTitle,
@@ -49,66 +48,48 @@ class HiveStoreList with HiveObjectMixin implements HiveStoreCollection {
   });
 }
 
-class HiveList extends Liste {
-  final HiveStoreList hiveStoreList;
+class HiveListe extends Liste {
+  final HiveStoreListe hiveStoreList;
   final HiveDatabase hiveDatabase;
 
-  HiveList({
+  // Database
+  @override
+  final String localId;
+  @override
+  final String serverId;
+
+  // Immutable
+  @override
+  final String ownerAccountId;
+  @override
+  final DateTime creationTime;
+  @override
+  final DateTime editionTime;
+
+  // Mutable
+  @override
+  final String title;
+  @override
+  final int typeIndex;
+
+  HiveListe({
     required this.hiveDatabase,
     required this.hiveStoreList,
-  });
+    String? title,
+    int? typeIndex,
+    String? content,
+  })  : title = title ?? hiveStoreList.hiveTitle,
+        typeIndex = typeIndex ?? hiveStoreList.hiveTypeIndex,
+        localId = hiveStoreList.key,
+        serverId = hiveStoreList.hiveServerId,
+        ownerAccountId = hiveStoreList.hiveOwnerAccountLocalId,
+        creationTime =
+            DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveCreationTime),
+        editionTime =
+            DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
 
   @override
   Database get database => hiveDatabase;
-
-  @override
-  String get localId => hiveStoreList.key;
-
-  @override
-  String get serverId => hiveStoreList.hiveServerId;
-
-  @override
-  Account get ownerAccount {
-    final hiveStoreAccount =
-        hiveDatabase.accountsBox.get(hiveStoreList.hiveOwnerAccountLocalId)!;
-
-    return HiveAccount(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccount: hiveStoreAccount,
-    );
-  }
-
-  @override
-  String get title => hiveStoreList.hiveTitle;
-
-  @override
-  set title(String newTitle) {
-    hiveStoreList.hiveTitle = newTitle;
-    hiveStoreList.save();
-  }
-
-  @override
-  int get typeIndex => hiveStoreList.hiveTypeIndex;
-
-  @override
-  set typeIndex(int newTypeIndex) {
-    hiveStoreList.hiveTypeIndex = newTypeIndex;
-    hiveStoreList.save();
-  }
-
-  @override
-  DateTime get creationTime =>
-      DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveCreationTime);
-
-  @override
-  DateTime get editionTime =>
-      DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
-
-  @override
-  set editionTime(DateTime newEditionTime) {
-    hiveStoreList.hiveEditionTime = newEditionTime.millisecondsSinceEpoch;
-    hiveStoreList.save();
-  }
 
   @override
   List<Item> get items {
@@ -121,24 +102,43 @@ class HiveList extends Liste {
   }
 
   @override
+  Liste copyWith({
+    String? title,
+    CollectionType? type,
+  }) {
+    return HiveListe(
+      hiveDatabase: hiveDatabase,
+      hiveStoreList: hiveStoreList,
+      title: title,
+      typeIndex: type?.index,
+    );
+  }
+
+  @override
+  Future<void> save() {
+    hiveStoreList.hiveTitle = title;
+    hiveStoreList.hiveTypeIndex = typeIndex;
+    hiveStoreList.hiveEditionTime = DateTime.now().millisecondsSinceEpoch;
+    return hiveStoreList.save().then((_) => notify(EventType.edit));
+  }
+
+  @override
   Future<void> delete() async {
     for (final item in items) {
       await item.delete();
     }
 
+    final ownerAccount = database.getAccount(ownerAccountId)!;
     if (ownerAccount.isLocal) {
-      await ownerAccount.properties!.listsProperties
-          .where((lp) => lp.list.localId == localId)
-          .firstOrNull!
-          .delete();
+      final accountProperties =
+          hiveDatabase.getAccountProperties(ownerAccount.accountPropertiesId!)!;
+      final listProperties = accountProperties.listsPropertiesIds
+          .map(database.getAccountListProperties)
+          .where((lp) => lp!.listId == localId)
+          .first!;
+      await listProperties.delete();
     }
 
-    await hiveStoreList.delete();
-  }
-
-  @override
-  Future<void> save() {
-    // TODO: implement save
-    throw UnimplementedError();
+    await hiveStoreList.delete().then((_) => notify(EventType.delete));
   }
 }

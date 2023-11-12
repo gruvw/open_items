@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/objects/collection.dart';
-import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 import 'package:open_items/utils/lang.dart';
@@ -16,7 +16,7 @@ abstract class Database {
 
   Future<void> init() async {}
 
-  Future<Account> createAccount({
+  Future<String> createAccount({
     required String serverId,
     required String name,
     required String server,
@@ -24,7 +24,7 @@ abstract class Database {
     ListsOrdering? listsOrdering, // must be specified if local account
   });
 
-  Future<Liste> createListe({
+  Future<String> createListe({
     required Account owner,
     required String listServerId,
     required String title,
@@ -33,7 +33,7 @@ abstract class Database {
     required DateTime editionTime,
   });
 
-  Future<AccountListProperties> createAccountListProperties({
+  Future<String> createAccountListProperties({
     required Account user, // must be local
     required String serverId,
     required String listLocalId,
@@ -43,7 +43,7 @@ abstract class Database {
     required bool shouldStackDone,
   });
 
-  Future<Item> createItem({
+  Future<String> createItem({
     required String serverId,
     required Collection parent,
     required String text,
@@ -61,12 +61,17 @@ abstract class Database {
     return account.map((a) => a.isLocal ? a : null);
   }
 
+  AccountProperties? getAccountProperties(String accountPropertiesId);
+  AccountListProperties? getAccountListProperties(
+      String accountListPropertiesId);
+  Liste? getListe(String listId);
+
   List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
-  Stream<Event<DatabaseObject>> watchObject(DatabaseServerObject object) {
-    return eventsController.stream
-        .where((event) => event.object.localId == object.localId);
+  Stream<Event<DatabaseObject>> watchObject(String localId) {
+    return eventsController.stream.where((event) =>
+        event.object.localId == localId && event.type != EventType.delete);
   }
 
   Stream<Event<DatabaseObject>> watchLocalAccounts() {
@@ -78,7 +83,7 @@ abstract class Database {
 
   // Helper methods
 
-  Future<Account> createOfflineAccount({
+  Future<String> createOfflineAccount({
     required String name,
   }) =>
       createAccount(

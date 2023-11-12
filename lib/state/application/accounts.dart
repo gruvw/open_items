@@ -1,6 +1,6 @@
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/state/application/providers.dart';
+import 'package:open_items/state/application/provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'accounts.g.dart';

@@ -1,24 +1,21 @@
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/list.dart';
-import 'package:open_items/models/properties/account_properties.dart';
 
 abstract class Account extends DatabaseServerObject {
   String get name;
   String get server;
 
-  AccountProperties? get properties;
+  String? get accountPropertiesId;
 
   Account copyWith({
     String? name,
-    // AccountProperties properties,
   });
 
   // Helper methods
 
   bool isOwnerOf(Liste list) {
-    final owner = list.ownerAccount;
-    return owner.localId == localId;
+    return list.ownerAccountId == localId;
   }
 
   String get accountId => "$name@$server";
@@ -26,5 +23,5 @@ abstract class Account extends DatabaseServerObject {
   bool get isOffline => server == CoreValues.offlineServer;
 
   // Does the current client have access to this account
-  bool get isLocal => properties != null;
+  bool get isLocal => accountPropertiesId != null;
 }

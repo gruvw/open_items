@@ -1,4 +1,4 @@
-import 'package:open_items/state/application/providers.dart';
+import 'package:open_items/state/application/provider.dart';
 import 'package:open_items/utils/compare.dart';
 import 'package:open_items/widgets/validation/core.dart';
 

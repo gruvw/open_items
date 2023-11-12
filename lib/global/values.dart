@@ -1,4 +1,4 @@
-import 'package:open_items/models/properties/account_properties.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 
 abstract class CoreValues {
   static const onlineServerDefault = "open-items.org";
@@ -22,5 +22,4 @@ abstract class UIValues {
   static const emailPlaceholder = "email@example.com";
   static const accountNamePlaceholder = "my_account";
   static const passwordPlaceholder = "•••••••••••";
-
 }

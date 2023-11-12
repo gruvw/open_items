@@ -19,12 +19,10 @@ import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
 
 class AccountsDrawer extends ConsumerWidget {
   final String selectedAccountId;
-  final ValueNotifier<bool>? accountDeleted;
 
   const AccountsDrawer({
     super.key,
     required this.selectedAccountId,
-    this.accountDeleted,
   });
 
   @override
@@ -43,8 +41,6 @@ class AccountsDrawer extends ConsumerWidget {
         style: UITexts.normalText,
       ),
       onConfirm: () {
-        accountDeleted?.value = true;
-
         final nextAccount = accounts
             .where((a) => a.localId != selectedAccount.localId)
             .firstOrNull;

@@ -1,10 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/models/properties/account_properties.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
-import 'package:open_items/models/stores/hive/properties/hive_account_properties.dart';
 
 part 'hive_account.g.dart';
 
@@ -42,7 +39,8 @@ class HiveAccount extends Account {
   final String server;
   @override
   final String name;
-  // final AccountProperties properties; // TODO
+  @override
+  final String accountPropertiesId;
 
   HiveAccount({
     required this.hiveDatabase,
@@ -51,7 +49,8 @@ class HiveAccount extends Account {
   })  : localId = hiveStoreAccount.key,
         serverId = hiveStoreAccount.hiveServerId,
         server = hiveStoreAccount.hiveServer,
-        name = name ?? hiveStoreAccount.hiveName;
+        name = name ?? hiveStoreAccount.hiveName,
+        accountPropertiesId = hiveStoreAccount.hiveAccountPropertiesLocalId;
 
   @override
   Database get database => hiveDatabase;
@@ -68,18 +67,6 @@ class HiveAccount extends Account {
   }
 
   @override
-  AccountProperties? get properties {
-    final propertiesLocalId = hiveStoreAccount.hiveAccountPropertiesLocalId;
-    if (propertiesLocalId == CoreValues.unknownLocalId) return null;
-
-    return HiveAccountProperties(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccountProperties:
-          hiveDatabase.accountPropertiesBox.get(propertiesLocalId)!,
-    );
-  }
-
-  @override
   Future<void> save() {
     hiveStoreAccount.hiveName = name;
     return hiveStoreAccount.save().then((_) => notify(EventType.edit));
@@ -88,7 +75,9 @@ class HiveAccount extends Account {
   @override
   Future<void> delete() async {
     if (isLocal) {
-      await properties!.delete();
+      final properties =
+          hiveDatabase.getAccountProperties(accountPropertiesId)!;
+      await properties.delete();
     }
 
     await hiveStoreAccount.delete().then((_) => notify(EventType.delete));

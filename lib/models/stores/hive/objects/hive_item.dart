@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart' hide HiveList;
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
@@ -141,20 +141,14 @@ class HiveItem extends Item {
       hiveStoreItem.hiveListLocalId == hiveStoreItem.hiveParentLocalId;
 
   @override
-  HiveList get list {
-    final hiveStoreList =
-        hiveDatabase.listsBox.get(hiveStoreItem.hiveListLocalId)!;
-
-    return HiveList(
-      hiveDatabase: hiveDatabase,
-      hiveStoreList: hiveStoreList,
-    );
+  String get listId {
+    return hiveStoreItem.hiveListLocalId;
   }
 
   @override
   Collection get parent {
     if (isFirstLevel) {
-      return list;
+      return database.getListe(listId)!;
     }
 
     final hiveStoreParentItem =
@@ -182,7 +176,7 @@ class HiveItem extends Item {
       await item.delete();
     }
 
-    final hiveStoreList = list.hiveStoreList;
+    final hiveStoreList = hiveDatabase.getListe(listId)!.hiveStoreList;
     hiveStoreList.hiveItemsLocalIds.removeWhere((itemId) => itemId == localId);
     await hiveStoreList.save();
 

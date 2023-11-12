@@ -6,9 +6,8 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/database.dart';
 import 'package:open_items/state/application/accounts.dart';
-import 'package:open_items/state/application/providers.dart';
+import 'package:open_items/state/application/provider.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/input/tab.dart';
@@ -132,14 +131,12 @@ class AuthenticatePage extends HookConsumerWidget {
         return;
       }
 
-      database.createOfflineAccount(name: name).then((account) {
-        account.notify(EventType.create);
-
+      database.createOfflineAccount(name: name).then((accountId) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           Routes.lists.name,
           (_) => false,
-          arguments: account.localId,
+          arguments: accountId,
         );
       });
     }

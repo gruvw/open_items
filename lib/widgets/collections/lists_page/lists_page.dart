@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/state/application/account.dart';
+import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
@@ -27,12 +29,15 @@ class ListsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final account = ref.watch(localAccountProvider(accountId: accountId));
 
-    if (account == null) return const LoadingPage();
+    // Set viewed account as the (persisted) selected one
+    useEffect(() {
+      if (account != null) {
+        ref.read(selectedAccountIdProvider.notifier).updateAccount(accountId);
+      }
+    }, const []);
 
-    // Set viewed account as the selected one
-    // useEffect(() {
-    //   ref.read(selectedAccountProvider.notifier).updateAccount(accountId);
-    // }, const []);
+    // Display loading screen while account is deleted
+    if (account == null) return const LoadingPage();
 
     // Testing dialog
     if (!_testingMessageShown) {

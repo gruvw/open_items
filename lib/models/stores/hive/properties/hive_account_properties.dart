@@ -1,10 +1,8 @@
-import 'package:hive/hive.dart' hide HiveList;
+import 'package:hive/hive.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/objects/account.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
-import 'package:open_items/models/stores/hive/objects/hive_account.dart';
-import 'package:open_items/models/stores/hive/properties/hive_account_list_properties.dart';
 
 part 'hive_account_properties.g.dart';
 
@@ -30,53 +28,60 @@ class HiveAccountProperties extends AccountProperties {
   final HiveStoreAccountProperties hiveStoreAccountProperties;
   final HiveDatabase hiveDatabase;
 
+  // Database
+  @override
+  final String localId;
+
+  // Immutable
+  @override
+  final String accountId;
+  @override
+  final List<String> listsPropertiesIds;
+
+  // Mutable
+  @override
+  final int listsOrderingIndex;
+
   HiveAccountProperties({
     required this.hiveDatabase,
     required this.hiveStoreAccountProperties,
-  });
+    int? listsOrderingIndex,
+  })  : listsOrderingIndex = listsOrderingIndex ??
+            hiveStoreAccountProperties.hiveListsOrderingIndex,
+        localId = hiveStoreAccountProperties.key,
+        accountId = hiveStoreAccountProperties.hiveAccountLocalId,
+        listsPropertiesIds = List.from(
+            hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds);
 
   @override
   Database get database => hiveDatabase;
 
   @override
-  String get localId => hiveStoreAccountProperties.key;
-
-  @override
-  int get listsOrderingIndex =>
-      hiveStoreAccountProperties.hiveListsOrderingIndex;
-
-  @override
-  set listsOrderingIndex(int newListsOrderingIndex) {
-    hiveStoreAccountProperties.hiveListsOrderingIndex = newListsOrderingIndex;
-    hiveStoreAccountProperties.save();
-  }
-
-  @override
-  Account get account {
-    final hiveStoreAccount = hiveDatabase.accountsBox
-        .get(hiveStoreAccountProperties.hiveAccountLocalId)!;
-
-    return HiveAccount(
+  AccountProperties copyWith({ListsOrdering? listsOrdering}) {
+    return HiveAccountProperties(
       hiveDatabase: hiveDatabase,
-      hiveStoreAccount: hiveStoreAccount,
+      hiveStoreAccountProperties: hiveStoreAccountProperties,
+      listsOrderingIndex: listsOrdering?.index,
     );
   }
 
   @override
-  List<HiveAccountListProperties> get listsProperties {
-    return hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
-        .map((alpId) => HiveAccountListProperties(
-              hiveDatabase: hiveDatabase,
-              hiveStoreAccountListProperties:
-                  hiveDatabase.accountListPropertiesBox.get(alpId)!,
-            ))
-        .toList();
+  Future<void> save() {
+    hiveStoreAccountProperties.hiveListsOrderingIndex = listsOrdering.index;
+    return hiveStoreAccountProperties
+        .save()
+        .then((_) => notify(EventType.edit));
   }
 
   @override
   Future<void> delete() async {
-    for (final listProperties in listsProperties) {
-      final list = listProperties.list;
+    final account = database.getAccount(accountId)!;
+
+    for (final listPropertiesId in listsPropertiesIds) {
+      final listProperties =
+          database.getAccountListProperties(listPropertiesId)!;
+      final list = database.getListe(listProperties.listId)!;
+
       if (account.isOwnerOf(list)) {
         await list.delete();
       } else {
@@ -84,12 +89,8 @@ class HiveAccountProperties extends AccountProperties {
       }
     }
 
-    await hiveStoreAccountProperties.delete();
-  }
-
-  @override
-  Future<void> save() {
-    // TODO: implement save
-    throw UnimplementedError();
+    await hiveStoreAccountProperties
+        .delete()
+        .then((_) => notify(EventType.delete));
   }
 }

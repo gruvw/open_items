@@ -6,17 +6,17 @@ part of 'hive_list.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HiveStoreListAdapter extends TypeAdapter<HiveStoreList> {
+class HiveStoreListAdapter extends TypeAdapter<HiveStoreListe> {
   @override
   final int typeId = 3;
 
   @override
-  HiveStoreList read(BinaryReader reader) {
+  HiveStoreListe read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HiveStoreList(
+    return HiveStoreListe(
       hiveServerId: fields[0] as String,
       hiveOwnerAccountLocalId: fields[1] as String,
       hiveTitle: fields[2] as String,
@@ -28,7 +28,7 @@ class HiveStoreListAdapter extends TypeAdapter<HiveStoreList> {
   }
 
   @override
-  void write(BinaryWriter writer, HiveStoreList obj) {
+  void write(BinaryWriter writer, HiveStoreListe obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/item.dart';
-import 'package:open_items/models/objects/list.dart';
 
 enum CollectionType {
   check("ToDo", UIIcons.checklist),
@@ -24,14 +23,13 @@ enum CollectionType {
 abstract class Collection extends DatabaseServerObject {
   static const String displayPathSeparator = " > ";
 
-  abstract DateTime editionTime;
-
   @protected
-  abstract int typeIndex;
+  int get typeIndex;
 
   DateTime get creationTime;
+  DateTime get editionTime;
   String get content;
-  Liste get list;
+  String get listId;
 
   List<Item> get items;
   List<Collection> get collectionPath;
@@ -48,5 +46,4 @@ abstract class Collection extends DatabaseServerObject {
       [this, for (final item in items) ...item.deepFlattened];
 
   CollectionType get collectionType => CollectionType.ofIndex(typeIndex);
-  set listType(CollectionType newType) => typeIndex = newType.index;
 }

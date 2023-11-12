@@ -1,35 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/models/properties/account_list_properties.dart';
-
-enum ListsOrdering {
-  custom("Custom"),
-  alphabetical("Alphabetical"),
-  creation("Creation Time"),
-  edition("Edition Time");
-
-  static bool isValidIndex(int orderIndex) =>
-      orderIndex >= 0 && orderIndex < ItemsOrdering.values.length;
-
-  final String label;
-
-  const ListsOrdering(this.label);
-
-  factory ListsOrdering.ofIndex(int orderIndex) =>
-      ListsOrdering.values.elementAt(orderIndex);
-}
+import 'package:open_items/models/ordering/orderings.dart';
 
 abstract class AccountProperties extends DatabaseObject {
   @protected
-  abstract int listsOrderingIndex;
+  int get listsOrderingIndex;
 
-  Account get account;
-  List<AccountListProperties> get listsProperties;
+  AccountProperties copyWith({
+    ListsOrdering? listsOrdering,
+  });
+
+  String get accountId;
+  List<String> get listsPropertiesIds;
 
   // Helper methods
 
   ListsOrdering get listsOrdering => ListsOrdering.ofIndex(listsOrderingIndex);
-  set listsOrdering(ListsOrdering newOrder) =>
-      listsOrderingIndex = newOrder.index;
 }

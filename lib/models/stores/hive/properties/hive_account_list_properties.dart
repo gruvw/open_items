@@ -1,12 +1,8 @@
-import 'package:hive/hive.dart' hide HiveList;
+import 'package:hive/hive.dart';
 import 'package:open_items/models/database.dart';
-import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/models/objects/list.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
-import 'package:open_items/models/stores/hive/objects/hive_account.dart';
-import 'package:open_items/models/stores/hive/objects/hive_list.dart';
-import 'package:open_items/models/stores/hive/properties/hive_account_properties.dart';
 
 part 'hive_account_list_properties.g.dart';
 
@@ -48,99 +44,94 @@ class HiveAccountListProperties extends AccountListProperties {
   final HiveStoreAccountListProperties hiveStoreAccountListProperties;
   final HiveDatabase hiveDatabase;
 
+  // Database
+  @override
+  final String localId;
+  @override
+  final String serverId;
+
+  // Immutable
+  @override
+  final String listId;
+  @override
+  final String userId;
+
+  // Mutable
+  @override
+  final String lexoRank;
+  @override
+  final bool shouldReverseOrder;
+  @override
+  final bool shouldStackDone;
+  @override
+  final int itemsOrderingIndex;
+
   HiveAccountListProperties({
     required this.hiveDatabase,
     required this.hiveStoreAccountListProperties,
-  });
+    String? lexoRank,
+    bool? shouldReverseOrder,
+    bool? shouldStackDone,
+    int? itemsOrderingIndex,
+  })  : lexoRank = lexoRank ?? hiveStoreAccountListProperties.hiveLexoRank,
+        shouldReverseOrder = shouldReverseOrder ??
+            hiveStoreAccountListProperties.hiveShouldReverseOrder,
+        shouldStackDone = shouldStackDone ??
+            hiveStoreAccountListProperties.hiveShouldStackDone,
+        itemsOrderingIndex = itemsOrderingIndex ??
+            hiveStoreAccountListProperties.hiveItemsOrderingIndex,
+        listId = hiveStoreAccountListProperties.hiveListLocalId,
+        userId = hiveStoreAccountListProperties.hiveAccountLocalId,
+        localId = hiveStoreAccountListProperties.key,
+        serverId = hiveStoreAccountListProperties.hiveServerId;
 
   @override
   Database get database => hiveDatabase;
 
   @override
-  String get localId => hiveStoreAccountListProperties.key;
-
-  @override
-  String get serverId => hiveStoreAccountListProperties.hiveServerId;
-
-  @override
-  Liste get list {
-    final hiveStoreList = hiveDatabase.listsBox
-        .get(hiveStoreAccountListProperties.hiveListLocalId)!;
-
-    return HiveList(
+  AccountListProperties copyWith({
+    String? lexoRank,
+    bool? shouldReverseOrder,
+    bool? shouldStackDone,
+    ItemsOrdering? itemsOrdering,
+  }) {
+    return HiveAccountListProperties(
       hiveDatabase: hiveDatabase,
-      hiveStoreList: hiveStoreList,
+      hiveStoreAccountListProperties: hiveStoreAccountListProperties,
+      lexoRank: lexoRank,
+      shouldReverseOrder: shouldReverseOrder,
+      shouldStackDone: shouldStackDone,
+      itemsOrderingIndex: itemsOrdering?.index,
     );
   }
 
   @override
-  Account get user {
-    final hiveStoreAccount = hiveDatabase.accountsBox
-        .get(hiveStoreAccountListProperties.hiveAccountLocalId)!;
-
-    return HiveAccount(
-      hiveDatabase: hiveDatabase,
-      hiveStoreAccount: hiveStoreAccount,
-    );
-  }
-
-  @override
-  String get lexoRank => hiveStoreAccountListProperties.hiveLexoRank;
-
-  @override
-  set lexoRank(String newLexoRank) {
-    hiveStoreAccountListProperties.hiveLexoRank = newLexoRank;
-    hiveStoreAccountListProperties.save();
-  }
-
-  @override
-  int get itemsOrderingIndex =>
-      hiveStoreAccountListProperties.hiveItemsOrderingIndex;
-
-  @override
-  set itemsOrderingIndex(int newItemsOrderingIndex) {
-    hiveStoreAccountListProperties.hiveItemsOrderingIndex =
-        newItemsOrderingIndex;
-    hiveStoreAccountListProperties.save();
-  }
-
-  @override
-  bool get shouldReverseOrder =>
-      hiveStoreAccountListProperties.hiveShouldReverseOrder;
-
-  @override
-  set shouldReverseOrder(bool newShouldReverseOrder) {
-    hiveStoreAccountListProperties.hiveShouldReverseOrder =
-        newShouldReverseOrder;
-    hiveStoreAccountListProperties.save();
-  }
-
-  @override
-  bool get shouldStackDone =>
-      hiveStoreAccountListProperties.hiveShouldStackDone;
-
-  @override
-  set shouldStackDone(bool newShouldStackDone) {
-    hiveStoreAccountListProperties.hiveShouldStackDone = newShouldStackDone;
-    hiveStoreAccountListProperties.save();
+  Future<void> save() {
+    hiveStoreAccountListProperties.hiveLexoRank = lexoRank;
+    hiveStoreAccountListProperties.hiveShouldReverseOrder = shouldReverseOrder;
+    hiveStoreAccountListProperties.hiveShouldStackDone = shouldStackDone;
+    hiveStoreAccountListProperties.hiveItemsOrderingIndex = itemsOrderingIndex;
+    return hiveStoreAccountListProperties
+        .save()
+        .then((_) => notify(EventType.edit));
   }
 
   @override
   Future<void> delete() async {
-    final hiveAccountProperties = user.properties! as HiveAccountProperties;
+    final account = database.getAccount(userId)!;
+    final hiveAccountProperties =
+        hiveDatabase.getAccountProperties(account.accountPropertiesId!)!;
     final hiveStoreAccountProperties =
         hiveAccountProperties.hiveStoreAccountProperties;
 
     hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
         .removeWhere((alpId) => alpId == localId);
-    await hiveStoreAccountProperties.save();
+    await hiveStoreAccountProperties
+        .save()
+        .then((_) => hiveAccountProperties.notify(EventType.edit));
 
-    await hiveStoreAccountListProperties.delete();
-  }
-
-  @override
-  Future<void> save() {
-    // TODO: implement save
-    throw UnimplementedError();
+    await hiveStoreAccountListProperties
+        .delete()
+        .then((_) => notify(EventType.delete));
   }
 }

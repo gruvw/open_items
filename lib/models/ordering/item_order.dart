@@ -1,10 +1,12 @@
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
+import 'package:open_items/state/application/provider.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
   // Supposes the two items are members of the pased list
-  final list = listProperties.list;
+  final list = database.getListe(listProperties.listId)!;
   final stackDone = listProperties.shouldStackDone;
   final reversed = listProperties.shouldReverseOrder ? -1 : 1;
 

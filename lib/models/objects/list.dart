@@ -1,18 +1,21 @@
 import 'package:open_items/global/data_fields.dart';
-import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 abstract class Liste extends Collection {
-  Account get ownerAccount;
+  String get ownerAccountId;
+  String get title;
 
-  abstract String title;
+  Liste copyWith({
+    String? title,
+    CollectionType? type,
+  });
 
   // Helper methods
 
   @override
-  Liste get list => this;
+  String get listId => localId;
 
   @override
   String get content => title;
