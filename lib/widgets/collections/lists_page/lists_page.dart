@@ -10,6 +10,7 @@ import 'package:open_items/state/shared_preferences/objects/default_list_type.da
 import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
+import 'package:open_items/widgets/components/modals/collection_type_dialog.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
@@ -39,6 +40,7 @@ class ListsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final defaultListType = ref.watch(defaultListTypeProvider);
     final account = ref.watch(localAccountProvider(accountId: accountId));
 
     // Display loading screen while account is deleted
@@ -74,6 +76,15 @@ class ListsPage extends HookConsumerWidget {
           );
           break;
         case ListsPopupMenu.defaultListType:
+          showDialog(
+              context: context,
+              builder: (context) => CollectionTypeDialog(
+                    title: "Default List Type",
+                    initialType: defaultListType,
+                    onSelected: (newType) => ref
+                        .read(defaultListTypeProvider.notifier)
+                        .updateType(newType),
+                  ));
           break;
       }
     }
@@ -116,8 +127,7 @@ class ListsPage extends HookConsumerWidget {
                     text: menu.label,
                     icon: switch (menu) {
                       ListsPopupMenu.orderBy => UIIcons.order,
-                      ListsPopupMenu.defaultListType =>
-                        ref.watch(defaultListTypeProvider).icon,
+                      ListsPopupMenu.defaultListType => defaultListType.icon,
                     },
                   ),
                 );
@@ -128,7 +138,7 @@ class ListsPage extends HookConsumerWidget {
       ),
       drawer: AccountsDrawer(selectedAccountId: accountId),
       body: Text(
-          "Lists Page: for ${account.name} with ordering ${accountProperties.listsOrdering}"),
+          "Lists Page: for ${account.name} with ordering ${accountProperties.listsOrdering} and default type $defaultListType"),
     );
   }
 }

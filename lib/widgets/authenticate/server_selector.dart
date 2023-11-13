@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/buttons/outlined.dart';
 
@@ -19,8 +20,11 @@ class ServerSelector extends StatelessWidget {
         UIIcons.server,
         color: UIColors.primary,
       ),
-      content: CoreValues.onlineServerDefault,
       onPressed: onPressed,
+      child: Text(
+        CoreValues.onlineServerDefault,
+        style: UITexts.normalText.apply(color: UIColors.secondary),
+      ),
     );
   }
 }

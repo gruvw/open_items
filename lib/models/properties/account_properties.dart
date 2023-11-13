@@ -5,9 +5,11 @@ import 'package:open_items/models/ordering/orderings.dart';
 abstract class AccountProperties extends DatabaseObject {
   @protected
   int get listsOrderingIndex;
+  bool get shouldReverseOrder;
 
   AccountProperties copyWith({
     ListsOrdering? listsOrdering,
+    bool? shouldReverseOrder,
   });
 
   String get accountId;

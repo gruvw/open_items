@@ -5,7 +5,7 @@ import 'package:open_items/widgets/components/buttons/plain.dart';
 class OutlinedButtonPrimary extends PlainButton {
   const OutlinedButtonPrimary({
     super.key,
-    required super.content,
+    required super.child,
     super.onPressed,
     super.leading,
     super.enabled,
@@ -20,7 +20,7 @@ class OutlinedButtonPrimary extends PlainButton {
 class OutlinedButtonSecondary extends PlainButton {
   const OutlinedButtonSecondary({
     super.key,
-    required super.content,
+    required super.child,
     super.onPressed,
     super.leading,
     super.enabled,

@@ -21,7 +21,10 @@ abstract class Database {
     required String name,
     required String server,
     required bool isLocal,
-    ListsOrdering? listsOrdering, // must be specified if local account
+
+    // Must be specified if local account
+    ListsOrdering? listsOrdering,
+    bool? shouldReverseOrder,
   });
 
   Future<String> createListe({
@@ -92,6 +95,7 @@ abstract class Database {
         server: CoreValues.offlineServer,
         isLocal: true,
         listsOrdering: CoreValues.defaultListsOrdering,
+        shouldReverseOrder: CoreValues.defaultShouldReverse,
       );
 }
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
-import 'package:open_items/global/styles/ui_text.dart';
 
 class PlainButton extends StatelessWidget {
-  final String content;
+  final Widget child;
   final Widget? leading;
   final bool enabled;
   final VoidCallback? onPressed;
@@ -15,7 +14,7 @@ class PlainButton extends StatelessWidget {
 
   const PlainButton({
     super.key,
-    required this.content,
+    required this.child,
     required this.foregroundColor,
     required this.backgroundColor,
     required this.borderColor,
@@ -64,10 +63,7 @@ class PlainButton extends StatelessWidget {
                   const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
               child: leading!,
             ),
-          Text(
-            content,
-            style: UITexts.normalText.apply(color: foregroundColor),
-          ),
+          child,
         ],
       ),
     );

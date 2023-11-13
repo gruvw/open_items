@@ -9,6 +9,7 @@ abstract class CoreValues {
   static const offlineServerId = "offline_server_id";
 
   static const defaultListsOrdering = ListsOrdering.custom;
+  static const defaultShouldReverse = false;
 }
 
 abstract class UIValues {

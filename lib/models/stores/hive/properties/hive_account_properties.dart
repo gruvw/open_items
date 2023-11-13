@@ -15,11 +15,15 @@ class HiveStoreAccountProperties with HiveObjectMixin {
   int hiveListsOrderingIndex;
 
   @HiveField(2)
+  bool hiveShouldReverseOrder;
+
+  @HiveField(3)
   List<String> hiveAccountListPropertiesLocalIds;
 
   HiveStoreAccountProperties({
     required this.hiveAccountLocalId,
     required this.hiveListsOrderingIndex,
+    required this.hiveShouldReverseOrder,
     required this.hiveAccountListPropertiesLocalIds,
   });
 }
@@ -41,33 +45,43 @@ class HiveAccountProperties extends AccountProperties {
   // Mutable
   @override
   final int listsOrderingIndex;
+  @override
+  final bool shouldReverseOrder;
 
   HiveAccountProperties({
     required this.hiveDatabase,
     required this.hiveStoreAccountProperties,
     int? listsOrderingIndex,
+    bool? shouldReverseOrder,
   })  : listsOrderingIndex = listsOrderingIndex ??
             hiveStoreAccountProperties.hiveListsOrderingIndex,
         localId = hiveStoreAccountProperties.key,
         accountId = hiveStoreAccountProperties.hiveAccountLocalId,
         listsPropertiesIds = List.from(
-            hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds);
+            hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds),
+        shouldReverseOrder = shouldReverseOrder ??
+            hiveStoreAccountProperties.hiveShouldReverseOrder;
 
   @override
   Database get database => hiveDatabase;
 
   @override
-  AccountProperties copyWith({ListsOrdering? listsOrdering}) {
+  AccountProperties copyWith({
+    ListsOrdering? listsOrdering,
+    bool? shouldReverseOrder,
+  }) {
     return HiveAccountProperties(
       hiveDatabase: hiveDatabase,
       hiveStoreAccountProperties: hiveStoreAccountProperties,
       listsOrderingIndex: listsOrdering?.index,
+      shouldReverseOrder: shouldReverseOrder,
     );
   }
 
   @override
   Future<void> save() {
     hiveStoreAccountProperties.hiveListsOrderingIndex = listsOrdering.index;
+    hiveStoreAccountProperties.hiveShouldReverseOrder = shouldReverseOrder;
     return hiveStoreAccountProperties
         .save()
         .then((_) => notify(EventType.edit));

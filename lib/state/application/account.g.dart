@@ -6,7 +6,7 @@ part of 'account.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localAccountHash() => r'93af5d24100a24e2d1b674dce101d482d7279f7f';
+String _$localAccountHash() => r'7d30ad14746d690f5e0d4819aaa5b85124862ed0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -155,7 +155,7 @@ class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
   String get accountId => (origin as LocalAccountProvider).accountId;
 }
 
-String _$accountPropertiesHash() => r'49388a148671253d94959b5a42b3c4c3c509ae34';
+String _$accountPropertiesHash() => r'0fd61b1f204b94df9b88d3614ad74a7b71d216a3';
 
 /// See also [accountProperties].
 @ProviderFor(accountProperties)

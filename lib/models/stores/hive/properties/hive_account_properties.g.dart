@@ -21,19 +21,22 @@ class HiveStoreAccountPropertiesAdapter
       hiveAccountLocalId: fields[0] as String,
       hiveListsOrderingIndex: fields[1] as int,
       hiveAccountListPropertiesLocalIds: (fields[2] as List).cast<String>(),
+      hiveShouldReverseOrder: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveStoreAccountProperties obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.hiveAccountLocalId)
       ..writeByte(1)
       ..write(obj.hiveListsOrderingIndex)
       ..writeByte(2)
-      ..write(obj.hiveAccountListPropertiesLocalIds);
+      ..write(obj.hiveAccountListPropertiesLocalIds)
+      ..writeByte(3)
+      ..write(obj.hiveShouldReverseOrder);
   }
 
   @override

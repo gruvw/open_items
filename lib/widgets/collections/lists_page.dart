@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/models/objects/account.dart';
-import 'package:open_items/widgets/modals/confirmation_dialog.dart';
+import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 
 class ListsPage extends ConsumerWidget {
   // Static because must be shown only once per application opening

@@ -4,9 +4,9 @@ import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/item.dart';
 
 enum CollectionType {
-  check("ToDo", UIIcons.checklist),
-  unordered("Unordered", UIIcons.bulletList),
-  ordered("Ordered", UIIcons.numberedList);
+  check("Checklist", UIIcons.checklist),
+  unordered("Unordered List", UIIcons.bulletList),
+  ordered("Ordered List", UIIcons.numberedList);
 
   static bool isValidIndex(int typeIndex) =>
       typeIndex >= 0 && typeIndex < CollectionType.values.length;

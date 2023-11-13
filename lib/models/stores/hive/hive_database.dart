@@ -57,6 +57,7 @@ class HiveDatabase extends Database {
     required String server,
     required bool isLocal,
     ListsOrdering? listsOrdering,
+    bool? shouldReverseOrder,
   }) async {
     String accountLocalId = nanoid();
 
@@ -66,6 +67,7 @@ class HiveDatabase extends Database {
         hiveAccountLocalId: accountLocalId,
         hiveListsOrderingIndex: listsOrdering!.index,
         hiveAccountListPropertiesLocalIds: [],
+        hiveShouldReverseOrder: shouldReverseOrder!,
       );
       propertiesLocalId = nanoid();
       await accountPropertiesBox.put(propertiesLocalId, properties);

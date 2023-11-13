@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/buttons/outlined.dart';
 import 'package:open_items/widgets/components/buttons/plain.dart';
@@ -39,22 +40,28 @@ class CancelDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlinedButtonPrimary(
-            content: cancelText,
             onPressed: modalOnPressed(context, onCancel),
+            child: Text(cancelText, style: UITexts.normalText),
           ),
           if (danger)
             PlainButton(
-              content: confirmedText,
               onPressed: modalOnPressed(context, onConfirm),
               foregroundColor: UIColors.background,
               backgroundColor: UIColors.danger,
               borderColor: UIColors.danger,
+              child: Text(
+                confirmedText,
+                style: UITexts.normalText.apply(color: UIColors.secondary),
+              ),
             )
           else
             SolidButtonPrimary(
-              content: confirmedText,
               onPressed: modalOnPressed(context, onConfirm),
               enabled: confirmEnabled,
+              child: Text(
+                confirmedText,
+                style: UITexts.normalText.apply(color: UIColors.secondary),
+              ),
             ),
         ],
       ),

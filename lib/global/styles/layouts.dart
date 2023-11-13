@@ -1,5 +1,5 @@
 abstract class UILayout {
-  static const iconTextHorizontalSpacing = 6.0;
+  static const iconTextHorizontalSpacing = 8.0;
 }
 
 abstract class AuthenticationPageLayout {
@@ -39,6 +39,8 @@ abstract class DialogLayout {
   static const padding = 12.0;
   static const bodyVerticalPadding = 10.0;
   static const outerHorizontalMargin = 25.0;
+  static const buttonsContentMaxWidth = 180.0;
+  static const buttonsContentSpacing = 7.0;
 }
 
 abstract class DrawerLayout {

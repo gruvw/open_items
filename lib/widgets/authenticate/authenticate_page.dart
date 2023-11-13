@@ -250,10 +250,14 @@ class AuthenticatePage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SolidButtonPrimary(
-                    content: activeTab.submitText,
                     onPressed: onSubmit,
                     enabled: activeTab != Tabs.newOfflineAccount ||
                         offlineNameError.value == null,
+                    child: Text(
+                      activeTab.submitText,
+                      style:
+                          UITexts.normalText.apply(color: UIColors.secondary),
+                    ),
                   ),
                 ],
               ),

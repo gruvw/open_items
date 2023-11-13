@@ -8,6 +8,8 @@ abstract class UIIcons {
   static const server = Icons.dns_outlined;
   static const account = Icons.person;
   static const login = Icons.login;
+  static const ascending = Icons.arrow_upward;
+  static const descending = Icons.arrow_downward;
 
   // Actions
   static const import = OpenItemsIcons.import;
@@ -28,6 +30,6 @@ abstract class UIIcons {
 
   // List type
   static const checklist = Icons.checklist;
-  static const numberedList = Icons.format_list_numbered;
-  static const bulletList = Icons.format_list_bulleted;
+  static const numberedList = OpenItemsIcons.numbered_list;
+  static const bulletList = OpenItemsIcons.bullet_list;
 }
