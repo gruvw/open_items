@@ -34,7 +34,7 @@ class HiveDatabase extends Database {
     await Hive.initFlutter(_hiveDatabaseSubdir);
 
     Hive.registerAdapter(HiveStoreAccountAdapter());
-    Hive.registerAdapter(HiveStoreListAdapter());
+    Hive.registerAdapter(HiveStoreListeAdapter());
     Hive.registerAdapter(HiveStoreItemAdapter());
     Hive.registerAdapter(HiveStoreAccountPropertiesAdapter());
     Hive.registerAdapter(HiveStoreAccountListPropertiesAdapter());

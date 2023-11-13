@@ -6,7 +6,7 @@ part of 'hive_list.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HiveStoreListAdapter extends TypeAdapter<HiveStoreListe> {
+class HiveStoreListeAdapter extends TypeAdapter<HiveStoreListe> {
   @override
   final int typeId = 3;
 
@@ -53,7 +53,7 @@ class HiveStoreListAdapter extends TypeAdapter<HiveStoreListe> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HiveStoreListAdapter &&
+      other is HiveStoreListeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

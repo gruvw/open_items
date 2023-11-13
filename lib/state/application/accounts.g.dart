@@ -24,7 +24,7 @@ final _localAccountsEventsProvider =
 
 typedef _LocalAccountsEventsRef
     = AutoDisposeStreamProviderRef<Event<DatabaseObject>>;
-String _$localAccountsHash() => r'f2d5dbf15d7ef510e8415701b810352632f2424a';
+String _$localAccountsHash() => r'0170d76c7627372d60d363a39676d1a8b8169b29';
 
 /// See also [localAccounts].
 @ProviderFor(localAccounts)

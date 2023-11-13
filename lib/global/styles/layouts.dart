@@ -1,4 +1,6 @@
-abstract class UILayout {}
+abstract class UILayout {
+  static const iconTextHorizontalSpacing = 6.0;
+}
 
 abstract class AuthenticationPageLayout {
   static const appBarBottomPadding = 6.0;
