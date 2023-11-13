@@ -11,7 +11,7 @@ import 'package:open_items/state/shared_preferences/objects/selected_account_id.
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
-import 'package:open_items/widgets/modals/ordering/lists_ordering_dialog.dart';
+import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 
