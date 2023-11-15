@@ -1,3 +1,4 @@
+import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/state/shared_preferences/fields.dart';
@@ -12,7 +13,7 @@ class DefaultListType extends _$DefaultListType {
     final defaultListType = prefs.getInt(SPFields.defaultListTypeIndexField);
 
     return defaultListType.map((i) => CollectionType.values[i]) ??
-        CollectionType.check;
+        DefaultValues.collectionType;
   }
 
   @override

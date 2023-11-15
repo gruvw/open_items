@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
 
 // TODO
 class ListPage extends StatelessWidget {
@@ -6,8 +7,11 @@ class ListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("List Page"),
+    return Scaffold(
+      body: const Text("List Page"),
+      appBar: AppBar(
+        backgroundColor: UIColors.primary,
+      ),
     );
   }
 }

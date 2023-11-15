@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
@@ -6,16 +7,21 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
+import 'package:open_items/models/objects/list.dart';
+import 'package:open_items/models/ordering/list_order.dart';
 import 'package:open_items/state/application/account.dart';
 import 'package:open_items/state/application/globals.dart';
+import 'package:open_items/state/application/list.dart';
 import 'package:open_items/state/shared_preferences/objects/default_list_type.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
+import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
 import 'package:open_items/widgets/components/modals/collection_type_dialog.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
+import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 
 enum ListsPopupMenu {
@@ -56,6 +62,17 @@ class ListsPage extends HookConsumerWidget {
     if (account == null || accountProperties == null) {
       return const LoadingPage();
     }
+
+    final ordering = listsOrdering(accountProperties);
+    final listsProperties = accountProperties.listsPropertiesIds.map(
+      (lpid) => ref.watch(accountListPropertiesProvider(propertiesId: lpid)),
+    );
+    final lists = listsProperties
+        .sorted(ordering)
+        .map((lp) => lp?.listId)
+        .map((lid) => ref.watch(listProvider(localId: lid)))
+        .whereNotNull()
+        .toList();
 
     // Testing dialog
     if (!_testingMessageShown) {
@@ -173,8 +190,31 @@ class ListsPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Text(
-          "Lists Page: for ${account.name} with ordering ${accountProperties.listsOrdering} and default type $defaultListType\nLists: ${accountProperties.listsPropertiesIds.length}"),
+      body: ReorderableListView.builder(
+        itemCount: lists.length,
+        buildDefaultDragHandles: false,
+        onReorder: (oldIndex, newIndex) {},
+        itemBuilder: (context, index) {
+          final list = lists[index];
+
+          return CollectionEntry(
+            key: UniqueKey(),
+            icon: Icon(list.collectionType.icon),
+            onClick: () => Navigator.pushNamed(context, Routes.list.name),
+            onIconClick: () => showDialog(
+              context: context,
+              builder: (context) => CollectionTypeDialog(
+                title: "Change list type",
+                initialType: list.collectionType,
+                onSelected: (newType) {
+                  list.copyWith(type: newType).save();
+                },
+              ),
+            ),
+            child: Text(list.title),
+          );
+        },
+      ),
     );
   }
 }

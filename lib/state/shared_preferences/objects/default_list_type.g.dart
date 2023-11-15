@@ -6,7 +6,7 @@ part of 'default_list_type.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$defaultListTypeHash() => r'69877158b8bfc20eb85d553b9c828f0d6cccbbcc';
+String _$defaultListTypeHash() => r'9262b143a74de5e0d34b151b4d84129cf1d7bd8e';
 
 /// See also [DefaultListType].
 @ProviderFor(DefaultListType)

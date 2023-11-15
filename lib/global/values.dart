@@ -1,3 +1,4 @@
+import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 
 abstract class CoreValues {
@@ -10,6 +11,7 @@ abstract class CoreValues {
 }
 
 abstract class DefaultValues {
+  static const collectionType = CollectionType.check;
   static const listsOrdering = ListsOrdering.custom;
   static const itemsOrdering = ItemsOrdering.custom;
   static const shouldReverse = false;

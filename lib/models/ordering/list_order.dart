@@ -3,10 +3,12 @@ import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/models/properties/account_properties.dart';
 import 'package:open_items/state/application/globals.dart';
 
-int Function(AccountListProperties, AccountListProperties) listsOrdering(
+int Function(AccountListProperties?, AccountListProperties?) listsOrdering(
     AccountProperties properties) {
   int listPositionCompare(
-      AccountListProperties lp1, AccountListProperties lp2) {
+      AccountListProperties? lp1, AccountListProperties? lp2) {
+    if (lp1 == null || lp2 == null) return 0;
+
     late final l1 = database.getListe(lp1.listId)!;
     late final l2 = database.getListe(lp2.listId)!;
 
