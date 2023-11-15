@@ -9,7 +9,7 @@ part 'account.g.dart';
 @riverpod
 Account? localAccount(
   LocalAccountRef ref, {
-  required String accountId,
+  required String? accountId,
 }) {
   ref.watch(objectEventsProvider(localId: accountId));
   return database.getLocalAccount(accountId);
@@ -18,7 +18,7 @@ Account? localAccount(
 @riverpod
 AccountProperties? accountProperties(
   AccountPropertiesRef ref, {
-  required String propertiesId,
+  required String? propertiesId,
 }) {
   ref.watch(objectEventsProvider(localId: propertiesId));
   return database.getAccountProperties(propertiesId);

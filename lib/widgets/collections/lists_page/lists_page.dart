@@ -44,17 +44,18 @@ class ListsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final defaultListType = ref.watch(defaultListTypeProvider);
     final account = ref.watch(localAccountProvider(accountId: accountId));
-
-    // Display loading screen while account is deleted
-    if (account == null) return const LoadingPage();
+    final accountProperties = ref.watch(
+        accountPropertiesProvider(propertiesId: account?.accountPropertiesId));
 
     // Set viewed account as the (persisted) selected one
     useEffect(() {
       ref.read(selectedAccountIdProvider.notifier).updateAccount(accountId);
     }, const []);
 
-    final accountProperties = ref.watch(
-        accountPropertiesProvider(propertiesId: account.accountPropertiesId!))!;
+    // Display loading screen while account is deleted
+    if (account == null || accountProperties == null) {
+      return const LoadingPage();
+    }
 
     // Testing dialog
     if (!_testingMessageShown) {
@@ -96,6 +97,12 @@ class ListsPage extends HookConsumerWidget {
       backgroundColor: UIColors.background,
       drawer: AccountsDrawer(selectedAccountId: accountId),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: UIColors.primary,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(UILayout.floatingActionButtonRadius),
+          ),
+        ),
         onPressed: () async {
           final time = DateTime.now();
           final listId = await database.createListe(
@@ -117,6 +124,10 @@ class ListsPage extends HookConsumerWidget {
             shouldStackDone: DefaultValues.shouldStackDone,
           );
         },
+        child: const Icon(
+          UIIcons.add,
+          size: UILayout.floatingActionButtonSize,
+        ),
       ),
       appBar: AppBar(
         backgroundColor: UIColors.primary,

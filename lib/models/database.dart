@@ -58,16 +58,16 @@ abstract class Database {
     required bool isDone,
   });
 
-  Account? getAccount(String accountId);
-  Account? getLocalAccount(String accountId) {
+  Account? getAccount(String? accountId);
+  Account? getLocalAccount(String? accountId) {
     final account = getAccount(accountId);
     return account.map((a) => a.isLocal ? a : null);
   }
 
-  AccountProperties? getAccountProperties(String accountPropertiesId);
+  AccountProperties? getAccountProperties(String? accountPropertiesId);
   AccountListProperties? getAccountListProperties(
-      String accountListPropertiesId);
-  Liste? getListe(String listId);
+      String? accountListPropertiesId);
+  Liste? getListe(String? listId);
 
   List<Account> getLocalAccounts();
 

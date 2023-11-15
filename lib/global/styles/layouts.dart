@@ -1,6 +1,10 @@
 abstract class UILayout {
+  static const floatingActionButtonSize = 40.0;
+  static const floatingActionButtonRadius = 10.0;
   static const iconTextHorizontalSpacing = 8.0;
 }
+
+abstract class UIListsPageLayout {}
 
 abstract class AuthenticationPageLayout {
   static const appBarBottomPadding = 6.0;

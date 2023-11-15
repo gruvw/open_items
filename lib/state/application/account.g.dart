@@ -6,7 +6,7 @@ part of 'account.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localAccountHash() => r'7d30ad14746d690f5e0d4819aaa5b85124862ed0';
+String _$localAccountHash() => r'd224705c671d94f0777d1a97818e70c0221ddd97';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,7 +40,7 @@ class LocalAccountFamily extends Family<Account?> {
 
   /// See also [localAccount].
   LocalAccountProvider call({
-    required String accountId,
+    required String? accountId,
   }) {
     return LocalAccountProvider(
       accountId: accountId,
@@ -75,7 +75,7 @@ class LocalAccountFamily extends Family<Account?> {
 class LocalAccountProvider extends AutoDisposeProvider<Account?> {
   /// See also [localAccount].
   LocalAccountProvider({
-    required String accountId,
+    required String? accountId,
   }) : this._internal(
           (ref) => localAccount(
             ref as LocalAccountRef,
@@ -103,7 +103,7 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
     required this.accountId,
   }) : super.internal();
 
-  final String accountId;
+  final String? accountId;
 
   @override
   Override overrideWith(
@@ -144,7 +144,7 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
 
 mixin LocalAccountRef on AutoDisposeProviderRef<Account?> {
   /// The parameter `accountId` of this provider.
-  String get accountId;
+  String? get accountId;
 }
 
 class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
@@ -152,10 +152,10 @@ class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
   _LocalAccountProviderElement(super.provider);
 
   @override
-  String get accountId => (origin as LocalAccountProvider).accountId;
+  String? get accountId => (origin as LocalAccountProvider).accountId;
 }
 
-String _$accountPropertiesHash() => r'0fd61b1f204b94df9b88d3614ad74a7b71d216a3';
+String _$accountPropertiesHash() => r'07e0d9ae6fe342dc12805d6f32f5ebd896a2f9bd';
 
 /// See also [accountProperties].
 @ProviderFor(accountProperties)
@@ -168,7 +168,7 @@ class AccountPropertiesFamily extends Family<AccountProperties?> {
 
   /// See also [accountProperties].
   AccountPropertiesProvider call({
-    required String propertiesId,
+    required String? propertiesId,
   }) {
     return AccountPropertiesProvider(
       propertiesId: propertiesId,
@@ -204,7 +204,7 @@ class AccountPropertiesProvider
     extends AutoDisposeProvider<AccountProperties?> {
   /// See also [accountProperties].
   AccountPropertiesProvider({
-    required String propertiesId,
+    required String? propertiesId,
   }) : this._internal(
           (ref) => accountProperties(
             ref as AccountPropertiesRef,
@@ -232,7 +232,7 @@ class AccountPropertiesProvider
     required this.propertiesId,
   }) : super.internal();
 
-  final String propertiesId;
+  final String? propertiesId;
 
   @override
   Override overrideWith(
@@ -274,7 +274,7 @@ class AccountPropertiesProvider
 
 mixin AccountPropertiesRef on AutoDisposeProviderRef<AccountProperties?> {
   /// The parameter `propertiesId` of this provider.
-  String get propertiesId;
+  String? get propertiesId;
 }
 
 class _AccountPropertiesProviderElement
@@ -283,7 +283,8 @@ class _AccountPropertiesProviderElement
   _AccountPropertiesProviderElement(super.provider);
 
   @override
-  String get propertiesId => (origin as AccountPropertiesProvider).propertiesId;
+  String? get propertiesId =>
+      (origin as AccountPropertiesProvider).propertiesId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

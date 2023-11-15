@@ -7,8 +7,10 @@ part 'database.g.dart';
 @riverpod
 Stream<Event<DatabaseObject>> objectEvents(
   ObjectEventsRef ref, {
-  required String localId,
+  required String? localId,
 }) async* {
-  yield* database.watchObject(localId).where((event) =>
-      event.type != EventType.delete && event.object.localId == localId);
+  if (localId != null) {
+    yield* database.watchObject(localId).where((event) =>
+        event.type != EventType.delete && event.object.localId == localId);
+  }
 }

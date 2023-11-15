@@ -201,7 +201,11 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveAccount? getAccount(String accountId) {
+  HiveAccount? getAccount(String? accountId) {
+    if (accountId == null) {
+      return null;
+    }
+
     final accountStore = accountsBox.get(accountId);
     final account = accountStore.map((a) => HiveAccount(
           hiveDatabase: this,
@@ -212,7 +216,11 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveAccountProperties? getAccountProperties(String accountPropertiesId) {
+  HiveAccountProperties? getAccountProperties(String? accountPropertiesId) {
+    if (accountPropertiesId == null) {
+      return null;
+    }
+
     final accountPropertiesStore =
         accountPropertiesBox.get(accountPropertiesId);
     final accountProperties =
@@ -226,7 +234,11 @@ class HiveDatabase extends Database {
 
   @override
   HiveAccountListProperties? getAccountListProperties(
-      String accountListPropertiesId) {
+      String? accountListPropertiesId) {
+    if (accountListPropertiesId == null) {
+      return null;
+    }
+
     final accountListPropertiesStore =
         accountListPropertiesBox.get(accountListPropertiesId);
     final accountListProperties =
@@ -239,7 +251,11 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveListe? getListe(String listId) {
+  HiveListe? getListe(String? listId) {
+    if (listId == null) {
+      return null;
+    }
+
     final listStore = listsBox.get(listId);
     final list = listStore.map((v) => HiveListe(
           hiveDatabase: this,

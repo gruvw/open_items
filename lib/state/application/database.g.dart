@@ -6,7 +6,7 @@ part of 'database.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$objectEventsHash() => r'2b90c8f2f76e671e9009183a8c7a33c651b513ba';
+String _$objectEventsHash() => r'a084c25e6c6a37e4d0d550ced7991e3d174ea6f2';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,7 +40,7 @@ class ObjectEventsFamily extends Family<AsyncValue<Event<DatabaseObject>>> {
 
   /// See also [objectEvents].
   ObjectEventsProvider call({
-    required String localId,
+    required String? localId,
   }) {
     return ObjectEventsProvider(
       localId: localId,
@@ -76,7 +76,7 @@ class ObjectEventsProvider
     extends AutoDisposeStreamProvider<Event<DatabaseObject>> {
   /// See also [objectEvents].
   ObjectEventsProvider({
-    required String localId,
+    required String? localId,
   }) : this._internal(
           (ref) => objectEvents(
             ref as ObjectEventsRef,
@@ -104,7 +104,7 @@ class ObjectEventsProvider
     required this.localId,
   }) : super.internal();
 
-  final String localId;
+  final String? localId;
 
   @override
   Override overrideWith(
@@ -145,7 +145,7 @@ class ObjectEventsProvider
 
 mixin ObjectEventsRef on AutoDisposeStreamProviderRef<Event<DatabaseObject>> {
   /// The parameter `localId` of this provider.
-  String get localId;
+  String? get localId;
 }
 
 class _ObjectEventsProviderElement
@@ -154,7 +154,7 @@ class _ObjectEventsProviderElement
   _ObjectEventsProviderElement(super.provider);
 
   @override
-  String get localId => (origin as ObjectEventsProvider).localId;
+  String? get localId => (origin as ObjectEventsProvider).localId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

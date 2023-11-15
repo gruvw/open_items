@@ -20,8 +20,8 @@ class HiveStoreAccountPropertiesAdapter
     return HiveStoreAccountProperties(
       hiveAccountLocalId: fields[0] as String,
       hiveListsOrderingIndex: fields[1] as int,
-      hiveAccountListPropertiesLocalIds: (fields[2] as List).cast<String>(),
-      hiveShouldReverseOrder: fields[3] as bool,
+      hiveShouldReverseOrder: fields[2] as bool,
+      hiveAccountListPropertiesLocalIds: (fields[3] as List).cast<String>(),
     );
   }
 
@@ -34,9 +34,9 @@ class HiveStoreAccountPropertiesAdapter
       ..writeByte(1)
       ..write(obj.hiveListsOrderingIndex)
       ..writeByte(2)
-      ..write(obj.hiveAccountListPropertiesLocalIds)
+      ..write(obj.hiveShouldReverseOrder)
       ..writeByte(3)
-      ..write(obj.hiveShouldReverseOrder);
+      ..write(obj.hiveAccountListPropertiesLocalIds);
   }
 
   @override
