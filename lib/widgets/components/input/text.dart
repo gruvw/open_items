@@ -12,6 +12,7 @@ class TextInput extends HookWidget {
   final String? placeholder;
   final String? errorText;
   final bool? obscureText;
+  final TextCapitalization? capitalization;
   final bool autoFocus;
   final void Function(String value)? onChanged;
 
@@ -23,6 +24,7 @@ class TextInput extends HookWidget {
     this.errorText,
     this.obscureText,
     this.onChanged,
+    this.capitalization,
     this.autoFocus = false,
   });
 
@@ -39,6 +41,8 @@ class TextInput extends HookWidget {
     // Used to display (or not) the obscure button
     final obscured = useState(obscureText);
     final shouldObscure = obscured.value ?? false;
+
+    // Only display error when field is not empty or not focused
     final hasError = errorText != null && !(focus.hasFocus && isEmpty);
 
     // Widgets
@@ -62,6 +66,7 @@ class TextInput extends HookWidget {
 
     return TextField(
       focusNode: focus,
+      textCapitalization: capitalization ?? TextCapitalization.none,
       autofocus: autoFocus,
       controller: textController,
       obscureText: shouldObscure,

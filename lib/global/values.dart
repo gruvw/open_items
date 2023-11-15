@@ -10,6 +10,14 @@ abstract class CoreValues {
   static const offlineServerId = "offline_server_id";
 }
 
+abstract class UIValues {
+  static const applicationTitle = "Open-Items";
+  static const errorRouteText = "ERROR";
+
+  static const confirmTextDefault = "Confirm";
+  static const cancelTextDefault = "Cancel";
+}
+
 abstract class DefaultValues {
   static const collectionType = CollectionType.check;
   static const listsOrdering = ListsOrdering.custom;
@@ -19,14 +27,9 @@ abstract class DefaultValues {
   static const offlineAccountName = "offline_account";
 }
 
-abstract class UIValues {
-  static const applicationTitle = "Open-Items";
-  static const errorRouteText = "ERROR";
-
-  static const confirmTextDefault = "Confirm";
-  static const cancelTextDefault = "Cancel";
-
-  static const emailPlaceholder = "email@example.com";
-  static const accountNamePlaceholder = "my_account";
-  static const passwordPlaceholder = "•••••••••••";
+abstract class UIPlaceholders {
+  static const email = "email@example.com";
+  static const accountName = "my_account";
+  static const password = "•••••••••••";
+  static const listTitle = "My List";
 }

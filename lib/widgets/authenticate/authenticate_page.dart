@@ -16,7 +16,7 @@ import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
-import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
+import 'package:open_items/widgets/validation/accounts/offline_account_name.dart';
 
 enum Tabs {
   newOnlineAccount("Create", 0, 0),
@@ -217,20 +217,20 @@ class AuthenticatePage extends HookConsumerWidget {
               key: const ValueKey(0),
               controller: emailController,
               label: "Email address",
-              placeholder: UIValues.emailPlaceholder,
+              placeholder: UIPlaceholders.email,
             ),
           if (onlineSelected)
             TextInput(
               key: const ValueKey(1),
               controller: usernameController,
               label: "Username",
-              placeholder: UIValues.accountNamePlaceholder,
+              placeholder: UIPlaceholders.accountName,
             ),
           if (activeTab == Tabs.newOfflineAccount)
             TextInput(
               key: const ValueKey(2),
               controller: offlineNameController,
-              placeholder: UIValues.accountNamePlaceholder,
+              placeholder: UIPlaceholders.accountName,
               label: "Account name",
               errorText: offlineNameError.value,
             ),
@@ -239,7 +239,7 @@ class AuthenticatePage extends HookConsumerWidget {
               key: const ValueKey(3),
               controller: passwordController,
               label: "Password",
-              placeholder: UIValues.passwordPlaceholder,
+              placeholder: UIPlaceholders.password,
               obscureText: true,
             ),
           Column(

@@ -8,6 +8,7 @@ abstract class CollectionLayout {
   static const dividerWidth = 2.0;
   static const slideableWidth = 130;
   static const listViewScrollOff = 150.0;
+  static const slideThreshold = 0.1;
 }
 
 abstract class AuthenticationPageLayout {

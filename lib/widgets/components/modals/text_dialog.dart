@@ -16,6 +16,7 @@ class TextDialog extends HookWidget {
   final String? inputLabel;
   final String? submitText;
   final String? cancelText;
+  final TextCapitalization? capitalization;
 
   const TextDialog({
     super.key,
@@ -28,6 +29,7 @@ class TextDialog extends HookWidget {
     this.inputLabel,
     this.submitText,
     this.cancelText,
+    this.capitalization,
   });
 
   @override
@@ -49,6 +51,9 @@ class TextDialog extends HookWidget {
       confirmEnabled: validationError.value?.isValid,
       onCancel: onCancel,
       onConfirm: () {
+        // No need to update validation here as Confirm is disabled while content not valid
+
+        // Make sure submit is valid
         validationError.value = onSubmit?.call(offlineNameController.text);
         return validationError.value?.isValid;
       },
@@ -58,6 +63,7 @@ class TextDialog extends HookWidget {
         placeholder: placeholder,
         label: inputLabel,
         errorText: validationError.value?.errorMessage,
+        capitalization: capitalization,
       ),
     );
   }

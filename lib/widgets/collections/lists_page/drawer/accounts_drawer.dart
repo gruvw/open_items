@@ -15,7 +15,7 @@ import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
-import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
+import 'package:open_items/widgets/validation/accounts/offline_account_name.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {
@@ -65,7 +65,7 @@ class AccountsDrawer extends ConsumerWidget {
       title: "Edit Account Name",
       submitText: "Edit",
       validation: validOfflineAccountRename(selectedAccount.name),
-      placeholder: UIValues.accountNamePlaceholder,
+      placeholder: UIPlaceholders.accountName,
       initialValue: selectedAccount.name,
       onSubmit:
           alwaysValid((name) => selectedAccount.copyWith(name: name).save()),

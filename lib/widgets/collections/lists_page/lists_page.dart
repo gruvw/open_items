@@ -9,6 +9,7 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/ordering/list_order.dart';
+import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/account.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/state/application/list.dart';
@@ -24,6 +25,7 @@ import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
+import 'package:open_items/widgets/validation/accounts/list_title.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 enum ListsPopupMenu {
@@ -145,7 +147,10 @@ class ListsPage extends HookConsumerWidget {
 
           return CollectionEntry(
             key: ObjectKey(list),
+            index: index,
             groupTag: lists,
+            reorderEnabled:
+                accountProperties.listsOrdering == ListsOrdering.custom,
             icon: Icon(list.collectionType.icon),
             onDelete: () => list.delete(),
             onClick: () => Navigator.pushNamed(context, Routes.list.name),
@@ -185,6 +190,10 @@ class ListsPage extends HookConsumerWidget {
             context: context,
             builder: (context) => TextDialog(
               title: "New List Title",
+              submitText: "Create",
+              capitalization: TextCapitalization.sentences,
+              placeholder: UIPlaceholders.listTitle,
+              validation: validListTitle,
               onSubmit: alwaysValid((title) => createList(title)),
             ),
           );
