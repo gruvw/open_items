@@ -94,8 +94,8 @@ abstract class Database {
         name: name,
         server: CoreValues.offlineServer,
         isLocal: true,
-        listsOrdering: CoreValues.defaultListsOrdering,
-        shouldReverseOrder: CoreValues.defaultShouldReverse,
+        listsOrdering: DefaultValues.listsOrdering,
+        shouldReverseOrder: DefaultValues.shouldReverse,
       );
 }
 

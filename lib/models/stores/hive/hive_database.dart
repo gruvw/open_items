@@ -139,12 +139,12 @@ class HiveDatabase extends Database {
       hiveStoreAccountListProperties,
     );
 
+    final hiveUserProperties = getAccountProperties(user.accountPropertiesId!)!;
     final hiveStoreUserProperties =
-        getAccountProperties(user.accountPropertiesId!)!
-            .hiveStoreAccountProperties;
+        hiveUserProperties.hiveStoreAccountProperties;
     hiveStoreUserProperties.hiveAccountListPropertiesLocalIds
         .add(hiveStoreAccountListProperties.key);
-    await hiveStoreUserProperties.save();
+    await hiveUserProperties.save();
 
     HiveAccountListProperties(
       hiveDatabase: this,
@@ -190,7 +190,7 @@ class HiveDatabase extends Database {
       hiveStoreParent = (parent as HiveItem).hiveStoreItem;
     }
     hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
-    await hiveStoreParent.save();
+    await parent.save();
 
     HiveItem(
       hiveDatabase: this,

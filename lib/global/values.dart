@@ -7,16 +7,20 @@ abstract class CoreValues {
   static const unknownLocalId = "unknown_local_id";
   static const unknownServerId = "unknown_server_id";
   static const offlineServerId = "offline_server_id";
+}
 
-  static const defaultListsOrdering = ListsOrdering.custom;
-  static const defaultShouldReverse = false;
+abstract class DefaultValues {
+  static const listsOrdering = ListsOrdering.custom;
+  static const itemsOrdering = ItemsOrdering.custom;
+  static const shouldReverse = false;
+  static const shouldStackDone = true;
+  static const offlineAccountName = "offline_account";
 }
 
 abstract class UIValues {
   static const applicationTitle = "Open-Items";
   static const errorRouteText = "ERROR";
 
-  static const offlineAccountNameDefault = "offline_account";
   static const confirmTextDefault = "Confirm";
   static const cancelTextDefault = "Cancel";
 

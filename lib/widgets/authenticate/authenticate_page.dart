@@ -66,7 +66,7 @@ class AuthenticatePage extends HookConsumerWidget {
     final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
     final offlineNameController = useTextEditingController(
-      text: !cancellable ? UIValues.offlineAccountNameDefault : null,
+      text: !cancellable ? DefaultValues.offlineAccountName : null,
     );
 
     useListener(() {

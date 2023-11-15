@@ -5,7 +5,9 @@ import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/account.dart';
+import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/state/shared_preferences/objects/default_list_type.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
@@ -92,6 +94,30 @@ class ListsPage extends HookConsumerWidget {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: UIColors.background,
+      drawer: AccountsDrawer(selectedAccountId: accountId),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final time = DateTime.now();
+          final listId = await database.createListe(
+            owner: account,
+            listServerId: CoreValues.unknownServerId,
+            title: "TEST list",
+            type: defaultListType,
+            creationTime: time,
+            editionTime: time,
+          );
+
+          await database.createAccountListProperties(
+            user: account,
+            serverId: CoreValues.unknownServerId,
+            listLocalId: listId,
+            itemsOrdering: DefaultValues.itemsOrdering,
+            lexoRank: "",
+            shouldReverseOrder: DefaultValues.shouldReverse,
+            shouldStackDone: DefaultValues.shouldStackDone,
+          );
+        },
+      ),
       appBar: AppBar(
         backgroundColor: UIColors.primary,
         leadingWidth: DrawerLayout.appBarLeadingWidth,
@@ -136,9 +162,8 @@ class ListsPage extends HookConsumerWidget {
           ),
         ],
       ),
-      drawer: AccountsDrawer(selectedAccountId: accountId),
       body: Text(
-          "Lists Page: for ${account.name} with ordering ${accountProperties.listsOrdering} and default type $defaultListType"),
+          "Lists Page: for ${account.name} with ordering ${accountProperties.listsOrdering} and default type $defaultListType\nLists: ${accountProperties.listsPropertiesIds.length}"),
     );
   }
 }

@@ -41,7 +41,7 @@ class ListsOrderingDialog extends ConsumerWidget {
                     properties
                         .copyWith(
                           listsOrdering: e,
-                          shouldReverseOrder: CoreValues.defaultShouldReverse,
+                          shouldReverseOrder: DefaultValues.shouldReverse,
                         )
                         .save();
                   }
