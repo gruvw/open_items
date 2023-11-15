@@ -4,7 +4,11 @@ abstract class UILayout {
   static const iconTextHorizontalSpacing = 8.0;
 }
 
-abstract class UIListsPageLayout {}
+abstract class CollectionLayout {
+  static const dividerWidth = 2.0;
+  static const slideableWidth = 130;
+  static const listViewScrollOff = 150.0;
+}
 
 abstract class AuthenticationPageLayout {
   static const appBarBottomPadding = 6.0;

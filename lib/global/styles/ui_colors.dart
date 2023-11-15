@@ -6,6 +6,7 @@ abstract class UIColors {
   static const Color secondary = Colors.white;
 
   // Semantic colors
+  static const Color nothing = Colors.transparent;
   static const Color danger = Colors.red;
 
   // Specific colors

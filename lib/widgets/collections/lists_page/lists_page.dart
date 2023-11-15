@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/ordering/list_order.dart';
 import 'package:open_items/state/application/account.dart';
 import 'package:open_items/state/application/globals.dart';
@@ -134,6 +134,41 @@ class ListsPage extends HookConsumerWidget {
       );
     }
 
+    final listsView = SlidableAutoCloseBehavior(
+      child: ReorderableListView.builder(
+        footer: const SizedBox(height: CollectionLayout.listViewScrollOff),
+        itemCount: lists.length,
+        buildDefaultDragHandles: false,
+        onReorder: (oldIndex, newIndex) {},
+        itemBuilder: (context, index) {
+          final list = lists[index];
+
+          return CollectionEntry(
+            key: ObjectKey(list),
+            groupTag: lists,
+            icon: Icon(list.collectionType.icon),
+            onDelete: () => list.delete(),
+            onClick: () => Navigator.pushNamed(context, Routes.list.name),
+            onIconClick: () => showDialog(
+              context: context,
+              builder: (context) => CollectionTypeDialog(
+                title: "Change list type",
+                initialType: list.collectionType,
+                onSelected: (newType) {
+                  list.copyWith(type: newType).save();
+                },
+              ),
+            ),
+            child: Text(list.title),
+          );
+        },
+      ),
+    );
+
+    const emptyView = Center(
+      child: Text("Create new lists using the + button"),
+    );
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: UIColors.background,
@@ -203,31 +238,7 @@ class ListsPage extends HookConsumerWidget {
           ),
         ],
       ),
-      body: ReorderableListView.builder(
-        itemCount: lists.length,
-        buildDefaultDragHandles: false,
-        onReorder: (oldIndex, newIndex) {},
-        itemBuilder: (context, index) {
-          final list = lists[index];
-
-          return CollectionEntry(
-            key: UniqueKey(),
-            icon: Icon(list.collectionType.icon),
-            onClick: () => Navigator.pushNamed(context, Routes.list.name),
-            onIconClick: () => showDialog(
-              context: context,
-              builder: (context) => CollectionTypeDialog(
-                title: "Change list type",
-                initialType: list.collectionType,
-                onSelected: (newType) {
-                  list.copyWith(type: newType).save();
-                },
-              ),
-            ),
-            child: Text(list.title),
-          );
-        },
-      ),
+      body: lists.isNotEmpty ? listsView : emptyView,
     );
   }
 }
