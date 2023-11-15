@@ -20,9 +20,11 @@ import 'package:open_items/widgets/components/input/menu_element.dart';
 import 'package:open_items/widgets/components/modals/collection_type_dialog.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dialog.dart';
+import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
+import 'package:open_items/widgets/validation/core.dart';
 
 enum ListsPopupMenu {
   orderBy("Order By"),
@@ -109,6 +111,29 @@ class ListsPage extends HookConsumerWidget {
       }
     }
 
+    Future<void> createList(String title) async {
+      final time = DateTime.now();
+
+      final listId = await database.createListe(
+        owner: account,
+        listServerId: CoreValues.unknownServerId,
+        title: title,
+        type: defaultListType,
+        creationTime: time,
+        editionTime: time,
+      );
+
+      await database.createAccountListProperties(
+        user: account,
+        serverId: CoreValues.unknownServerId,
+        listLocalId: listId,
+        itemsOrdering: DefaultValues.itemsOrdering,
+        lexoRank: "",
+        shouldReverseOrder: DefaultValues.shouldReverse,
+        shouldStackDone: DefaultValues.shouldStackDone,
+      );
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: UIColors.background,
@@ -120,25 +145,13 @@ class ListsPage extends HookConsumerWidget {
             Radius.circular(UILayout.floatingActionButtonRadius),
           ),
         ),
-        onPressed: () async {
-          final time = DateTime.now();
-          final listId = await database.createListe(
-            owner: account,
-            listServerId: CoreValues.unknownServerId,
-            title: "TEST list",
-            type: defaultListType,
-            creationTime: time,
-            editionTime: time,
-          );
-
-          await database.createAccountListProperties(
-            user: account,
-            serverId: CoreValues.unknownServerId,
-            listLocalId: listId,
-            itemsOrdering: DefaultValues.itemsOrdering,
-            lexoRank: "",
-            shouldReverseOrder: DefaultValues.shouldReverse,
-            shouldStackDone: DefaultValues.shouldStackDone,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => TextDialog(
+              title: "New List Title",
+              onSubmit: alwaysValid((title) => createList(title)),
+            ),
           );
         },
         child: const Icon(

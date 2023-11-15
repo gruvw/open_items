@@ -4,7 +4,7 @@
 typedef ValidationFunction<T> = ValidationResult Function(T input);
 typedef SubmitValidate<T> = ValidationResult? Function(T input);
 
-ValidationFunction alwaysValid<T>(Function(T input) callback) {
+ValidationFunction<T> alwaysValid<T>(Function(T input) callback) {
   return (input) {
     callback(input);
     return ValidResult();

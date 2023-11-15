@@ -12,16 +12,15 @@ int Function(AccountListProperties?, AccountListProperties?) listsOrdering(
     late final l1 = database.getListe(lp1.listId)!;
     late final l2 = database.getListe(lp2.listId)!;
 
-    switch (properties.listsOrdering) {
-      case ListsOrdering.alphabetical:
-        return l1.title.compareTo(l2.title);
-      case ListsOrdering.creation:
-        return l1.creationTime.compareTo(l2.creationTime);
-      case ListsOrdering.edition:
-        return l1.editionTime.compareTo(l2.editionTime);
-      case ListsOrdering.custom:
-        return lp1.lexoRank.compareTo(lp2.lexoRank);
-    }
+    final reversed = properties.shouldReverseOrder ? -1 : 1;
+    final value = switch (properties.listsOrdering) {
+      ListsOrdering.alphabetical => l1.title.compareTo(l2.title),
+      ListsOrdering.creation => l1.creationTime.compareTo(l2.creationTime),
+      ListsOrdering.edition => l1.editionTime.compareTo(l2.editionTime),
+      ListsOrdering.custom => lp1.lexoRank.compareTo(lp2.lexoRank)
+    };
+
+    return reversed * value;
   }
 
   return listPositionCompare;

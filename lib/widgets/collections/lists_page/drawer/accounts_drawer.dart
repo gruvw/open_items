@@ -16,6 +16,7 @@ import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/validation/accounts/new_offline_name.dart';
+import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {
   final String selectedAccountId;
@@ -66,9 +67,8 @@ class AccountsDrawer extends ConsumerWidget {
       validation: validOfflineAccountRename(selectedAccount.name),
       placeholder: UIValues.accountNamePlaceholder,
       initialValue: selectedAccount.name,
-      onSubmit: (name) {
-        selectedAccount.copyWith(name: name).save();
-      },
+      onSubmit:
+          alwaysValid((name) => selectedAccount.copyWith(name: name).save()),
     );
 
     return SafeArea(

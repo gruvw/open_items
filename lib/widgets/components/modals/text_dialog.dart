@@ -12,7 +12,7 @@ class TextDialog extends HookWidget {
   final String? initialValue;
   final ValidationFunction<String>? validation;
   final ModalCallback? onCancel;
-  final SubmitValidate? onSubmit;
+  final SubmitValidate<String>? onSubmit;
   final String? inputLabel;
   final String? submitText;
   final String? cancelText;
