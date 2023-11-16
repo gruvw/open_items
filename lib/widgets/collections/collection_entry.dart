@@ -50,7 +50,7 @@ class CollectionEntry extends StatelessWidget {
       ),
     );
 
-    return ReorderableDragStartListener(
+    return ReorderableDelayedDragStartListener(
       enabled: reorderEnabled,
       index: index,
       child: Column(
@@ -59,9 +59,7 @@ class CollectionEntry extends StatelessWidget {
             groupTag: groupTag,
             endActionPane: ActionPane(
               motion: const StretchMotion(),
-              openThreshold: CollectionLayout.slideThreshold,
-              closeThreshold: CollectionLayout.slideThreshold,
-              extentRatio: CollectionLayout.slideableWidth /
+              extentRatio: CollectionLayout.slidableWidth /
                   MediaQuery.sizeOf(context).width,
               children: [
                 const VerticalDivider(

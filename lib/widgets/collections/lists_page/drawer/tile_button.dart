@@ -19,25 +19,28 @@ class TileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          foregroundColor: UIColors.primary,
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        foregroundColor: UIColors.primary,
+        padding: const EdgeInsets.symmetric(
+          vertical: DrawerLayout.tileVerticalPadding,
+          horizontal: DrawerLayout.tileHorizontalPadding,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: DrawerLayout.tileVerticalPadding,
-          ),
-          child: Row(
-            children: [
-              if (leading != null)
-                Row(children: [
-                  leading!,
-                  const SizedBox(width: DrawerLayout.tileButtonSpacing),
-                ]),
-              if (content != null) content!,
-              if (trailing != null) trailing!,
-            ],
-          ),
-        ));
+        // Reset material padding and boxes
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Row(
+        children: [
+          if (leading != null)
+            Row(children: [
+              leading!,
+              const SizedBox(width: DrawerLayout.tileButtonSpacing),
+            ]),
+          if (content != null) content!,
+          if (trailing != null) trailing!,
+        ],
+      ),
+    );
   }
 }

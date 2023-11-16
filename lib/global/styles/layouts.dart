@@ -2,13 +2,15 @@ abstract class UILayout {
   static const floatingActionButtonSize = 40.0;
   static const floatingActionButtonRadius = 10.0;
   static const iconTextHorizontalSpacing = 8.0;
+  static const appBarLeadingSpacing = 10.0;
+  static const appBarLeadingWidth = 100.0;
 }
 
 abstract class CollectionLayout {
-  static const dividerWidth = 2.0;
-  static const slideableWidth = 130;
+  static const dividerWidth = 1.0;
+  static const slidableWidth = 100.0;
   static const listViewScrollOff = 150.0;
-  static const slideThreshold = 0.1;
+  static const slideThreshold = 0.9;
 }
 
 abstract class AuthenticationPageLayout {
@@ -24,7 +26,7 @@ abstract class ButtonLayout {
   static const borderWidth = 2.0;
   static const borderRadius = 4.0;
   static const leadingSpacing = 8.0;
-  static const verticalPadding = 2.0;
+  static const verticalPadding = 4.0;
   static const horizontalPadding = 8.0;
   static const outlinedHorizontalPadding = 8.0;
 }
@@ -46,20 +48,20 @@ abstract class DialogLayout {
   static const borderWidth = 3.0;
   static const borderRadius = 6.0;
   static const padding = 12.0;
-  static const bodyVerticalPadding = 10.0;
+  static const bodyVerticalPadding = 15.0;
   static const outerHorizontalMargin = 25.0;
   static const buttonsContentMaxWidth = 180.0;
   static const buttonsContentSpacing = 7.0;
+  static const bottomSheetDividerWidth = 1.0;
 }
 
+// TODO improve buttons padding
 abstract class DrawerLayout {
-  static const appBarLeadingSpacing = 10.0;
-  static const appBarLeadingWidth = 100.0;
-  static const titleVerticalPadding = 10.0;
+  static const titleVerticalPadding = 8.0;
   static const sectionDividerWidth = 2.0;
-  static const tileHorizontalPadding = 4.0;
-  static const tileVerticalPadding = 2.0;
+  static const tileHorizontalPadding = 6.0;
+  static const tileVerticalPadding = 4.0;
   static const tileDividerWidth = 1.0;
-  static const sectionSpacing = 10.0;
   static const tileButtonSpacing = 8.0;
+  static const sectionSpacing = 10.0;
 }

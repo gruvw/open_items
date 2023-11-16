@@ -285,18 +285,20 @@ class AuthenticatePage extends HookConsumerWidget {
         ),
         backgroundColor: UIColors.primary,
       ),
-      body: Column(
-        children: [
-          tabBars,
-          Padding(
-            padding: const EdgeInsets.only(
-              top: AuthenticationPageLayout.formTopMargin,
-              left: AuthenticationPageLayout.formHorizontalMargin,
-              right: AuthenticationPageLayout.formHorizontalMargin,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            tabBars,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: AuthenticationPageLayout.formTopMargin,
+                left: AuthenticationPageLayout.formHorizontalMargin,
+                right: AuthenticationPageLayout.formHorizontalMargin,
+              ),
+              child: form,
             ),
-            child: form,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

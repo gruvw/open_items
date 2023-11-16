@@ -53,6 +53,9 @@ class PlainButton extends StatelessWidget {
           borderRadius:
               BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
         ),
+        // Reset material padding and boxes
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

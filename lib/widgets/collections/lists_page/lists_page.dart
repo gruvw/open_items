@@ -205,7 +205,7 @@ class ListsPage extends HookConsumerWidget {
       ),
       appBar: AppBar(
         backgroundColor: UIColors.primary,
-        leadingWidth: DrawerLayout.appBarLeadingWidth,
+        leadingWidth: UILayout.appBarLeadingWidth,
         leading: Row(
           children: [
             IconButton(
@@ -213,7 +213,7 @@ class ListsPage extends HookConsumerWidget {
               icon: const Icon(Icons.menu),
             ),
             const SizedBox(
-              width: DrawerLayout.appBarLeadingSpacing,
+              width: UILayout.appBarLeadingSpacing,
             ),
             const Icon(UIIcons.offline),
           ],
