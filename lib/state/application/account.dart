@@ -18,8 +18,11 @@ Account? localAccount(
 @riverpod
 AccountProperties? accountProperties(
   AccountPropertiesRef ref, {
-  required String? propertiesId,
+  required String? accountId,
 }) {
+  final account = ref.watch(localAccountProvider(accountId: accountId));
+  final propertiesId = account?.accountPropertiesId;
+
   ref.watch(objectEventsProvider(localId: propertiesId));
   return database.getAccountProperties(propertiesId);
 }

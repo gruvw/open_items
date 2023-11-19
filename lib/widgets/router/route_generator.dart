@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/item_page.dart';
-import 'package:open_items/widgets/collections/list_page.dart';
+import 'package:open_items/widgets/collections/list_page/list_page.dart';
 import 'package:open_items/widgets/collections/lists_page/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
 import 'package:open_items/widgets/router/home_page_redirection.dart';
@@ -34,14 +34,17 @@ enum Routes {
         if (args is String) {
           return ListsPage(accountId: args);
         }
-        return RouteGenerator.errorPage;
       case list:
-        return const ListPage();
+        if (args is String) {
+          return ListPage(listPropertiesId: args);
+        }
       case item:
         return const ItemPage();
       case error:
         return RouteGenerator.errorPage;
     }
+
+    return RouteGenerator.errorPage;
   }
 }
 

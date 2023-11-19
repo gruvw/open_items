@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'account.dart';
+part of 'lists.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localAccountHash() => r'd224705c671d94f0777d1a97818e70c0221ddd97';
+String _$listsPropertiesHash() => r'070a20b525f98bdad04c008c8a3b4253933e5fe6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,27 +29,27 @@ class _SystemHash {
   }
 }
 
-/// See also [localAccount].
-@ProviderFor(localAccount)
-const localAccountProvider = LocalAccountFamily();
+/// See also [listsProperties].
+@ProviderFor(listsProperties)
+const listsPropertiesProvider = ListsPropertiesFamily();
 
-/// See also [localAccount].
-class LocalAccountFamily extends Family<Account?> {
-  /// See also [localAccount].
-  const LocalAccountFamily();
+/// See also [listsProperties].
+class ListsPropertiesFamily extends Family<List<AccountListProperties>> {
+  /// See also [listsProperties].
+  const ListsPropertiesFamily();
 
-  /// See also [localAccount].
-  LocalAccountProvider call({
+  /// See also [listsProperties].
+  ListsPropertiesProvider call({
     required String? accountId,
   }) {
-    return LocalAccountProvider(
+    return ListsPropertiesProvider(
       accountId: accountId,
     );
   }
 
   @override
-  LocalAccountProvider getProviderOverride(
-    covariant LocalAccountProvider provider,
+  ListsPropertiesProvider getProviderOverride(
+    covariant ListsPropertiesProvider provider,
   ) {
     return call(
       accountId: provider.accountId,
@@ -68,32 +68,33 @@ class LocalAccountFamily extends Family<Account?> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'localAccountProvider';
+  String? get name => r'listsPropertiesProvider';
 }
 
-/// See also [localAccount].
-class LocalAccountProvider extends AutoDisposeProvider<Account?> {
-  /// See also [localAccount].
-  LocalAccountProvider({
+/// See also [listsProperties].
+class ListsPropertiesProvider
+    extends AutoDisposeProvider<List<AccountListProperties>> {
+  /// See also [listsProperties].
+  ListsPropertiesProvider({
     required String? accountId,
   }) : this._internal(
-          (ref) => localAccount(
-            ref as LocalAccountRef,
+          (ref) => listsProperties(
+            ref as ListsPropertiesRef,
             accountId: accountId,
           ),
-          from: localAccountProvider,
-          name: r'localAccountProvider',
+          from: listsPropertiesProvider,
+          name: r'listsPropertiesProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$localAccountHash,
-          dependencies: LocalAccountFamily._dependencies,
+                  : _$listsPropertiesHash,
+          dependencies: ListsPropertiesFamily._dependencies,
           allTransitiveDependencies:
-              LocalAccountFamily._allTransitiveDependencies,
+              ListsPropertiesFamily._allTransitiveDependencies,
           accountId: accountId,
         );
 
-  LocalAccountProvider._internal(
+  ListsPropertiesProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -107,12 +108,12 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
 
   @override
   Override overrideWith(
-    Account? Function(LocalAccountRef provider) create,
+    List<AccountListProperties> Function(ListsPropertiesRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: LocalAccountProvider._internal(
-        (ref) => create(ref as LocalAccountRef),
+      override: ListsPropertiesProvider._internal(
+        (ref) => create(ref as ListsPropertiesRef),
         from: from,
         name: null,
         dependencies: null,
@@ -124,13 +125,13 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
   }
 
   @override
-  AutoDisposeProviderElement<Account?> createElement() {
-    return _LocalAccountProviderElement(this);
+  AutoDisposeProviderElement<List<AccountListProperties>> createElement() {
+    return _ListsPropertiesProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is LocalAccountProvider && other.accountId == accountId;
+    return other is ListsPropertiesProvider && other.accountId == accountId;
   }
 
   @override
@@ -142,42 +143,44 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
   }
 }
 
-mixin LocalAccountRef on AutoDisposeProviderRef<Account?> {
+mixin ListsPropertiesRef
+    on AutoDisposeProviderRef<List<AccountListProperties>> {
   /// The parameter `accountId` of this provider.
   String? get accountId;
 }
 
-class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
-    with LocalAccountRef {
-  _LocalAccountProviderElement(super.provider);
+class _ListsPropertiesProviderElement
+    extends AutoDisposeProviderElement<List<AccountListProperties>>
+    with ListsPropertiesRef {
+  _ListsPropertiesProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as LocalAccountProvider).accountId;
+  String? get accountId => (origin as ListsPropertiesProvider).accountId;
 }
 
-String _$accountPropertiesHash() => r'066acf340b461170a31992173c8a1f68797ab9e0';
+String _$listsHash() => r'74bac2db5c9c7d04ec5f5d5e09ec94b14e736334';
 
-/// See also [accountProperties].
-@ProviderFor(accountProperties)
-const accountPropertiesProvider = AccountPropertiesFamily();
+/// See also [lists].
+@ProviderFor(lists)
+const listsProvider = ListsFamily();
 
-/// See also [accountProperties].
-class AccountPropertiesFamily extends Family<AccountProperties?> {
-  /// See also [accountProperties].
-  const AccountPropertiesFamily();
+/// See also [lists].
+class ListsFamily extends Family<List<Liste>> {
+  /// See also [lists].
+  const ListsFamily();
 
-  /// See also [accountProperties].
-  AccountPropertiesProvider call({
+  /// See also [lists].
+  ListsProvider call({
     required String? accountId,
   }) {
-    return AccountPropertiesProvider(
+    return ListsProvider(
       accountId: accountId,
     );
   }
 
   @override
-  AccountPropertiesProvider getProviderOverride(
-    covariant AccountPropertiesProvider provider,
+  ListsProvider getProviderOverride(
+    covariant ListsProvider provider,
   ) {
     return call(
       accountId: provider.accountId,
@@ -196,33 +199,31 @@ class AccountPropertiesFamily extends Family<AccountProperties?> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'accountPropertiesProvider';
+  String? get name => r'listsProvider';
 }
 
-/// See also [accountProperties].
-class AccountPropertiesProvider
-    extends AutoDisposeProvider<AccountProperties?> {
-  /// See also [accountProperties].
-  AccountPropertiesProvider({
+/// See also [lists].
+class ListsProvider extends AutoDisposeProvider<List<Liste>> {
+  /// See also [lists].
+  ListsProvider({
     required String? accountId,
   }) : this._internal(
-          (ref) => accountProperties(
-            ref as AccountPropertiesRef,
+          (ref) => lists(
+            ref as ListsRef,
             accountId: accountId,
           ),
-          from: accountPropertiesProvider,
-          name: r'accountPropertiesProvider',
+          from: listsProvider,
+          name: r'listsProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$accountPropertiesHash,
-          dependencies: AccountPropertiesFamily._dependencies,
-          allTransitiveDependencies:
-              AccountPropertiesFamily._allTransitiveDependencies,
+                  : _$listsHash,
+          dependencies: ListsFamily._dependencies,
+          allTransitiveDependencies: ListsFamily._allTransitiveDependencies,
           accountId: accountId,
         );
 
-  AccountPropertiesProvider._internal(
+  ListsProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -236,12 +237,12 @@ class AccountPropertiesProvider
 
   @override
   Override overrideWith(
-    AccountProperties? Function(AccountPropertiesRef provider) create,
+    List<Liste> Function(ListsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: AccountPropertiesProvider._internal(
-        (ref) => create(ref as AccountPropertiesRef),
+      override: ListsProvider._internal(
+        (ref) => create(ref as ListsRef),
         from: from,
         name: null,
         dependencies: null,
@@ -253,13 +254,13 @@ class AccountPropertiesProvider
   }
 
   @override
-  AutoDisposeProviderElement<AccountProperties?> createElement() {
-    return _AccountPropertiesProviderElement(this);
+  AutoDisposeProviderElement<List<Liste>> createElement() {
+    return _ListsProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is AccountPropertiesProvider && other.accountId == accountId;
+    return other is ListsProvider && other.accountId == accountId;
   }
 
   @override
@@ -271,18 +272,17 @@ class AccountPropertiesProvider
   }
 }
 
-mixin AccountPropertiesRef on AutoDisposeProviderRef<AccountProperties?> {
+mixin ListsRef on AutoDisposeProviderRef<List<Liste>> {
   /// The parameter `accountId` of this provider.
   String? get accountId;
 }
 
-class _AccountPropertiesProviderElement
-    extends AutoDisposeProviderElement<AccountProperties?>
-    with AccountPropertiesRef {
-  _AccountPropertiesProviderElement(super.provider);
+class _ListsProviderElement extends AutoDisposeProviderElement<List<Liste>>
+    with ListsRef {
+  _ListsProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as AccountPropertiesProvider).accountId;
+  String? get accountId => (origin as ListsProvider).accountId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

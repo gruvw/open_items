@@ -26,6 +26,7 @@ void main() async {
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
+        theme: ThemeData(visualDensity: VisualDensity.compact),
         title: UIValues.applicationTitle,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home.name,

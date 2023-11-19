@@ -25,7 +25,7 @@ class OrderingButton extends StatelessWidget {
 
     final content = Column(
       children: [
-        Divider(
+        const Divider(
           height: DialogLayout.bottomSheetDividerWidth,
           thickness: DialogLayout.bottomSheetDividerWidth,
           color: UIColors.primary,

@@ -16,9 +16,8 @@ class ListsOrderingDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final account = ref.watch(localAccountProvider(accountId: accountId))!;
-    final properties = ref.watch(
-        accountPropertiesProvider(propertiesId: account.accountPropertiesId!))!;
+    final properties =
+        ref.watch(accountPropertiesProvider(accountId: accountId))!;
 
     final selectedOrdering = properties.listsOrdering;
     final shouldReversed = properties.shouldReverseOrder;

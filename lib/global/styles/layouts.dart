@@ -26,7 +26,7 @@ abstract class ButtonLayout {
   static const borderWidth = 2.0;
   static const borderRadius = 4.0;
   static const leadingSpacing = 8.0;
-  static const verticalPadding = 4.0;
+  static const verticalPadding = 14.0;
   static const horizontalPadding = 8.0;
   static const outlinedHorizontalPadding = 8.0;
 }
@@ -60,7 +60,7 @@ abstract class DrawerLayout {
   static const titleVerticalPadding = 8.0;
   static const sectionDividerWidth = 2.0;
   static const tileHorizontalPadding = 6.0;
-  static const tileVerticalPadding = 4.0;
+  static const tileVerticalPadding = 10.0;
   static const tileDividerWidth = 1.0;
   static const tileButtonSpacing = 8.0;
   static const sectionSpacing = 10.0;

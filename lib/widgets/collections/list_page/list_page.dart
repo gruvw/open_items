@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 
-// TODO
 class ListPage extends StatelessWidget {
-  const ListPage({super.key});
+  final String listPropertiesId;
+  // final
+
+  const ListPage({
+    super.key,
+    required this.listPropertiesId,
+  });
 
   @override
   Widget build(BuildContext context) {

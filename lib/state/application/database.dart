@@ -9,8 +9,6 @@ Stream<Event<DatabaseObject>> objectEvents(
   ObjectEventsRef ref, {
   required String? localId,
 }) async* {
-  if (localId != null) {
-    yield* database.watchObject(localId).where((event) =>
-        event.type != EventType.delete && event.object.localId == localId);
-  }
+  yield* database.watchObject(localId).where((event) =>
+      event.type != EventType.delete && event.object.localId == localId);
 }

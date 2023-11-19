@@ -72,7 +72,7 @@ abstract class Database {
   List<Account> getLocalAccounts();
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
-  Stream<Event<DatabaseObject>> watchObject(String localId) {
+  Stream<Event<DatabaseObject>> watchObject(String? localId) {
     return eventsController.stream.where((event) =>
         event.object.localId == localId && event.type != EventType.delete);
   }

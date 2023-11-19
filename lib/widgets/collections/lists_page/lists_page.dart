@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
-import 'package:open_items/models/ordering/list_order.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/account.dart';
 import 'package:open_items/state/application/globals.dart';
-import 'package:open_items/state/application/list.dart';
+import 'package:open_items/state/application/lists.dart';
 import 'package:open_items/state/shared_preferences/objects/default_list_type.dart';
 import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
+import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
+import 'package:open_items/widgets/collections/new_button.dart';
+import 'package:open_items/widgets/collections/search_button.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
 import 'package:open_items/widgets/components/modals/collection_type_dialog.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
@@ -24,7 +24,6 @@ import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dia
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
-import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/validation/accounts/list_title.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
@@ -53,9 +52,13 @@ class ListsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final defaultListType = ref.watch(defaultListTypeProvider);
+
     final account = ref.watch(localAccountProvider(accountId: accountId));
-    final accountProperties = ref.watch(
-        accountPropertiesProvider(propertiesId: account?.accountPropertiesId));
+    final accountProperties =
+        ref.watch(accountPropertiesProvider(accountId: accountId));
+    final listsProperties =
+        ref.watch(listsPropertiesProvider(accountId: accountId));
+    final lists = ref.watch(listsProvider(accountId: accountId));
 
     // Set viewed account as the (persisted) selected one
     useEffect(() {
@@ -66,17 +69,6 @@ class ListsPage extends HookConsumerWidget {
     if (account == null || accountProperties == null) {
       return const LoadingPage();
     }
-
-    final ordering = listsOrdering(accountProperties);
-    final listsProperties = accountProperties.listsPropertiesIds.map(
-      (lpid) => ref.watch(accountListPropertiesProvider(propertiesId: lpid)),
-    );
-    final lists = listsProperties
-        .sorted(ordering)
-        .map((lp) => lp?.listId)
-        .map((lid) => ref.watch(listProvider(localId: lid)))
-        .whereNotNull()
-        .toList();
 
     // Testing dialog
     if (!_testingMessageShown) {
@@ -130,44 +122,45 @@ class ListsPage extends HookConsumerWidget {
         serverId: CoreValues.unknownServerId,
         listLocalId: listId,
         itemsOrdering: DefaultValues.itemsOrdering,
-        lexoRank: "",
+        lexoRank: "", // TODO lexoRanking
         shouldReverseOrder: DefaultValues.shouldReverse,
         shouldStackDone: DefaultValues.shouldStackDone,
       );
     }
 
-    final listsView = SlidableAutoCloseBehavior(
-      child: ReorderableListView.builder(
-        footer: const SizedBox(height: CollectionLayout.listViewScrollOff),
-        itemCount: lists.length,
-        buildDefaultDragHandles: false,
-        onReorder: (oldIndex, newIndex) {},
-        itemBuilder: (context, index) {
-          final list = lists[index];
+    final listsView = CollectionView(
+      length: lists.length,
+      builder: (context, index) {
+        final list = lists[index];
 
-          return CollectionEntry(
-            key: ObjectKey(list),
-            index: index,
-            groupTag: lists,
-            reorderEnabled:
-                accountProperties.listsOrdering == ListsOrdering.custom,
-            icon: Icon(list.collectionType.icon),
-            onDelete: () => list.delete(),
-            onClick: () => Navigator.pushNamed(context, Routes.list.name),
-            onIconClick: () => showDialog(
-              context: context,
-              builder: (context) => CollectionTypeDialog(
-                title: "Change list type",
-                initialType: list.collectionType,
-                onSelected: (newType) {
-                  list.copyWith(type: newType).save();
-                },
-              ),
+        return CollectionEntry(
+          key: ObjectKey(list),
+          index: index,
+          groupTag: lists,
+          reorderEnabled:
+              accountProperties.listsOrdering == ListsOrdering.custom,
+          icon: Icon(list.collectionType.icon),
+          onDelete: () => list.delete(),
+          onClick: () => Navigator.pushNamed(
+            context,
+            Routes.list.name,
+            arguments: listsProperties
+                .firstWhere((lp) => lp.listId == list.listId)
+                .localId,
+          ),
+          onIconClick: () => showDialog(
+            context: context,
+            builder: (context) => CollectionTypeDialog(
+              title: "Change list type",
+              initialType: list.collectionType,
+              onSelected: (newType) {
+                list.copyWith(type: newType).save();
+              },
             ),
-            child: Text(list.title),
-          );
-        },
-      ),
+          ),
+          child: Text(list.title),
+        );
+      },
     );
 
     const emptyView = Center(
@@ -178,29 +171,17 @@ class ListsPage extends HookConsumerWidget {
       key: _scaffoldKey,
       backgroundColor: UIColors.background,
       drawer: AccountsDrawer(selectedAccountId: accountId),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: UIColors.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(UILayout.floatingActionButtonRadius),
+      floatingActionButton: NewButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (_) => TextDialog(
+            title: "New List Title",
+            submitText: "Create",
+            capitalization: TextCapitalization.sentences,
+            placeholder: UIPlaceholders.listTitle,
+            validation: validListTitle,
+            onSubmit: alwaysValid((title) => createList(title)),
           ),
-        ),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => TextDialog(
-              title: "New List Title",
-              submitText: "Create",
-              capitalization: TextCapitalization.sentences,
-              placeholder: UIPlaceholders.listTitle,
-              validation: validListTitle,
-              onSubmit: alwaysValid((title) => createList(title)),
-            ),
-          );
-        },
-        child: const Icon(
-          UIIcons.add,
-          size: UILayout.floatingActionButtonSize,
         ),
       ),
       appBar: AppBar(
@@ -219,15 +200,7 @@ class ListsPage extends HookConsumerWidget {
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(UIIcons.search),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) => notSupportedDialog,
-              );
-            },
-          ),
+          const SearchButton(),
           PopupMenuButton(
             onSelected: menuCallback,
             itemBuilder: (BuildContext context) {
