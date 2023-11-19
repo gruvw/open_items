@@ -85,6 +85,7 @@ class AccountsDrawer extends ConsumerWidget {
                 isActive: account.localId == selectedAccount.localId,
               ),
             TileButton(
+              padding: _tilePadding,
               leading: const Icon(
                 UIIcons.add,
                 color: UIColors.primary,
@@ -105,6 +106,7 @@ class AccountsDrawer extends ConsumerWidget {
               title: selectedAccount.name,
             ),
             TileButton(
+              padding: _tilePadding,
               leading: const Icon(UIIcons.import, color: UIColors.primary),
               content: Text("Import data", style: UITexts.normalText),
               onPressed: () {
@@ -115,6 +117,7 @@ class AccountsDrawer extends ConsumerWidget {
               },
             ),
             TileButton(
+              padding: _tilePadding,
               leading: const Icon(UIIcons.export, color: UIColors.primary),
               content: Text("Export data", style: UITexts.normalText),
               onPressed: () {
@@ -124,12 +127,12 @@ class AccountsDrawer extends ConsumerWidget {
                 );
               },
             ),
-            _divider,
+            _tileDivider,
             TileButton(
+              padding: _tilePadding,
               leading: const Icon(
                 UIIcons.rename,
                 color: UIColors.primary,
-                size: 22,
               ),
               content: Text("Rename account", style: UITexts.normalText),
               onPressed: () {
@@ -140,8 +143,9 @@ class AccountsDrawer extends ConsumerWidget {
                 );
               },
             ),
-            _divider,
+            _tileDivider,
             TileButton(
+              padding: _tilePadding,
               leading: const Icon(UIIcons.delete, color: UIColors.danger),
               content: Text("Delete account", style: UITexts.normalText),
               onPressed: () {
@@ -157,7 +161,12 @@ class AccountsDrawer extends ConsumerWidget {
     );
   }
 
-  static const _divider = Divider(
+  static const _tilePadding = EdgeInsets.symmetric(
+    vertical: DrawerLayout.tileVerticalPadding,
+    horizontal: DrawerLayout.tileHorizontalPadding,
+  );
+
+  static const _tileDivider = Divider(
     color: UIColors.primary,
     height: DrawerLayout.tileDividerWidth,
     thickness: DrawerLayout.tileDividerWidth,

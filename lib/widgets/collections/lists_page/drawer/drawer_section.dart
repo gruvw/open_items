@@ -34,8 +34,8 @@ class DrawerSection extends StatelessWidget {
         ),
         const Divider(
           color: UIColors.background,
-          height: DrawerLayout.sectionDividerWidth,
-          thickness: DrawerLayout.sectionDividerWidth,
+          height: DrawerLayout.titleDividerWidth,
+          thickness: DrawerLayout.titleDividerWidth,
         )
       ],
     );

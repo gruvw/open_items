@@ -6,6 +6,7 @@ class TileButton extends StatelessWidget {
   final Widget? leading;
   final Widget? content;
   final Widget? trailing;
+  final EdgeInsetsGeometry? padding;
   final VoidCallback? onPressed;
 
   const TileButton({
@@ -13,6 +14,7 @@ class TileButton extends StatelessWidget {
     this.leading,
     this.content,
     this.trailing,
+    this.padding,
     this.onPressed,
   });
 
@@ -22,10 +24,7 @@ class TileButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         foregroundColor: UIColors.primary,
-        padding: const EdgeInsets.symmetric(
-          vertical: DrawerLayout.tileVerticalPadding,
-          horizontal: DrawerLayout.tileHorizontalPadding,
-        ),
+        padding: padding,
         // Reset material padding and boxes
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -33,10 +32,13 @@ class TileButton extends StatelessWidget {
       child: Row(
         children: [
           if (leading != null)
-            Row(children: [
-              leading!,
-              const SizedBox(width: DrawerLayout.tileButtonSpacing),
-            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                leading!,
+                const SizedBox(width: DrawerLayout.tileButtonSpacing),
+              ],
+            ),
           if (content != null) content!,
           if (trailing != null) trailing!,
         ],

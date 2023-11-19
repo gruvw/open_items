@@ -4,6 +4,7 @@ abstract class UILayout {
   static const iconTextHorizontalSpacing = 8.0;
   static const appBarLeadingSpacing = 10.0;
   static const appBarLeadingWidth = 100.0;
+  static const scrollOff = 50.0;
 }
 
 abstract class CollectionLayout {
@@ -26,9 +27,9 @@ abstract class ButtonLayout {
   static const borderWidth = 2.0;
   static const borderRadius = 4.0;
   static const leadingSpacing = 8.0;
-  static const verticalPadding = 14.0;
-  static const horizontalPadding = 8.0;
-  static const outlinedHorizontalPadding = 8.0;
+  static const verticalPadding = 16.0;
+  static const horizontalPadding = 10.0;
+  static const outlinedHorizontalPadding = 10.0;
 }
 
 abstract class TextInputLayout {
@@ -55,12 +56,13 @@ abstract class DialogLayout {
   static const bottomSheetDividerWidth = 1.0;
 }
 
-// TODO improve buttons padding
 abstract class DrawerLayout {
   static const titleVerticalPadding = 8.0;
-  static const sectionDividerWidth = 2.0;
+  static const titleDividerWidth = 2.0;
+  static const accountTileHorizontalPadding = 6.0;
+  static const accountTileVerticalPadding = 4.0;
+  static const tileVerticalPadding = 12.0;
   static const tileHorizontalPadding = 6.0;
-  static const tileVerticalPadding = 10.0;
   static const tileDividerWidth = 1.0;
   static const tileButtonSpacing = 8.0;
   static const sectionSpacing = 10.0;

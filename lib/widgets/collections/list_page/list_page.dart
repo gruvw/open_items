@@ -3,7 +3,6 @@ import 'package:open_items/global/styles/ui_colors.dart';
 
 class ListPage extends StatelessWidget {
   final String listPropertiesId;
-  // final
 
   const ListPage({
     super.key,
@@ -13,7 +12,7 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Text("List Page"),
+      body: Text("List Page $listPropertiesId"),
       appBar: AppBar(
         backgroundColor: UIColors.primary,
       ),

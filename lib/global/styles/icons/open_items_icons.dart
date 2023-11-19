@@ -1,6 +1,6 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/widgets.dart';
+
+// ignore_for_file: constant_identifier_names
 
 class OpenItemsIcons {
   OpenItemsIcons._();
@@ -30,10 +30,10 @@ class OpenItemsIcons {
       IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData numbered_list_simple =
       IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData plus =
-      IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData rename =
-      IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData up_arrow =
       IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData rename =
+      IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData plus =
+      IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

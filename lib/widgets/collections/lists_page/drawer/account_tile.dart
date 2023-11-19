@@ -26,6 +26,10 @@ class AccountTile extends StatelessWidget {
       child: Column(
         children: [
           TileButton(
+            padding: const EdgeInsets.symmetric(
+              vertical: DrawerLayout.accountTileVerticalPadding,
+              horizontal: DrawerLayout.accountTileHorizontalPadding,
+            ),
             onPressed: !isActive
                 ? () => Navigator.pushNamed(
                       context,
@@ -36,8 +40,8 @@ class AccountTile extends StatelessWidget {
             content: Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: DrawerLayout.tileHorizontalPadding,
-                  vertical: DrawerLayout.tileVerticalPadding,
+                  horizontal: DrawerLayout.accountTileHorizontalPadding,
+                  vertical: DrawerLayout.accountTileVerticalPadding,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

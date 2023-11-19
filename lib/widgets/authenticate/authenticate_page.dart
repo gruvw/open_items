@@ -15,6 +15,7 @@ import 'package:open_items/widgets/components/input/text.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
+import 'package:open_items/widgets/utils/navigation/extended_scroll_view.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/accounts/offline_account_name.dart';
 
@@ -285,7 +286,7 @@ class AuthenticatePage extends HookConsumerWidget {
         ),
         backgroundColor: UIColors.primary,
       ),
-      body: SingleChildScrollView(
+      body: ExtendedScrollView(
         child: Column(
           children: [
             tabBars,
