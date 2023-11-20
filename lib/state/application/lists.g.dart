@@ -6,7 +6,7 @@ part of 'lists.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$listsPropertiesHash() => r'f3bb8ceeda04da956bec8a557cc0b53f67b920b4';
+String _$listsPropertiesHash() => r'd87a9e6e888d257cf4565a155fb49e2b6b2fd2bc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ class _SystemHash {
 const listsPropertiesProvider = ListsPropertiesFamily();
 
 /// See also [listsProperties].
-class ListsPropertiesFamily extends Family<List<AccountListProperties>> {
+class ListsPropertiesFamily extends Family<List<AccountListProperties>?> {
   /// See also [listsProperties].
   const ListsPropertiesFamily();
 
@@ -73,7 +73,7 @@ class ListsPropertiesFamily extends Family<List<AccountListProperties>> {
 
 /// See also [listsProperties].
 class ListsPropertiesProvider
-    extends AutoDisposeProvider<List<AccountListProperties>> {
+    extends AutoDisposeProvider<List<AccountListProperties>?> {
   /// See also [listsProperties].
   ListsPropertiesProvider({
     required String? accountId,
@@ -108,7 +108,7 @@ class ListsPropertiesProvider
 
   @override
   Override overrideWith(
-    List<AccountListProperties> Function(ListsPropertiesRef provider) create,
+    List<AccountListProperties>? Function(ListsPropertiesRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -125,7 +125,7 @@ class ListsPropertiesProvider
   }
 
   @override
-  AutoDisposeProviderElement<List<AccountListProperties>> createElement() {
+  AutoDisposeProviderElement<List<AccountListProperties>?> createElement() {
     return _ListsPropertiesProviderElement(this);
   }
 
@@ -144,13 +144,13 @@ class ListsPropertiesProvider
 }
 
 mixin ListsPropertiesRef
-    on AutoDisposeProviderRef<List<AccountListProperties>> {
+    on AutoDisposeProviderRef<List<AccountListProperties>?> {
   /// The parameter `accountId` of this provider.
   String? get accountId;
 }
 
 class _ListsPropertiesProviderElement
-    extends AutoDisposeProviderElement<List<AccountListProperties>>
+    extends AutoDisposeProviderElement<List<AccountListProperties>?>
     with ListsPropertiesRef {
   _ListsPropertiesProviderElement(super.provider);
 
@@ -158,14 +158,14 @@ class _ListsPropertiesProviderElement
   String? get accountId => (origin as ListsPropertiesProvider).accountId;
 }
 
-String _$listsHash() => r'74bac2db5c9c7d04ec5f5d5e09ec94b14e736334';
+String _$listsHash() => r'b5994cdaea65c1201764d4074760c7d071c61f21';
 
 /// See also [lists].
 @ProviderFor(lists)
 const listsProvider = ListsFamily();
 
 /// See also [lists].
-class ListsFamily extends Family<List<Liste>> {
+class ListsFamily extends Family<List<Liste>?> {
   /// See also [lists].
   const ListsFamily();
 
@@ -203,7 +203,7 @@ class ListsFamily extends Family<List<Liste>> {
 }
 
 /// See also [lists].
-class ListsProvider extends AutoDisposeProvider<List<Liste>> {
+class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
   /// See also [lists].
   ListsProvider({
     required String? accountId,
@@ -237,7 +237,7 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>> {
 
   @override
   Override overrideWith(
-    List<Liste> Function(ListsRef provider) create,
+    List<Liste>? Function(ListsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -254,7 +254,7 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>> {
   }
 
   @override
-  AutoDisposeProviderElement<List<Liste>> createElement() {
+  AutoDisposeProviderElement<List<Liste>?> createElement() {
     return _ListsProviderElement(this);
   }
 
@@ -272,12 +272,12 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>> {
   }
 }
 
-mixin ListsRef on AutoDisposeProviderRef<List<Liste>> {
+mixin ListsRef on AutoDisposeProviderRef<List<Liste>?> {
   /// The parameter `accountId` of this provider.
   String? get accountId;
 }
 
-class _ListsProviderElement extends AutoDisposeProviderElement<List<Liste>>
+class _ListsProviderElement extends AutoDisposeProviderElement<List<Liste>?>
     with ListsRef {
   _ListsProviderElement(super.provider);
 

@@ -114,17 +114,8 @@ class HiveItem extends Item with HiveCollection {
   HiveStoreCollection get collectionStore => hiveStoreItem;
 
   @override
-  Collection get parent {
-    // Cannot use isFirstLevel here
-
-    final parentId = hiveStoreItem.hiveParentLocalId;
-    final list = database.getListe(parentId);
-    if (list != null) {
-      return list;
-    }
-
-    return database.getItem(parentId)!;
-  }
+  Collection get parent =>
+      database.getCollection(hiveStoreItem.hiveParentLocalId)!;
 
   @override
   List<HiveItem> get items {

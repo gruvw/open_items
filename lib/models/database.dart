@@ -77,6 +77,11 @@ abstract class Database {
   Liste? getListe(String? listId);
   Item? getItem(String? itemId);
 
+  // Helper methods
+
+  Collection? getCollection(String? localId) =>
+      getListe(localId) ?? getItem(localId);
+
   // Events
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
