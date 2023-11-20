@@ -25,7 +25,6 @@ class HiveStoreItemAdapter extends TypeAdapter<HiveStoreItem> {
       hiveDoneTime: fields[5] as int,
       hiveLexoRank: fields[6] as String,
       hiveIsDone: fields[7] as bool,
-      hiveListLocalId: fields[8] as String,
       hiveParentLocalId: fields[9] as String,
       hiveItemsLocalIds: (fields[10] as List).cast<String>(),
     );
@@ -34,7 +33,7 @@ class HiveStoreItemAdapter extends TypeAdapter<HiveStoreItem> {
   @override
   void write(BinaryWriter writer, HiveStoreItem obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.hiveServerId)
       ..writeByte(1)
@@ -51,8 +50,6 @@ class HiveStoreItemAdapter extends TypeAdapter<HiveStoreItem> {
       ..write(obj.hiveLexoRank)
       ..writeByte(7)
       ..write(obj.hiveIsDone)
-      ..writeByte(8)
-      ..write(obj.hiveListLocalId)
       ..writeByte(9)
       ..write(obj.hiveParentLocalId)
       ..writeByte(10)

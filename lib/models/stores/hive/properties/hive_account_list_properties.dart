@@ -50,7 +50,7 @@ class HiveAccountListProperties extends AccountListProperties {
   @override
   final String serverId;
 
-  // Immutable
+  // Immutable (not with copyWith)
   @override
   final String listId;
   @override

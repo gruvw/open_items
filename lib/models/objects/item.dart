@@ -1,19 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:open_items/global/data_fields.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 abstract class Item extends Collection {
-  abstract String text;
-  abstract String lexoRank;
-  abstract bool isDone;
-  abstract DateTime doneTime;
+  String get text;
+  String get lexoRank;
+  bool get isDone;
+  DateTime get doneTime;
 
+  Item copyWith({
+    String? text,
+    CollectionType? type,
+    String? lexoRank,
+    bool? isDone,
+  });
+
+  String get parentId;
+
+  @protected
   Collection get parent;
 
-  bool get isFirstLevel;
+  @override
+  String get listId => parent.listId;
 
   // Helper methods
+
+  bool get isFirstLevel => parent.localId == listId;
 
   @override
   String get content => text;

@@ -31,16 +31,18 @@ abstract class Collection extends DatabaseServerObject {
   String get content;
   String get listId;
 
-  List<Item> get items;
-  List<Collection> get collectionPath;
+  List<String> get itemIds;
+  List<Collection> get collectionPath; // not reactive!
 
   bool isChildOf(Collection collection, {bool direct = false});
 
   // Helper methods
 
-  String get displayPath => collectionPath
-      .map((collection) => collection.content)
-      .join(displayPathSeparator);
+  @protected
+  List<Item> get items;
+
+  String get displayPath =>
+      collectionPath.map((c) => c.content).join(displayPathSeparator);
 
   List<Collection> get deepFlattened =>
       [this, for (final item in items) ...item.deepFlattened];

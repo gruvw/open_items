@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
@@ -31,16 +32,21 @@ class HiveAccount extends Account {
   final HiveDatabase hiveDatabase;
   final HiveStoreAccount hiveStoreAccount;
 
+  // Database
   @override
   final String localId;
   @override
   final String serverId;
+
+  // Immutable (not with copyWith)
   @override
   final String server;
   @override
-  final String name;
+  final String? accountPropertiesId;
+
+  // Mutable
   @override
-  final String accountPropertiesId;
+  final String name;
 
   HiveAccount({
     required this.hiveDatabase,
@@ -50,7 +56,10 @@ class HiveAccount extends Account {
         serverId = hiveStoreAccount.hiveServerId,
         server = hiveStoreAccount.hiveServer,
         name = name ?? hiveStoreAccount.hiveName,
-        accountPropertiesId = hiveStoreAccount.hiveAccountPropertiesLocalId;
+        accountPropertiesId = hiveStoreAccount.hiveAccountPropertiesLocalId !=
+                CoreValues.unknownLocalId
+            ? hiveStoreAccount.hiveAccountPropertiesLocalId
+            : null;
 
   @override
   Database get database => hiveDatabase;

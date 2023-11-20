@@ -1,9 +1,10 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' hide HiveCollection;
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
 import 'package:open_items/models/stores/hive/objects/hive_list.dart';
+import 'package:open_items/utils/lang.dart';
 
 part 'hive_item.g.dart';
 
@@ -33,9 +34,6 @@ class HiveStoreItem with HiveObjectMixin implements HiveStoreCollection {
   @HiveField(7)
   bool hiveIsDone;
 
-  @HiveField(8)
-  String hiveListLocalId;
-
   @HiveField(9)
   String hiveParentLocalId;
 
@@ -52,112 +50,80 @@ class HiveStoreItem with HiveObjectMixin implements HiveStoreCollection {
     required this.hiveDoneTime,
     required this.hiveLexoRank,
     required this.hiveIsDone,
-    required this.hiveListLocalId,
     required this.hiveParentLocalId,
     required this.hiveItemsLocalIds,
   });
 }
 
-class HiveItem extends Item {
+class HiveItem extends Item with HiveCollection {
   final HiveDatabase hiveDatabase;
   final HiveStoreItem hiveStoreItem;
+
+  // Database
+  @override
+  final String localId;
+  @override
+  final String serverId;
+
+  // Immutable (not with copyWith)
+  @override
+  final String parentId;
+  @override
+  final DateTime creationTime;
+  @override
+  final DateTime editionTime;
+
+  // Mutable
+  @override
+  final String text;
+  @override
+  final int typeIndex;
+  @override
+  final String lexoRank;
+  @override
+  final bool isDone;
+  @override
+  final DateTime doneTime;
 
   HiveItem({
     required this.hiveDatabase,
     required this.hiveStoreItem,
-  });
+    String? text,
+    int? typeIndex,
+    String? lexoRank,
+    bool? isDone,
+    DateTime? doneTime,
+  })  : localId = hiveStoreItem.key,
+        serverId = hiveStoreItem.hiveServerId,
+        parentId = hiveStoreItem.hiveParentLocalId,
+        creationTime =
+            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveCreationTime),
+        editionTime =
+            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveEditionTime),
+        text = text ?? hiveStoreItem.hiveText,
+        typeIndex = typeIndex ?? hiveStoreItem.hiveTypeIndex,
+        lexoRank = lexoRank ?? hiveStoreItem.hiveLexoRank,
+        isDone = isDone ?? hiveStoreItem.hiveIsDone,
+        doneTime = doneTime ??
+            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveDoneTime);
 
   @override
-  Database get database => hiveDatabase;
+  HiveDatabase get database => hiveDatabase;
 
   @override
-  String get localId => hiveStoreItem.key;
-
-  @override
-  String get serverId => hiveStoreItem.hiveServerId;
-
-  @override
-  String get text => hiveStoreItem.hiveText;
-
-  @override
-  set text(String newText) {
-    hiveStoreItem.hiveText = newText;
-    hiveStoreItem.save();
-  }
-
-  @override
-  int get typeIndex => hiveStoreItem.hiveTypeIndex;
-
-  @override
-  set typeIndex(int newTypeIndex) {
-    hiveStoreItem.hiveTypeIndex = newTypeIndex;
-    hiveStoreItem.save();
-  }
-
-  @override
-  DateTime get creationTime =>
-      DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveCreationTime);
-
-  @override
-  DateTime get editionTime =>
-      DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveEditionTime);
-
-  @override
-  set editionTime(DateTime newEditionTime) {
-    hiveStoreItem.hiveEditionTime = newEditionTime.millisecondsSinceEpoch;
-    hiveStoreItem.save();
-  }
-
-  @override
-  DateTime get doneTime =>
-      DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveDoneTime);
-
-  @override
-  set doneTime(DateTime newDoneTime) {
-    hiveStoreItem.hiveDoneTime = newDoneTime.millisecondsSinceEpoch;
-    hiveStoreItem.save();
-  }
-
-  @override
-  String get lexoRank => hiveStoreItem.hiveLexoRank;
-
-  @override
-  set lexoRank(String newLexoRank) {
-    hiveStoreItem.hiveLexoRank = newLexoRank;
-    hiveStoreItem.save();
-  }
-
-  @override
-  bool get isDone => hiveStoreItem.hiveIsDone;
-
-  @override
-  set isDone(bool newIsDone) {
-    hiveStoreItem.hiveIsDone = newIsDone;
-    hiveStoreItem.save();
-  }
-
-  @override
-  bool get isFirstLevel =>
-      hiveStoreItem.hiveListLocalId == hiveStoreItem.hiveParentLocalId;
-
-  @override
-  String get listId {
-    return hiveStoreItem.hiveListLocalId;
-  }
+  HiveStoreCollection get collectionStore => hiveStoreItem;
 
   @override
   Collection get parent {
-    if (isFirstLevel) {
-      return database.getListe(listId)!;
+    // Cannot use isFirstLevel here
+
+    final parentId = hiveStoreItem.hiveParentLocalId;
+    final list = database.getListe(parentId);
+    if (list != null) {
+      return list;
     }
 
-    final hiveStoreParentItem =
-        hiveDatabase.itemsBox.get(hiveStoreItem.hiveParentLocalId)!;
-
-    return HiveItem(
-      hiveDatabase: hiveDatabase,
-      hiveStoreItem: hiveStoreParentItem,
-    );
+    return database.getItem(parentId)!;
   }
 
   @override
@@ -171,21 +137,45 @@ class HiveItem extends Item {
   }
 
   @override
+  Item copyWith({
+    String? text,
+    CollectionType? type,
+    String? lexoRank,
+    bool? isDone,
+  }) {
+    return HiveItem(
+      hiveDatabase: database,
+      hiveStoreItem: hiveStoreItem,
+      text: text,
+      typeIndex: type?.index,
+      lexoRank: lexoRank,
+      isDone: isDone,
+      doneTime: isDone.map((_) => DateTime.now()),
+    );
+  }
+
+  @override
+  Future<void> save() {
+    hiveStoreItem.hiveText = text;
+    hiveStoreItem.hiveTypeIndex = typeIndex;
+    hiveStoreItem.hiveEditionTime = DateTime.now().millisecondsSinceEpoch;
+    hiveStoreItem.hiveLexoRank = lexoRank;
+    hiveStoreItem.hiveIsDone = isDone;
+    hiveStoreItem.hiveDoneTime = doneTime.millisecondsSinceEpoch;
+    return hiveStoreItem.save().then((_) => notify(EventType.edit));
+  }
+
+  @override
   Future<void> delete() async {
     for (final item in items) {
       await item.delete();
     }
 
-    final hiveStoreList = hiveDatabase.getListe(listId)!.hiveStoreList;
+    final hiveList = hiveDatabase.getListe(listId)!;
+    final hiveStoreList = hiveList.hiveStoreList;
     hiveStoreList.hiveItemsLocalIds.removeWhere((itemId) => itemId == localId);
-    await hiveStoreList.save();
+    await hiveStoreList.save().then((_) => hiveList.notify(EventType.edit));
 
-    await hiveStoreItem.delete();
-  }
-
-  @override
-  Future<void> save() {
-    // TODO: implement save
-    throw UnimplementedError();
+    await hiveStoreItem.delete().then((_) => notify(EventType.delete));
   }
 }

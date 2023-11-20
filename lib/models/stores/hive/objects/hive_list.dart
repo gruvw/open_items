@@ -1,16 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/stores/hive/hive_database.dart';
-import 'package:open_items/models/stores/hive/objects/hive_item.dart';
 
 part 'hive_list.g.dart';
 
 abstract class HiveStoreCollection {
   List<String> get hiveItemsLocalIds;
   Future<void> save();
+}
+
+mixin HiveCollection {
+  HiveStoreCollection get collectionStore;
+  HiveDatabase get database;
+
+  List<String> get itemIds => collectionStore.hiveItemsLocalIds;
+
+  @protected
+  List<Item> get items =>
+      itemIds.map((itemId) => database.getItem(itemId)!).toList();
 }
 
 @HiveType(typeId: 3)
@@ -48,7 +59,7 @@ class HiveStoreListe with HiveObjectMixin implements HiveStoreCollection {
   });
 }
 
-class HiveListe extends Liste {
+class HiveListe extends Liste with HiveCollection {
   final HiveStoreListe hiveStoreList;
   final HiveDatabase hiveDatabase;
 
@@ -58,7 +69,7 @@ class HiveListe extends Liste {
   @override
   final String serverId;
 
-  // Immutable
+  // Immutable (not with copyWith)
   @override
   final String ownerAccountId;
   @override
@@ -89,17 +100,10 @@ class HiveListe extends Liste {
             DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
 
   @override
-  Database get database => hiveDatabase;
+  HiveDatabase get database => hiveDatabase;
 
   @override
-  List<Item> get items {
-    return hiveStoreList.hiveItemsLocalIds
-        .map((itemId) => HiveItem(
-              hiveDatabase: hiveDatabase,
-              hiveStoreItem: hiveDatabase.itemsBox.get(itemId)!,
-            ))
-        .toList();
-  }
+  HiveStoreCollection get collectionStore => hiveStoreList;
 
   @override
   Liste copyWith({
@@ -131,7 +135,7 @@ class HiveListe extends Liste {
     final ownerAccount = database.getAccount(ownerAccountId)!;
     if (ownerAccount.isLocal) {
       final accountProperties =
-          hiveDatabase.getAccountProperties(ownerAccount.accountPropertiesId!)!;
+          hiveDatabase.getAccountProperties(ownerAccount.accountPropertiesId)!;
       final listProperties = accountProperties.listsPropertiesIds
           .map(database.getAccountListProperties)
           .where((lp) => lp!.listId == localId)

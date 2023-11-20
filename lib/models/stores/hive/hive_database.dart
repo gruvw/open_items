@@ -1,5 +1,6 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart' hide HiveCollection;
 import 'package:nanoid/nanoid.dart';
+import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/utils/lang.dart';
 import 'package:open_items/global/values.dart';
@@ -175,22 +176,16 @@ class HiveDatabase extends Database {
       hiveDoneTime: doneTime.millisecondsSinceEpoch,
       hiveLexoRank: lexoRank,
       hiveIsDone: isDone,
-      hiveListLocalId: parent.listId,
       hiveParentLocalId: parent.localId,
       hiveItemsLocalIds: [],
     );
     final itemLocalId = nanoid();
     await itemsBox.put(itemLocalId, hiveStoreItem);
 
-    // https://github.com/dart-lang/language/issues/1618
-    final HiveStoreCollection hiveStoreParent;
-    if (parent is HiveListe) {
-      hiveStoreParent = parent.hiveStoreList;
-    } else {
-      hiveStoreParent = (parent as HiveItem).hiveStoreItem;
-    }
+    final HiveStoreCollection hiveStoreParent =
+        (parent as HiveCollection).collectionStore;
     hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
-    await parent.save();
+    await hiveStoreParent.save().then((_) => parent.notify(EventType.edit));
 
     HiveItem(
       hiveDatabase: this,
@@ -201,18 +196,32 @@ class HiveDatabase extends Database {
   }
 
   @override
+  List<Account> getLocalAccounts() {
+    return accountsBox.values
+        .map(
+          (hsa) => HiveAccount(
+            hiveDatabase: this,
+            hiveStoreAccount: hsa,
+          ),
+        )
+        .where((account) => account.isLocal)
+        .toList();
+  }
+
+  @override
   HiveAccount? getAccount(String? accountId) {
     if (accountId == null) {
       return null;
     }
 
     final accountStore = accountsBox.get(accountId);
-    final account = accountStore.map((a) => HiveAccount(
-          hiveDatabase: this,
-          hiveStoreAccount: a,
-        ));
 
-    return account;
+    return accountStore.map(
+      (a) => HiveAccount(
+        hiveDatabase: this,
+        hiveStoreAccount: a,
+      ),
+    );
   }
 
   @override
@@ -223,31 +232,32 @@ class HiveDatabase extends Database {
 
     final accountPropertiesStore =
         accountPropertiesBox.get(accountPropertiesId);
-    final accountProperties =
-        accountPropertiesStore.map((ap) => HiveAccountProperties(
-              hiveDatabase: this,
-              hiveStoreAccountProperties: ap,
-            ));
 
-    return accountProperties;
+    return accountPropertiesStore.map(
+      (ap) => HiveAccountProperties(
+        hiveDatabase: this,
+        hiveStoreAccountProperties: ap,
+      ),
+    );
   }
 
   @override
   HiveAccountListProperties? getAccountListProperties(
-      String? accountListPropertiesId) {
+    String? accountListPropertiesId,
+  ) {
     if (accountListPropertiesId == null) {
       return null;
     }
 
     final accountListPropertiesStore =
         accountListPropertiesBox.get(accountListPropertiesId);
-    final accountListProperties =
-        accountListPropertiesStore.map((v) => HiveAccountListProperties(
-              hiveDatabase: this,
-              hiveStoreAccountListProperties: v,
-            ));
 
-    return accountListProperties;
+    return accountListPropertiesStore.map(
+      (alp) => HiveAccountListProperties(
+        hiveDatabase: this,
+        hiveStoreAccountListProperties: alp,
+      ),
+    );
   }
 
   @override
@@ -257,22 +267,28 @@ class HiveDatabase extends Database {
     }
 
     final listStore = listsBox.get(listId);
-    final list = listStore.map((v) => HiveListe(
-          hiveDatabase: this,
-          hiveStoreList: v,
-        ));
 
-    return list;
+    return listStore.map(
+      (l) => HiveListe(
+        hiveDatabase: this,
+        hiveStoreList: l,
+      ),
+    );
   }
 
   @override
-  List<Account> getLocalAccounts() {
-    return accountsBox.values
-        .map((hsa) => HiveAccount(
-              hiveDatabase: this,
-              hiveStoreAccount: hsa,
-            ))
-        .where((account) => account.isLocal)
-        .toList();
+  Item? getItem(String? itemId) {
+    if (itemId == null) {
+      return null;
+    }
+
+    final itemStore = itemsBox.get(itemId);
+
+    return itemStore.map(
+      (i) => HiveItem(
+        hiveDatabase: this,
+        hiveStoreItem: i,
+      ),
+    );
   }
 }

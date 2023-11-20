@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/account.dart';
 import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
@@ -14,14 +15,15 @@ abstract class Database {
   final StreamController<Event<DatabaseObject>> eventsController =
       StreamController<Event<DatabaseObject>>.broadcast();
 
-  Future<void> init() async {}
+  Future<void> init();
+
+  // Objects creation
 
   Future<String> createAccount({
     required String serverId,
     required String name,
     required String server,
     required bool isLocal,
-
     // Must be specified if local account
     ListsOrdering? listsOrdering,
     bool? shouldReverseOrder,
@@ -58,6 +60,10 @@ abstract class Database {
     required bool isDone,
   });
 
+  // Get objects
+
+  List<Account> getLocalAccounts();
+
   Account? getAccount(String? accountId);
   Account? getLocalAccount(String? accountId) {
     final account = getAccount(accountId);
@@ -67,9 +73,11 @@ abstract class Database {
   AccountProperties? getAccountProperties(String? accountPropertiesId);
   AccountListProperties? getAccountListProperties(
       String? accountListPropertiesId);
-  Liste? getListe(String? listId);
 
-  List<Account> getLocalAccounts();
+  Liste? getListe(String? listId);
+  Item? getItem(String? itemId);
+
+  // Events
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
   Stream<Event<DatabaseObject>> watchObject(String? localId) {

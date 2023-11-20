@@ -36,7 +36,7 @@ class HiveAccountProperties extends AccountProperties {
   @override
   final String localId;
 
-  // Immutable
+  // Immutable (not with copyWith)
   @override
   final String accountId;
   @override
