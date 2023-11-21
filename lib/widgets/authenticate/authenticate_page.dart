@@ -17,7 +17,7 @@ import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 import 'package:open_items/widgets/utils/navigation/extended_scroll_view.dart';
 import 'package:open_items/widgets/utils/state/hooks.dart';
-import 'package:open_items/widgets/validation/accounts/offline_account_name.dart';
+import 'package:open_items/widgets/validation/account.dart';
 
 enum Tabs {
   newOnlineAccount("Create", 0, 0),

@@ -9,6 +9,7 @@ abstract class UILayout {
 
 abstract class CollectionLayout {
   static const dividerWidth = 1.0;
+  static const fatDividerWidth = 2.0;
   static const slidableWidth = 100.0;
   static const listViewScrollOff = 150.0;
   static const slideThreshold = 0.9;

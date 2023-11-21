@@ -50,7 +50,7 @@ abstract class Database {
 
   Future<String> createItem({
     required String serverId,
-    required Collection parent,
+    required String parentId,
     required String text,
     required CollectionType type,
     required String lexoRank,

@@ -4,5 +4,6 @@ ValidationResult validListTitle(String title) {
   if (title.isEmpty) {
     return InvalidResult(errorMessage: "List title is mandatory.");
   }
+
   return ValidResult();
 }

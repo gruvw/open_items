@@ -24,8 +24,8 @@ import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dia
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
-import 'package:open_items/widgets/validation/accounts/list_title.dart';
 import 'package:open_items/widgets/validation/core.dart';
+import 'package:open_items/widgets/validation/list.dart';
 
 enum ListsPopupMenu {
   orderBy("Order By"),
@@ -65,8 +65,11 @@ class ListsPage extends HookConsumerWidget {
       ref.read(selectedAccountIdProvider.notifier).updateAccount(accountId);
     }, const []);
 
-    // Display loading screen while account is deleted
-    if (account == null || accountProperties == null) {
+    // Display loading screen while object is deleted
+    if (account == null ||
+        accountProperties == null ||
+        listsProperties == null ||
+        lists == null) {
       return const LoadingPage();
     }
 
@@ -191,7 +194,7 @@ class ListsPage extends HookConsumerWidget {
           children: [
             IconButton(
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              icon: const Icon(Icons.menu),
+              icon: const Icon(UIIcons.menu),
             ),
             const SizedBox(
               width: UILayout.appBarLeadingSpacing,

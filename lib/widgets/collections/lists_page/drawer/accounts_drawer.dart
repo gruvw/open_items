@@ -15,7 +15,7 @@ import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
-import 'package:open_items/widgets/validation/accounts/offline_account_name.dart';
+import 'package:open_items/widgets/validation/account.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {

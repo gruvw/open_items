@@ -158,7 +158,7 @@ class HiveDatabase extends Database {
   @override
   Future<String> createItem({
     required String serverId,
-    required Collection parent,
+    required String parentId,
     required String text,
     required CollectionType type,
     required String lexoRank,
@@ -176,14 +176,14 @@ class HiveDatabase extends Database {
       hiveDoneTime: doneTime.millisecondsSinceEpoch,
       hiveLexoRank: lexoRank,
       hiveIsDone: isDone,
-      hiveParentLocalId: parent.localId,
+      hiveParentLocalId: parentId,
       hiveItemsLocalIds: [],
     );
     final itemLocalId = nanoid();
     await itemsBox.put(itemLocalId, hiveStoreItem);
 
-    final HiveStoreCollection hiveStoreParent =
-        (parent as HiveCollection).collectionStore;
+    final parent = getCollection(parentId)!;
+    final hiveStoreParent = (parent as HiveCollection).collectionStore;
     hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
     await hiveStoreParent.save().then((_) => parent.notify(EventType.edit));
 

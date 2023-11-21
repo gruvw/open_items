@@ -5,12 +5,13 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 
 class CollectionEntry extends StatelessWidget {
-  final Icon? icon;
+  final Widget? icon;
   final VoidCallback? onIconClick;
   final VoidCallback? onClick;
   final VoidCallback? onDelete;
   final Object? groupTag;
   final bool reorderEnabled;
+  final bool fatDividier;
   final int index;
   final Widget child;
 
@@ -22,6 +23,7 @@ class CollectionEntry extends StatelessWidget {
     this.onDelete,
     this.groupTag,
     this.reorderEnabled = true,
+    this.fatDividier = false,
     required this.index,
     required this.child,
   });
@@ -50,6 +52,10 @@ class CollectionEntry extends StatelessWidget {
       ),
     );
 
+    final dividerWidth = fatDividier
+        ? CollectionLayout.fatDividerWidth
+        : CollectionLayout.dividerWidth;
+
     return ReorderableDelayedDragStartListener(
       enabled: reorderEnabled,
       index: index,
@@ -76,9 +82,9 @@ class CollectionEntry extends StatelessWidget {
             ),
             child: content,
           ),
-          const Divider(
-            height: CollectionLayout.dividerWidth,
-            thickness: CollectionLayout.dividerWidth,
+          Divider(
+            height: dividerWidth,
+            thickness: dividerWidth,
             color: UIColors.primary,
           ),
         ],

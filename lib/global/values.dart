@@ -24,6 +24,7 @@ abstract class DefaultValues {
   static const itemsOrdering = ItemsOrdering.custom;
   static const shouldReverse = false;
   static const shouldStackDone = true;
+  static const isDone = false;
   static const offlineAccountName = "offline_account";
 }
 
@@ -32,4 +33,5 @@ abstract class UIPlaceholders {
   static const accountName = "my_account";
   static const password = "•••••••••••";
   static const listTitle = "My List";
+  static const itemText = "My item";
 }

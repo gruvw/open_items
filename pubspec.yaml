@@ -31,6 +31,7 @@ dependencies:
   fpdart: ^1.1.0
   google_fonts: ^6.1.0
   collection: ^1.17.2
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,9 @@ flutter:
     - "assets/icons/launcher/open_items.png"
     - "assets/icons/splash/open_items.png"
     - "assets/icons/splash/open_items_android_12.png"
+
+    - "assets/icons/custom/icons/checked_box.svg"
+    - "assets/icons/custom/icons/checked_box_inverted.svg"
 
   fonts:
     - family: OpenItemsIcons
