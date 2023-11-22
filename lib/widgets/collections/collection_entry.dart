@@ -13,7 +13,7 @@ class CollectionEntry extends StatelessWidget {
   final bool reorderEnabled;
   final bool fatDividier;
   final int index;
-  final Widget child;
+  final String content;
 
   const CollectionEntry({
     super.key,
@@ -25,7 +25,7 @@ class CollectionEntry extends StatelessWidget {
     this.reorderEnabled = true,
     this.fatDividier = false,
     required this.index,
-    required this.child,
+    required this.content,
   });
 
   @override
@@ -45,7 +45,17 @@ class CollectionEntry extends StatelessWidget {
             child: InkWell(
               hoverColor: UIColors.nothing,
               onTap: onClick,
-              child: Row(children: [child]),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      this.content,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                ],
+              ),
             ),
           ),
         ],

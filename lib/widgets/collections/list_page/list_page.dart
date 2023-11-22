@@ -11,6 +11,7 @@ import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
+import 'package:open_items/widgets/collections/list_page/list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
@@ -106,7 +107,7 @@ class ListPage extends HookConsumerWidget {
           onIconClick: !isCheck
               ? null
               : () => item.copyWith(isDone: !item.isDone).save(),
-          child: Text(item.content),
+          content: item.content,
         );
       },
     );
@@ -168,7 +169,13 @@ class ListPage extends HookConsumerWidget {
       ),
       body: Column(
         children: [
-          items.isNotEmpty ? Expanded(child: listsView) : emptyView,
+          Divider(
+            color: UIColors.secondary,
+            height: 3,
+            thickness: 3,
+          ),
+          ListTitle(listId: list.listId),
+          Expanded(child: items.isNotEmpty ? listsView : emptyView),
         ],
       ),
     );

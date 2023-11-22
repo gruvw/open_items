@@ -161,7 +161,7 @@ class ListsPage extends HookConsumerWidget {
               },
             ),
           ),
-          child: Text(list.title),
+          content: list.title,
         );
       },
     );
