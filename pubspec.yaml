@@ -56,13 +56,11 @@ flutter:
     - "assets/icons/splash/open_items.png"
     - "assets/icons/splash/open_items_android_12.png"
 
-    - "assets/icons/custom/icons/checked_box.svg"
-    - "assets/icons/custom/icons/checked_box_inverted.svg"
-
   fonts:
+    # ~/.pub-cache/bin/generator ./icons OpenItemsIcons.otf -o OpenItemsIcons.dart -v --no-normalize
     - family: OpenItemsIcons
       fonts:
-        - asset: "assets/icons/custom/OpenItemsIcons.ttf"
+        - asset: "assets/icons/custom/OpenItemsIcons.otf"
 
 # dart run flutter_app_name
 flutter_app_name:

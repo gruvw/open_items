@@ -20,7 +20,7 @@ abstract class Item extends Collection {
   String get parentId;
 
   @protected
-  Collection get parent;
+  Collection get parent; // not reactive
 
   @override
   String get listId => parent.listId;

@@ -14,19 +14,30 @@ import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/list_page/list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
+import 'package:open_items/widgets/components/input/menu_element.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/validation/core.dart';
 import 'package:open_items/widgets/validation/item.dart';
 
-enum ItemsPopupMenu {
-  orderBy("Order By"),
-  defaultListType("Default List Type");
+enum CollectionMenuType { list, item, both }
 
+enum CollectionPopupMenu {
+  orderBy("Order By", CollectionMenuType.both),
+  collectionType("Collection Type", CollectionMenuType.both),
+  stackDone("Stack Done Items", CollectionMenuType.both),
+
+  editList("Edit Title", CollectionMenuType.list),
+  deleteList("Delete List", CollectionMenuType.list),
+
+  editItem("Edit Text", CollectionMenuType.item),
+  deleteItem("Delete Item", CollectionMenuType.item);
+
+  final CollectionMenuType type;
   final String label;
 
-  const ItemsPopupMenu(this.label);
+  const CollectionPopupMenu(this.label, this.type);
 }
 
 class ListPage extends HookConsumerWidget {
@@ -82,7 +93,7 @@ class ListPage extends HookConsumerWidget {
 
         final icon = switch (list.collectionType) {
           CollectionType.check =>
-            item.isDone ? UIIcons.checkedBox : const Icon(UIIcons.uncheckedBox),
+            Icon(item.isDone ? UIIcons.checkedBox : UIIcons.uncheckedBox),
           CollectionType.unordered => const Icon(UIIcons.bullet),
           CollectionType.ordered =>
             Text("${index + 1}.", style: UITexts.normalText),
@@ -148,23 +159,25 @@ class ListPage extends HookConsumerWidget {
         ),
         actions: [
           const SearchButton(),
-          // PopupMenuButton(
-          // onSelected: menuCallback, // TODO
-          // itemBuilder: (BuildContext context) {
-          //   return ListsPopupMenu.values.map((ListsPopupMenu menu) {
-          //     return PopupMenuItem(
-          //       value: menu,
-          //       child: MenuElement(
-          //         text: menu.label,
-          //         icon: switch (menu) {
-          //           ListsPopupMenu.orderBy => UIIcons.order,
-          //           ListsPopupMenu.defaultListType => defaultListType.icon,
-          //         },
-          //       ),
-          //     );
-          //   }).toList();
-          // },
-          // ),
+          PopupMenuButton(
+            // onSelected: menuCallback, // TODO
+            itemBuilder: (BuildContext context) {
+              return CollectionPopupMenu.values
+                  .where((v) => v.type != CollectionMenuType.item)
+                  .map((CollectionPopupMenu menu) {
+                return PopupMenuItem(
+                  value: menu,
+                  child: MenuElement(
+                    text: menu.label,
+                    // icon: switch (menu) {
+                    //   CollectionPopupMenu.orderBy => UIIcons.order,
+                    //   CollectionPopupMenu.stackDone => UIIcons.uncheckedBox,
+                    // },
+                  ),
+                );
+              }).toList();
+            },
+          ),
         ],
       ),
       body: Column(

@@ -53,7 +53,7 @@ class CollectionEntry extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(width: CollectionLayout.contentRightPadding),
+                  const SizedBox(width: CollectionLayout.contentRightPadding),
                 ],
               ),
             ),

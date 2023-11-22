@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:open_items/global/styles/icons/open_items_icons.dart';
 
 abstract class UIIcons {
@@ -11,11 +10,8 @@ abstract class UIIcons {
   static const login = Icons.login;
   static const ascending = Icons.arrow_upward;
   static const descending = Icons.arrow_downward;
-  static final checkedBox =
-      SvgPicture.asset("assets/icons/custom/icons/checked_box.svg");
-  static final checkedBoxInverted =
-      SvgPicture.asset("assets/icons/custom/icons/checked_box_inverted.svg");
-  static const uncheckedBox = Icons.check_box_outline_blank;
+  static const checkedBox = OpenItemsIcons.checkedBox;
+  static const uncheckedBox = OpenItemsIcons.uncheckedBox;
   static const bullet = OpenItemsIcons.bullet;
 
   // Actions
@@ -37,7 +33,7 @@ abstract class UIIcons {
   static const menu = Icons.menu;
 
   // List type
-  static const checklist = Icons.checklist;
-  static const numberedList = OpenItemsIcons.numbered_list;
-  static const bulletList = OpenItemsIcons.bullet_list;
+  static const checklist = OpenItemsIcons.checklist;
+  static const numberedList = OpenItemsIcons.numberedList;
+  static const bulletList = OpenItemsIcons.bulletList;
 }
