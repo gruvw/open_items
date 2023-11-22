@@ -3,44 +3,44 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/ordering/orderings.dart';
-import 'package:open_items/state/application/account.dart';
+import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/widgets/components/modals/ordering/ordering_button.dart';
 
-class ListsOrderingDialog extends ConsumerWidget {
-  final String accountId;
+class ListOrderingDialog extends ConsumerWidget {
+  final String listPropertiesId;
 
-  const ListsOrderingDialog({
+  const ListOrderingDialog({
     super.key,
-    required this.accountId,
+    required this.listPropertiesId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final properties =
-        ref.watch(accountPropertiesProvider(accountId: accountId))!;
+    final listProerties = ref
+        .watch(accountListPropertiesProvider(propertiesId: listPropertiesId))!;
 
-    final selectedOrdering = properties.listsOrdering;
-    final shouldReversed = properties.shouldReverseOrder;
+    final selectedOrdering = listProerties.itemsOrdering;
+    final shouldReversed = listProerties.shouldReverseOrder;
 
     return Container(
       color: UIColors.background,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...ListsOrdering.values.map(
+          ...ItemsOrdering.values.map(
             (o) => OrderingButton(
               label: o.label,
               selected: o == selectedOrdering,
               reversed: shouldReversed,
               onPressed: () {
                 if (o == selectedOrdering) {
-                  properties
+                  listProerties
                       .copyWith(shouldReverseOrder: !shouldReversed)
                       .save();
                 } else {
-                  properties
+                  listProerties
                       .copyWith(
-                        listsOrdering: o,
+                        itemsOrdering: o,
                         shouldReverseOrder: DefaultValues.shouldReverse,
                       )
                       .save();

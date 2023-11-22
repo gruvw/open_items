@@ -19,6 +19,7 @@ abstract class UIIcons {
   static const export = OpenItemsIcons.export;
   static const add = Icons.add;
   static const rename = OpenItemsIcons.rename;
+  static const edit = Icons.edit;
   static const delete = OpenItemsIcons.delete;
   static const search = Icons.search;
   static const order = Icons.sort;

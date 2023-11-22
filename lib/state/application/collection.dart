@@ -22,28 +22,28 @@ AccountListProperties? accountListProperties(
 @riverpod
 Collection? collection(
   CollectionRef ref, {
-  required String? localId,
+  required String? collectionId,
 }) {
-  ref.watch(objectEventsProvider(localId: localId));
-  return database.getCollection(localId);
+  ref.watch(objectEventsProvider(localId: collectionId));
+  return database.getCollection(collectionId);
 }
 
 @riverpod
 Liste? list(
   ListRef ref, {
-  required String? localId,
+  required String? listId,
 }) {
-  ref.watch(objectEventsProvider(localId: localId));
-  return database.getListe(localId);
+  ref.watch(objectEventsProvider(localId: listId));
+  return database.getListe(listId);
 }
 
 @riverpod
 Item? item(
   ItemRef ref, {
-  required String? localId,
+  required String? itemId,
 }) {
-  ref.watch(objectEventsProvider(localId: localId));
-  return database.getItem(localId);
+  ref.watch(objectEventsProvider(localId: itemId));
+  return database.getItem(itemId);
 }
 
 @riverpod
@@ -54,13 +54,13 @@ List<Item>? items(
 }) {
   final listProperties =
       ref.watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
-  final collection = ref.watch(collectionProvider(localId: parentId));
+  final collection = ref.watch(collectionProvider(collectionId: parentId));
   if (listProperties == null || collection == null) return null;
 
   final ordering = itemsOrdering(listProperties);
 
   return collection.itemIds
-      .map((iid) => ref.watch(itemProvider(localId: iid)))
+      .map((iid) => ref.watch(itemProvider(itemId: iid)))
       .whereNotNull()
       .sorted(ordering)
       .toList();

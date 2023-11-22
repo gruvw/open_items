@@ -41,7 +41,7 @@ List<Liste>? lists(
   return listsProperties
       .sorted(ordering)
       .map((lp) => lp.listId)
-      .map((lid) => ref.watch(listProvider(localId: lid)))
+      .map((lid) => ref.watch(listProvider(listId: lid)))
       .whereNotNull()
       .toList();
 }

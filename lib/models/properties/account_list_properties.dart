@@ -22,5 +22,8 @@ abstract class AccountListProperties extends DatabaseServerObject {
 
   // Helper methods
 
+  // Ordering by done time also stacks done
+  bool get stackDone => shouldStackDone || itemsOrdering == ItemsOrdering.done;
+
   ItemsOrdering get itemsOrdering => ItemsOrdering.ofIndex(itemsOrderingIndex);
 }

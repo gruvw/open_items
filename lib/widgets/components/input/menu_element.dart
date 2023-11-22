@@ -12,8 +12,8 @@ class MenuElement extends StatelessWidget {
     super.key,
     required this.text,
     this.icon,
-    this.color = UIColors.primary,
-  });
+    Color? color,
+  }) : color = color ?? UIColors.primary;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Empyt extends StatelessWidget {
-  const Empyt({super.key});
+class Empty extends StatelessWidget {
+  const Empty({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,10 +11,13 @@ import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
+import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
+import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
 import 'package:open_items/widgets/collections/list_page/list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
+import 'package:open_items/widgets/components/modals/ordering/list_ordering_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
@@ -24,9 +27,11 @@ import 'package:open_items/widgets/validation/item.dart';
 enum CollectionMenuType { list, item, both }
 
 enum CollectionPopupMenu {
+  // List wide options
   orderBy("Order By", CollectionMenuType.both),
-  collectionType("Collection Type", CollectionMenuType.both),
   stackDone("Stack Done Items", CollectionMenuType.both),
+
+  collectionType("Collection Type", CollectionMenuType.both),
 
   editList("Edit Title", CollectionMenuType.list),
   deleteList("Delete List", CollectionMenuType.list),
@@ -52,7 +57,7 @@ class ListPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listProperties = ref
         .watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
-    final list = ref.watch(listProvider(localId: listProperties?.listId));
+    final list = ref.watch(listProvider(listId: listProperties?.listId));
     final items = ref.watch(itemsProvider(
       listPropertiesId: listPropertiesId,
       parentId: listProperties?.listId,
@@ -62,10 +67,6 @@ class ListPage extends HookConsumerWidget {
     if (listProperties == null || list == null || items == null) {
       return const LoadingPage();
     }
-
-    // void menuCallback(ItemsPopupMenu item) {
-    //   switch (item) {}
-    // }
 
     Future<void> createItem(String text) async {
       final time = DateTime.now();
@@ -83,7 +84,71 @@ class ListPage extends HookConsumerWidget {
       );
     }
 
-    final uncheckedItemsNb = items.where((i) => !i.isDone).length;
+    void menuCallback(CollectionPopupMenu menu) => switch (menu) {
+          CollectionPopupMenu.collectionType => showDialog(
+              barrierDismissible: false,
+              barrierColor: UIColors.dimmed,
+              context: context,
+              builder: (context) =>
+                  ChangeCollectionTypeDialog(collectionId: list.listId),
+            ),
+          CollectionPopupMenu.orderBy => showModalBottomSheet(
+              context: context,
+              builder: (context) =>
+                  ListOrderingDialog(listPropertiesId: listPropertiesId),
+            ),
+          CollectionPopupMenu.stackDone => listProperties
+              .copyWith(shouldStackDone: !listProperties.shouldStackDone)
+              .save(),
+          CollectionPopupMenu.editList => showDialog(
+              barrierDismissible: false,
+              barrierColor: UIColors.dimmed,
+              context: context,
+              builder: (_) => EditListTitleDialog(listId: list.listId),
+            ),
+          CollectionPopupMenu.editItem => null, // TODO
+          CollectionPopupMenu.deleteList ||
+          CollectionPopupMenu.deleteItem =>
+            list
+                .delete()
+                .then((_) => Navigator.pop(context)), // TODO confirm delete
+        };
+
+    final menu = CollectionPopupMenu.values
+        .where((m) => m.type != CollectionMenuType.item) // TODO
+        .map((CollectionPopupMenu menu) {
+      return PopupMenuItem(
+        value: menu,
+        child: MenuElement(
+          text: menu.label,
+          color: switch (menu) {
+            CollectionPopupMenu.deleteList ||
+            CollectionPopupMenu.deleteItem =>
+              UIColors.danger,
+            _ => null,
+          },
+          icon: switch (menu) {
+            CollectionPopupMenu.collectionType => list.collectionType.icon,
+            CollectionPopupMenu.orderBy => UIIcons.order,
+            CollectionPopupMenu.stackDone => listProperties.shouldStackDone
+                ? UIIcons.checkedBox
+                : UIIcons.uncheckedBox,
+            CollectionPopupMenu.editList ||
+            CollectionPopupMenu.editItem =>
+              UIIcons.edit,
+            CollectionPopupMenu.deleteList ||
+            CollectionPopupMenu.deleteItem =>
+              UIIcons.delete,
+          },
+        ),
+      );
+    }).toList();
+
+    final uncheckedNb = items.where((i) => !i.isDone).length;
+    // When using done ordering, done items stack at the top
+    final dividerIndex = listProperties.itemsOrdering == ItemsOrdering.done
+        ? items.length - uncheckedNb
+        : uncheckedNb;
     final isCheck = list.collectionType == CollectionType.check;
 
     final listsView = CollectionView(
@@ -105,10 +170,11 @@ class ListPage extends HookConsumerWidget {
           groupTag: items,
           icon: icon,
           reorderEnabled: listProperties.itemsOrdering == ItemsOrdering.custom,
-          fatDividier: isCheck &&
-              uncheckedItemsNb != 0 &&
-              uncheckedItemsNb != items.length &&
-              index == uncheckedItemsNb - 1,
+          fatDividier: listProperties.stackDone &&
+              isCheck &&
+              dividerIndex != 0 &&
+              dividerIndex != items.length &&
+              index == dividerIndex - 1,
           onDelete: () => item.delete(),
           onClick: () => Navigator.pushNamed(
             context,
@@ -131,6 +197,8 @@ class ListPage extends HookConsumerWidget {
       backgroundColor: UIColors.background,
       floatingActionButton: NewButton(
         onPressed: () => showDialog(
+          barrierDismissible: false,
+          barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => TextDialog(
             title: "New Item Text",
@@ -160,23 +228,8 @@ class ListPage extends HookConsumerWidget {
         actions: [
           const SearchButton(),
           PopupMenuButton(
-            // onSelected: menuCallback, // TODO
-            itemBuilder: (BuildContext context) {
-              return CollectionPopupMenu.values
-                  .where((v) => v.type != CollectionMenuType.item)
-                  .map((CollectionPopupMenu menu) {
-                return PopupMenuItem(
-                  value: menu,
-                  child: MenuElement(
-                    text: menu.label,
-                    // icon: switch (menu) {
-                    //   CollectionPopupMenu.orderBy => UIIcons.order,
-                    //   CollectionPopupMenu.stackDone => UIIcons.uncheckedBox,
-                    // },
-                  ),
-                );
-              }).toList();
-            },
+            onSelected: menuCallback,
+            itemBuilder: (BuildContext context) => menu,
           ),
         ],
       ),

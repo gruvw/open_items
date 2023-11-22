@@ -14,6 +14,7 @@ import 'package:open_items/state/shared_preferences/objects/default_list_type.da
 import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
+import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
@@ -79,6 +80,7 @@ class ListsPage extends HookConsumerWidget {
       Future.delayed(
         Duration.zero,
         () => showDialog(
+          barrierDismissible: false,
           barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => _testingDialog,
@@ -86,27 +88,24 @@ class ListsPage extends HookConsumerWidget {
       );
     }
 
-    void menuCallback(ListsPopupMenu item) {
-      switch (item) {
-        case ListsPopupMenu.orderBy:
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => ListsOrderingDialog(accountId: accountId),
-          );
-          break;
-        case ListsPopupMenu.defaultListType:
-          showDialog(
+    void menuCallback(ListsPopupMenu item) => switch (item) {
+          ListsPopupMenu.orderBy => showModalBottomSheet(
+              context: context,
+              builder: (context) => ListsOrderingDialog(accountId: accountId),
+            ),
+          ListsPopupMenu.defaultListType => showDialog(
+              barrierDismissible: false,
+              barrierColor: UIColors.dimmed,
               context: context,
               builder: (context) => CollectionTypeDialog(
-                    title: "Default List Type",
-                    initialType: defaultListType,
-                    onSelected: (newType) => ref
-                        .read(defaultListTypeProvider.notifier)
-                        .updateType(newType),
-                  ));
-          break;
-      }
-    }
+                title: "Default List Type",
+                initialType: defaultListType,
+                onSelected: (newType) => ref
+                    .read(defaultListTypeProvider.notifier)
+                    .updateType(newType),
+              ),
+            ),
+        };
 
     Future<void> createList(String title) async {
       final time = DateTime.now();
@@ -152,14 +151,11 @@ class ListsPage extends HookConsumerWidget {
                 .localId,
           ),
           onIconClick: () => showDialog(
+          barrierDismissible: false,
+              barrierColor: UIColors.dimmed,
             context: context,
-            builder: (context) => CollectionTypeDialog(
-              title: "Change list type",
-              initialType: list.collectionType,
-              onSelected: (newType) {
-                list.copyWith(type: newType).save();
-              },
-            ),
+            builder: (context) =>
+                ChangeCollectionTypeDialog(collectionId: list.listId),
           ),
           content: list.title,
         );

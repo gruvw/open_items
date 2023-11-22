@@ -71,7 +71,9 @@ abstract class DialogLayout {
   static const buttonsContentMaxWidth = 180.0;
   static const buttonsContentSpacing = 7.0;
 
-  static const bottomSheetDividerWidth = 1.0;
+  static const orderingDividerWidth = 1.0;
+  static const orderingVerticalPadding = 10.0;
+  static const orderingHorizontalPadding = 16.0;
 }
 
 abstract class DrawerLayout {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
 
 class SearchButton extends StatelessWidget {
@@ -11,6 +12,7 @@ class SearchButton extends StatelessWidget {
       icon: const Icon(UIIcons.search),
       onPressed: () {
         showDialog(
+          barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => notImplementedDialog,
         );

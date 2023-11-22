@@ -137,8 +137,9 @@ class AccountsDrawer extends ConsumerWidget {
               content: Text("Rename account", style: UITexts.normalText),
               onPressed: () {
                 showDialog(
-                  context: context,
                   barrierDismissible: false,
+                  barrierColor: UIColors.dimmed,
+                  context: context,
                   builder: (_) => renameDialog,
                 );
               },
@@ -150,6 +151,7 @@ class AccountsDrawer extends ConsumerWidget {
               content: Text("Delete account", style: UITexts.normalText),
               onPressed: () {
                 showDialog(
+                  barrierColor: UIColors.dimmed,
                   context: context,
                   builder: (_) => deletionDialog,
                 );

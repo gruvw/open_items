@@ -26,14 +26,14 @@ class OrderingButton extends StatelessWidget {
     final content = Column(
       children: [
         const Divider(
-          height: DialogLayout.bottomSheetDividerWidth,
-          thickness: DialogLayout.bottomSheetDividerWidth,
+          height: DialogLayout.orderingDividerWidth,
+          thickness: DialogLayout.orderingDividerWidth,
           color: UIColors.primary,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 7,
-            horizontal: 14,
+            vertical: DialogLayout.orderingVerticalPadding,
+            horizontal: DialogLayout.orderingHorizontalPadding,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.max,

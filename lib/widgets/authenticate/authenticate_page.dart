@@ -149,6 +149,7 @@ class AuthenticatePage extends HookConsumerWidget {
       Future.delayed(
         Duration.zero,
         () => showDialog(
+          barrierDismissible: false,
           barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => _accountDialog,

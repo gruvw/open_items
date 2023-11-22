@@ -161,7 +161,7 @@ class _AccountListPropertiesProviderElement
       (origin as AccountListPropertiesProvider).propertiesId;
 }
 
-String _$collectionHash() => r'99bcde947b82e4fcacc595b6135f7dea8b249a3e';
+String _$collectionHash() => r'9fb112896d7d935ac1b057400a442f00ae5d052b';
 
 /// See also [collection].
 @ProviderFor(collection)
@@ -174,10 +174,10 @@ class CollectionFamily extends Family<Collection?> {
 
   /// See also [collection].
   CollectionProvider call({
-    required String? localId,
+    required String? collectionId,
   }) {
     return CollectionProvider(
-      localId: localId,
+      collectionId: collectionId,
     );
   }
 
@@ -186,7 +186,7 @@ class CollectionFamily extends Family<Collection?> {
     covariant CollectionProvider provider,
   ) {
     return call(
-      localId: provider.localId,
+      collectionId: provider.collectionId,
     );
   }
 
@@ -209,11 +209,11 @@ class CollectionFamily extends Family<Collection?> {
 class CollectionProvider extends AutoDisposeProvider<Collection?> {
   /// See also [collection].
   CollectionProvider({
-    required String? localId,
+    required String? collectionId,
   }) : this._internal(
           (ref) => collection(
             ref as CollectionRef,
-            localId: localId,
+            collectionId: collectionId,
           ),
           from: collectionProvider,
           name: r'collectionProvider',
@@ -224,7 +224,7 @@ class CollectionProvider extends AutoDisposeProvider<Collection?> {
           dependencies: CollectionFamily._dependencies,
           allTransitiveDependencies:
               CollectionFamily._allTransitiveDependencies,
-          localId: localId,
+          collectionId: collectionId,
         );
 
   CollectionProvider._internal(
@@ -234,10 +234,10 @@ class CollectionProvider extends AutoDisposeProvider<Collection?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.localId,
+    required this.collectionId,
   }) : super.internal();
 
-  final String? localId;
+  final String? collectionId;
 
   @override
   Override overrideWith(
@@ -252,7 +252,7 @@ class CollectionProvider extends AutoDisposeProvider<Collection?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        localId: localId,
+        collectionId: collectionId,
       ),
     );
   }
@@ -264,21 +264,21 @@ class CollectionProvider extends AutoDisposeProvider<Collection?> {
 
   @override
   bool operator ==(Object other) {
-    return other is CollectionProvider && other.localId == localId;
+    return other is CollectionProvider && other.collectionId == collectionId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, localId.hashCode);
+    hash = _SystemHash.combine(hash, collectionId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin CollectionRef on AutoDisposeProviderRef<Collection?> {
-  /// The parameter `localId` of this provider.
-  String? get localId;
+  /// The parameter `collectionId` of this provider.
+  String? get collectionId;
 }
 
 class _CollectionProviderElement extends AutoDisposeProviderElement<Collection?>
@@ -286,10 +286,10 @@ class _CollectionProviderElement extends AutoDisposeProviderElement<Collection?>
   _CollectionProviderElement(super.provider);
 
   @override
-  String? get localId => (origin as CollectionProvider).localId;
+  String? get collectionId => (origin as CollectionProvider).collectionId;
 }
 
-String _$listHash() => r'287a3db48f17e3c518c732ef38ec4d82167da71f';
+String _$listHash() => r'c535ef39c411543f6cdfd75f880434a653daa2a0';
 
 /// See also [list].
 @ProviderFor(list)
@@ -302,10 +302,10 @@ class ListFamily extends Family<Liste?> {
 
   /// See also [list].
   ListProvider call({
-    required String? localId,
+    required String? listId,
   }) {
     return ListProvider(
-      localId: localId,
+      listId: listId,
     );
   }
 
@@ -314,7 +314,7 @@ class ListFamily extends Family<Liste?> {
     covariant ListProvider provider,
   ) {
     return call(
-      localId: provider.localId,
+      listId: provider.listId,
     );
   }
 
@@ -337,11 +337,11 @@ class ListFamily extends Family<Liste?> {
 class ListProvider extends AutoDisposeProvider<Liste?> {
   /// See also [list].
   ListProvider({
-    required String? localId,
+    required String? listId,
   }) : this._internal(
           (ref) => list(
             ref as ListRef,
-            localId: localId,
+            listId: listId,
           ),
           from: listProvider,
           name: r'listProvider',
@@ -349,7 +349,7 @@ class ListProvider extends AutoDisposeProvider<Liste?> {
               const bool.fromEnvironment('dart.vm.product') ? null : _$listHash,
           dependencies: ListFamily._dependencies,
           allTransitiveDependencies: ListFamily._allTransitiveDependencies,
-          localId: localId,
+          listId: listId,
         );
 
   ListProvider._internal(
@@ -359,10 +359,10 @@ class ListProvider extends AutoDisposeProvider<Liste?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.localId,
+    required this.listId,
   }) : super.internal();
 
-  final String? localId;
+  final String? listId;
 
   @override
   Override overrideWith(
@@ -377,7 +377,7 @@ class ListProvider extends AutoDisposeProvider<Liste?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        localId: localId,
+        listId: listId,
       ),
     );
   }
@@ -389,21 +389,21 @@ class ListProvider extends AutoDisposeProvider<Liste?> {
 
   @override
   bool operator ==(Object other) {
-    return other is ListProvider && other.localId == localId;
+    return other is ListProvider && other.listId == listId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, localId.hashCode);
+    hash = _SystemHash.combine(hash, listId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ListRef on AutoDisposeProviderRef<Liste?> {
-  /// The parameter `localId` of this provider.
-  String? get localId;
+  /// The parameter `listId` of this provider.
+  String? get listId;
 }
 
 class _ListProviderElement extends AutoDisposeProviderElement<Liste?>
@@ -411,10 +411,10 @@ class _ListProviderElement extends AutoDisposeProviderElement<Liste?>
   _ListProviderElement(super.provider);
 
   @override
-  String? get localId => (origin as ListProvider).localId;
+  String? get listId => (origin as ListProvider).listId;
 }
 
-String _$itemHash() => r'8e0f59ccaa04d1724edfb2e9dae262298b414864';
+String _$itemHash() => r'3c99f781eca0544a0ee927e909a32b1a3bd01e71';
 
 /// See also [item].
 @ProviderFor(item)
@@ -427,10 +427,10 @@ class ItemFamily extends Family<Item?> {
 
   /// See also [item].
   ItemProvider call({
-    required String? localId,
+    required String? itemId,
   }) {
     return ItemProvider(
-      localId: localId,
+      itemId: itemId,
     );
   }
 
@@ -439,7 +439,7 @@ class ItemFamily extends Family<Item?> {
     covariant ItemProvider provider,
   ) {
     return call(
-      localId: provider.localId,
+      itemId: provider.itemId,
     );
   }
 
@@ -462,11 +462,11 @@ class ItemFamily extends Family<Item?> {
 class ItemProvider extends AutoDisposeProvider<Item?> {
   /// See also [item].
   ItemProvider({
-    required String? localId,
+    required String? itemId,
   }) : this._internal(
           (ref) => item(
             ref as ItemRef,
-            localId: localId,
+            itemId: itemId,
           ),
           from: itemProvider,
           name: r'itemProvider',
@@ -474,7 +474,7 @@ class ItemProvider extends AutoDisposeProvider<Item?> {
               const bool.fromEnvironment('dart.vm.product') ? null : _$itemHash,
           dependencies: ItemFamily._dependencies,
           allTransitiveDependencies: ItemFamily._allTransitiveDependencies,
-          localId: localId,
+          itemId: itemId,
         );
 
   ItemProvider._internal(
@@ -484,10 +484,10 @@ class ItemProvider extends AutoDisposeProvider<Item?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.localId,
+    required this.itemId,
   }) : super.internal();
 
-  final String? localId;
+  final String? itemId;
 
   @override
   Override overrideWith(
@@ -502,7 +502,7 @@ class ItemProvider extends AutoDisposeProvider<Item?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        localId: localId,
+        itemId: itemId,
       ),
     );
   }
@@ -514,21 +514,21 @@ class ItemProvider extends AutoDisposeProvider<Item?> {
 
   @override
   bool operator ==(Object other) {
-    return other is ItemProvider && other.localId == localId;
+    return other is ItemProvider && other.itemId == itemId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, localId.hashCode);
+    hash = _SystemHash.combine(hash, itemId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ItemRef on AutoDisposeProviderRef<Item?> {
-  /// The parameter `localId` of this provider.
-  String? get localId;
+  /// The parameter `itemId` of this provider.
+  String? get itemId;
 }
 
 class _ItemProviderElement extends AutoDisposeProviderElement<Item?>
@@ -536,7 +536,7 @@ class _ItemProviderElement extends AutoDisposeProviderElement<Item?>
   _ItemProviderElement(super.provider);
 
   @override
-  String? get localId => (origin as ItemProvider).localId;
+  String? get itemId => (origin as ItemProvider).itemId;
 }
 
 String _$itemsHash() => r'ced8c9a87e3ce1c1c71dceb58ad3ada7e92b2b5e';

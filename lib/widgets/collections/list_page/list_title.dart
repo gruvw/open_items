@@ -3,12 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
-import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/collection.dart';
-import 'package:open_items/widgets/components/modals/text_dialog.dart';
+import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
 import 'package:open_items/widgets/utils/feedback/empty.dart';
-import 'package:open_items/widgets/validation/core.dart';
-import 'package:open_items/widgets/validation/list.dart';
 
 class ListTitle extends ConsumerWidget {
   final String listId;
@@ -20,24 +17,17 @@ class ListTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(listProvider(localId: listId));
+    final list = ref.watch(listProvider(listId: listId));
 
-    if (list == null) return const Empyt();
+    if (list == null) return const Empty();
 
     return InkWell(
       onTap: () {
         showDialog(
+          barrierDismissible: false,
+              barrierColor: UIColors.dimmed,
           context: context,
-          builder: (_) => TextDialog(
-            title: "Edit List Title",
-            submitText: "Edit",
-            capitalization: TextCapitalization.sentences,
-            placeholder: UIPlaceholders.listTitle,
-            initialValue: list.title,
-            validation: validListTitle,
-            onSubmit: alwaysValid(
-                (newTitle) => list.copyWith(title: newTitle).save()),
-          ),
+          builder: (_) => EditListTitleDialog(listId: listId),
         );
       },
       child: Container(
