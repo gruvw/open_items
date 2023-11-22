@@ -169,15 +169,17 @@ class ListPage extends HookConsumerWidget {
       ),
       body: Column(
         children: [
-          Divider(
-            color: UIColors.secondary,
-            height: 3,
-            thickness: 3,
-          ),
+          _divider,
           ListTitle(listId: list.listId),
           Expanded(child: items.isNotEmpty ? listsView : emptyView),
         ],
       ),
     );
   }
+
+  static const _divider = Divider(
+    color: UIColors.secondary,
+    height: CollectionLayout.titleSectionDividerWidth,
+    thickness: CollectionLayout.titleSectionDividerWidth,
+  );
 }

@@ -118,7 +118,7 @@ class AuthenticatePage extends HookConsumerWidget {
         showDialog(
           barrierColor: UIColors.dimmed,
           context: context,
-          builder: (_) => notSupportedDialog,
+          builder: (_) => notImplementedDialog,
         );
 
         return;

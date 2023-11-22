@@ -112,7 +112,7 @@ class AccountsDrawer extends ConsumerWidget {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) => notSupportedDialog,
+                  builder: (_) => notImplementedDialog,
                 );
               },
             ),
@@ -123,7 +123,7 @@ class AccountsDrawer extends ConsumerWidget {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) => notSupportedDialog,
+                  builder: (_) => notImplementedDialog,
                 );
               },
             ),
