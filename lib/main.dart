@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_themes.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
@@ -26,7 +28,11 @@ void main() async {
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
-        theme: ThemeData(visualDensity: VisualDensity.compact),
+        theme: ThemeData(
+          colorScheme: UIThemes.colorScheme,
+          textSelectionTheme: UIThemes.textSelectionTheme,
+          visualDensity: VisualDensity.compact,
+        ),
         title: UIValues.applicationTitle,
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home.name,

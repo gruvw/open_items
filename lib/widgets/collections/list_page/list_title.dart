@@ -22,14 +22,7 @@ class ListTitle extends ConsumerWidget {
     if (list == null) return const Empty();
 
     return InkWell(
-      onTap: () {
-        showDialog(
-          barrierDismissible: false,
-              barrierColor: UIColors.dimmed,
-          context: context,
-          builder: (_) => EditListTitleDialog(listId: listId),
-        );
-      },
+      onTap: () => EditListTitleDialog.show(context, listId),
       child: Container(
         width: double.infinity,
         color: UIColors.primary,

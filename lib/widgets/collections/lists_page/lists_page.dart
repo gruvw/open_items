@@ -94,7 +94,6 @@ class ListsPage extends HookConsumerWidget {
               builder: (context) => ListsOrderingDialog(accountId: accountId),
             ),
           ListsPopupMenu.defaultListType => showDialog(
-              barrierDismissible: false,
               barrierColor: UIColors.dimmed,
               context: context,
               builder: (context) => CollectionTypeDialog(
@@ -124,7 +123,7 @@ class ListsPage extends HookConsumerWidget {
         serverId: CoreValues.unknownServerId,
         listLocalId: listId,
         itemsOrdering: DefaultValues.itemsOrdering,
-        lexoRank: "", // TODO lexoRanking
+        lexoRank: "a" * lists.length, // TODO lexoRanking
         shouldReverseOrder: DefaultValues.shouldReverse,
         shouldStackDone: DefaultValues.shouldStackDone,
       );
@@ -150,13 +149,8 @@ class ListsPage extends HookConsumerWidget {
                 .firstWhere((lp) => lp.listId == list.listId)
                 .localId,
           ),
-          onIconClick: () => showDialog(
-          barrierDismissible: false,
-              barrierColor: UIColors.dimmed,
-            context: context,
-            builder: (context) =>
-                ChangeCollectionTypeDialog(collectionId: list.listId),
-          ),
+          onIconClick: () =>
+              ChangeCollectionTypeDialog.show(context, list.listId),
           content: list.title,
         );
       },
@@ -172,6 +166,8 @@ class ListsPage extends HookConsumerWidget {
       drawer: AccountsDrawer(selectedAccountId: accountId),
       floatingActionButton: NewButton(
         onPressed: () => showDialog(
+          barrierDismissible: false,
+          barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => TextDialog(
             title: "New List Title",

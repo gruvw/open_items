@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 
 class CollectionEntry extends StatelessWidget {
   final Widget? icon;
@@ -43,7 +44,7 @@ class CollectionEntry extends StatelessWidget {
             ),
           Expanded(
             child: InkWell(
-              hoverColor: UIColors.nothing,
+              hoverColor: UIColors.none,
               onTap: onClick,
               child: Row(
                 children: [
@@ -51,6 +52,7 @@ class CollectionEntry extends StatelessWidget {
                     child: Text(
                       this.content,
                       overflow: TextOverflow.ellipsis,
+                      style: UITexts.normalText,
                     ),
                   ),
                   const SizedBox(width: CollectionLayout.contentRightPadding),

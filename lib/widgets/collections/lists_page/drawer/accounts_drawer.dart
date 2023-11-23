@@ -109,23 +109,13 @@ class AccountsDrawer extends ConsumerWidget {
               padding: _tilePadding,
               leading: const Icon(UIIcons.import, color: UIColors.primary),
               content: Text("Import data", style: UITexts.normalText),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => notImplementedDialog,
-                );
-              },
+              onPressed: () => NotImplementedDialog.show(context),
             ),
             TileButton(
               padding: _tilePadding,
               leading: const Icon(UIIcons.export, color: UIColors.primary),
               content: Text("Export data", style: UITexts.normalText),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => notImplementedDialog,
-                );
-              },
+              onPressed: () => NotImplementedDialog.show(context),
             ),
             _tileDivider,
             TileButton(

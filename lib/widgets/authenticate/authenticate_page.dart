@@ -115,11 +115,7 @@ class AuthenticatePage extends HookConsumerWidget {
           offlineNameController.text = usernameController.text;
         }
 
-        showDialog(
-          barrierColor: UIColors.dimmed,
-          context: context,
-          builder: (_) => notImplementedDialog,
-        );
+        NotImplementedDialog.show(context);
 
         return;
       }

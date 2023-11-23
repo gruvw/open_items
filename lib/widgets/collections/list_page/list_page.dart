@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
@@ -6,6 +7,7 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/state/application/globals.dart';
@@ -58,6 +60,7 @@ class ListPage extends HookConsumerWidget {
     final listProperties = ref
         .watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
     final list = ref.watch(listProvider(listId: listProperties?.listId));
+
     final items = ref.watch(itemsProvider(
       listPropertiesId: listPropertiesId,
       parentId: listProperties?.listId,
@@ -76,7 +79,7 @@ class ListPage extends HookConsumerWidget {
         parentId: listProperties.listId,
         text: text,
         type: list.collectionType,
-        lexoRank: "",
+        lexoRank: "a" * items.length, // TODO lexoRanking
         creationTime: time,
         editionTime: time,
         doneTime: time,
@@ -85,13 +88,8 @@ class ListPage extends HookConsumerWidget {
     }
 
     void menuCallback(CollectionPopupMenu menu) => switch (menu) {
-          CollectionPopupMenu.collectionType => showDialog(
-              barrierDismissible: false,
-              barrierColor: UIColors.dimmed,
-              context: context,
-              builder: (context) =>
-                  ChangeCollectionTypeDialog(collectionId: list.listId),
-            ),
+          CollectionPopupMenu.collectionType =>
+            ChangeCollectionTypeDialog.show(context, list.listId),
           CollectionPopupMenu.orderBy => showModalBottomSheet(
               context: context,
               builder: (context) =>
@@ -100,12 +98,8 @@ class ListPage extends HookConsumerWidget {
           CollectionPopupMenu.stackDone => listProperties
               .copyWith(shouldStackDone: !listProperties.shouldStackDone)
               .save(),
-          CollectionPopupMenu.editList => showDialog(
-              barrierDismissible: false,
-              barrierColor: UIColors.dimmed,
-              context: context,
-              builder: (_) => EditListTitleDialog(listId: list.listId),
-            ),
+          CollectionPopupMenu.editList =>
+            EditListTitleDialog.show(context, list.listId),
           CollectionPopupMenu.editItem => null, // TODO
           CollectionPopupMenu.deleteList ||
           CollectionPopupMenu.deleteItem =>
@@ -144,6 +138,8 @@ class ListPage extends HookConsumerWidget {
       );
     }).toList();
 
+    late final itemsCustomOrder = items.sorted(itemsPositionCustomCompare);
+
     final uncheckedNb = items.where((i) => !i.isDone).length;
     // When using done ordering, done items stack at the top
     final dividerIndex = listProperties.itemsOrdering == ItemsOrdering.done
@@ -160,8 +156,9 @@ class ListPage extends HookConsumerWidget {
           CollectionType.check =>
             Icon(item.isDone ? UIIcons.checkedBox : UIIcons.uncheckedBox),
           CollectionType.unordered => const Icon(UIIcons.bullet),
-          CollectionType.ordered =>
-            Text("${index + 1}.", style: UITexts.normalText),
+          CollectionType.ordered => Text(
+              "${itemsCustomOrder.indexOf(item) + 1}.",
+              style: UITexts.normalText),
         };
 
         return CollectionEntry(

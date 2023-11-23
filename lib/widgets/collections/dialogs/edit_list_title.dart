@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
@@ -8,6 +9,15 @@ import 'package:open_items/widgets/validation/core.dart';
 import 'package:open_items/widgets/validation/list.dart';
 
 class EditListTitleDialog extends ConsumerWidget {
+  static void show(BuildContext context, String listId) {
+    showDialog(
+      barrierDismissible: false,
+      barrierColor: UIColors.dimmed,
+      context: context,
+      builder: (_) => EditListTitleDialog(listId: listId),
+    );
+  }
+
   final String listId;
 
   const EditListTitleDialog({

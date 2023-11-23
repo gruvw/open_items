@@ -44,11 +44,11 @@ class CancelDialog extends StatelessWidget {
             child: Text(cancelText, style: UITexts.normalText),
           ),
           if (danger)
-            PlainButton(
+            PlainOutlinedButton(
               onPressed: modalOnPressed(context, onConfirm),
               foregroundColor: UIColors.background,
               backgroundColor: UIColors.danger,
-              borderColor: UIColors.danger,
+              borderColor: UIColors.none,
               child: Text(
                 confirmedText,
                 style: UITexts.normalText.apply(color: UIColors.secondary),

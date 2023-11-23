@@ -23,11 +23,11 @@ int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
     final res = switch (listProperties.itemsOrdering) {
       ItemsOrdering.alphabetical =>
         i1.content.toLowerCase().compareTo(i2.content.toLowerCase()),
-      ItemsOrdering.custom => i1.lexoRank.compareTo(i2.lexoRank),
+      ItemsOrdering.custom => itemsPositionCustomCompare(i1, i2),
       // Time based ordering are "most recent first"
-      ItemsOrdering.creation => -i1.creationTime.compareTo(i2.creationTime),
+      ItemsOrdering.creation => i1.creationTime.compareTo(i2.creationTime),
       ItemsOrdering.edition => -i1.editionTime.compareTo(i2.editionTime),
-      ItemsOrdering.done => -i1.doneTime.compareTo(i2.doneTime),
+      ItemsOrdering.done => i1.doneTime.compareTo(i2.doneTime),
     };
 
     return reversed * res;
@@ -35,3 +35,6 @@ int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
 
   return itemsPositionCompare;
 }
+
+int itemsPositionCustomCompare(Item i1, Item i2) =>
+    i1.lexoRank.compareTo(i2.lexoRank);
