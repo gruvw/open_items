@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/collection_page/collection_page.dart';
-import 'package:open_items/widgets/collections/item_page.dart';
 import 'package:open_items/widgets/collections/lists_page/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
 import 'package:open_items/widgets/router/home_page_redirection.dart';
@@ -9,8 +8,7 @@ import 'package:open_items/widgets/router/home_page_redirection.dart';
 enum Routes {
   home("/"),
   lists("/lists"),
-  list("/list"),
-  item("/item"),
+  collection("/collection"),
   authenticate("/authenticate"),
   error("/error");
 
@@ -34,12 +32,13 @@ enum Routes {
         if (args is String) {
           return ListsPage(accountId: args);
         }
-      case list:
-        if (args is String) {
-          return CollectionPage(listPropertiesId: args);
+      case collection:
+        if (args is List<String> && args.length == 2) {
+          return CollectionPage(
+            listPropertiesId: args[0],
+            collectionId: args[1],
+          );
         }
-      case item:
-        return const ItemPage();
       case error:
         return RouteGenerator.errorPage;
     }

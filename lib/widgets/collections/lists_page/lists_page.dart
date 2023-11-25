@@ -135,6 +135,9 @@ class ListsPage extends HookConsumerWidget {
       builder: (context, index) {
         final list = lists[index];
 
+        final listProperties =
+            listsProperties.firstWhere((lp) => lp.listId == list.listId);
+
         return CollectionEntry(
           key: ObjectKey(list),
           index: index,
@@ -146,10 +149,8 @@ class ListsPage extends HookConsumerWidget {
               DeleteCollectionDialog.deleteCollection(context, list),
           onClick: () => Navigator.pushNamed(
             context,
-            Routes.list.name,
-            arguments: listsProperties
-                .firstWhere((lp) => lp.listId == list.listId)
-                .localId,
+            Routes.collection.name,
+            arguments: [listProperties.localId, list.localId],
           ),
           onIconClick: () =>
               ChangeCollectionTypeDialog.show(context, list.listId),
@@ -158,8 +159,11 @@ class ListsPage extends HookConsumerWidget {
       },
     );
 
-    const emptyView = Center(
-      child: Text("Create new lists using the + button"),
+    final emptyView = Center(
+      child: Text(
+        "Create new lists using the + button",
+        style: UITexts.titleText,
+      ),
     );
 
     return Scaffold(

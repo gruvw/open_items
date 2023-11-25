@@ -15,6 +15,7 @@ class CollectionEntry extends StatelessWidget {
   final bool fatDividier;
   final int index;
   final String content;
+  final bool isFat;
 
   const CollectionEntry({
     super.key,
@@ -25,6 +26,7 @@ class CollectionEntry extends StatelessWidget {
     this.groupTag,
     this.reorderEnabled = true,
     this.fatDividier = false,
+    this.isFat = false,
     required this.index,
     required this.content,
   });
@@ -52,7 +54,9 @@ class CollectionEntry extends StatelessWidget {
                     child: Text(
                       this.content,
                       overflow: TextOverflow.ellipsis,
-                      style: UITexts.normalText,
+                      style: UITexts.normalText.copyWith(
+                        fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
+                      ),
                     ),
                   ),
                   const SizedBox(width: CollectionLayout.contentRightPadding),

@@ -16,6 +16,7 @@ import 'package:open_items/widgets/collections/collection_page/list_title.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
 import 'package:open_items/widgets/collections/dialogs/delete_collection.dart';
+import 'package:open_items/widgets/collections/dialogs/edit_item_text.dart';
 import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
@@ -50,10 +51,12 @@ enum CollectionPopupMenu {
 
 class CollectionPage extends HookConsumerWidget {
   final String listPropertiesId;
+  final String collectionId;
 
   const CollectionPage({
     super.key,
     required this.listPropertiesId,
+    required this.collectionId,
   });
 
   @override
@@ -62,13 +65,19 @@ class CollectionPage extends HookConsumerWidget {
         .watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
     final list = ref.watch(listProvider(listId: listProperties?.listId));
 
+    final collection =
+        ref.watch(collectionProvider(collectionId: collectionId));
     final items = ref.watch(itemsProvider(
       listPropertiesId: listPropertiesId,
-      parentId: listProperties?.listId,
+      parentId: collectionId,
     ));
+    print(items);
 
     // Display loading screen while object is deleted
-    if (listProperties == null || list == null || items == null) {
+    if (listProperties == null ||
+        list == null ||
+        collection == null ||
+        items == null) {
       return const LoadingPage();
     }
 
@@ -77,9 +86,9 @@ class CollectionPage extends HookConsumerWidget {
 
       await database.createItem(
         serverId: CoreValues.unknownServerId,
-        parentId: listProperties.listId,
+        parentId: collectionId,
         text: text,
-        type: list.collectionType,
+        type: collection.collectionType,
         lexoRank: "a" * items.length, // TODO lexoRanking
         creationTime: time,
         editionTime: time,
@@ -90,7 +99,7 @@ class CollectionPage extends HookConsumerWidget {
 
     void menuCallback(CollectionPopupMenu menu) => switch (menu) {
           CollectionPopupMenu.collectionType =>
-            ChangeCollectionTypeDialog.show(context, list.listId),
+            ChangeCollectionTypeDialog.show(context, collectionId),
           CollectionPopupMenu.orderBy => showModalBottomSheet(
               context: context,
               builder: (context) =>
@@ -100,11 +109,12 @@ class CollectionPage extends HookConsumerWidget {
               .copyWith(shouldStackDone: !listProperties.shouldStackDone)
               .save(),
           CollectionPopupMenu.editList =>
-            EditListTitleDialog.show(context, list.listId),
-          CollectionPopupMenu.editItem => null, // TODO
+            EditListTitleDialog.show(context, list.localId),
+          CollectionPopupMenu.editItem =>
+            EditItemTextDialog.show(context, collectionId),
           CollectionPopupMenu.deleteList ||
           CollectionPopupMenu.deleteItem =>
-            DeleteCollectionDialog.deleteCollection(context, list, true),
+            DeleteCollectionDialog.deleteCollection(context, collection, true),
         };
 
     final menu = CollectionPopupMenu.values
@@ -124,11 +134,12 @@ class CollectionPage extends HookConsumerWidget {
             _ => null,
           },
           icon: switch (menu) {
-            CollectionPopupMenu.collectionType => list.collectionType.icon,
             CollectionPopupMenu.orderBy => UIIcons.order,
             CollectionPopupMenu.stackDone => listProperties.shouldStackDone
                 ? UIIcons.checkedBox
                 : UIIcons.uncheckedBox,
+            CollectionPopupMenu.collectionType =>
+              collection.collectionType.icon,
             CollectionPopupMenu.editList ||
             CollectionPopupMenu.editItem =>
               UIIcons.edit,
@@ -147,14 +158,14 @@ class CollectionPage extends HookConsumerWidget {
     final dividerIndex = listProperties.itemsOrdering == ItemsOrdering.done
         ? items.length - uncheckedNb
         : uncheckedNb;
-    final isCheck = list.collectionType == CollectionType.check;
+    final isCheck = collection.collectionType == CollectionType.check;
 
     final listsView = CollectionView(
       length: items.length,
       builder: (context, index) {
         final item = items[index];
 
-        final icon = switch (list.collectionType) {
+        final icon = switch (collection.collectionType) {
           CollectionType.check =>
             Icon(item.isDone ? UIIcons.checkedBox : UIIcons.uncheckedBox),
           CollectionType.unordered => const Icon(UIIcons.bullet),
@@ -166,7 +177,8 @@ class CollectionPage extends HookConsumerWidget {
         return CollectionEntry(
           key: ObjectKey(item),
           index: index,
-          groupTag: list.title,
+          groupTag: collection.content,
+          isFat: item.itemIds.isNotEmpty,
           icon: icon,
           reorderEnabled: listProperties.itemsOrdering == ItemsOrdering.custom,
           fatDividier: listProperties.stackDone &&
@@ -178,8 +190,8 @@ class CollectionPage extends HookConsumerWidget {
               DeleteCollectionDialog.deleteCollection(context, item),
           onClick: () => Navigator.pushNamed(
             context,
-            Routes.item.name,
-            // arguments: , // TODO
+            Routes.collection.name,
+            arguments: [listPropertiesId, item.localId],
           ),
           onIconClick: !isCheck
               ? null
@@ -189,8 +201,11 @@ class CollectionPage extends HookConsumerWidget {
       },
     );
 
-    const emptyView = Center(
-      child: Text("Create new items using the + button"),
+    final emptyView = Center(
+      child: Text(
+        "Create new items using the + button",
+        style: UITexts.titleText,
+      ),
     );
 
     return Scaffold(
@@ -236,7 +251,7 @@ class CollectionPage extends HookConsumerWidget {
       body: Column(
         children: [
           _divider,
-          ListTitle(listId: list.listId),
+          ListTitle(listId: list.localId),
           Expanded(child: items.isNotEmpty ? listsView : emptyView),
         ],
       ),
