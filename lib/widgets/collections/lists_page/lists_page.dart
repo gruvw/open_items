@@ -15,6 +15,7 @@ import 'package:open_items/state/shared_preferences/objects/selected_account_id.
 import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
+import 'package:open_items/widgets/collections/dialogs/delete_collection.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
@@ -137,11 +138,12 @@ class ListsPage extends HookConsumerWidget {
         return CollectionEntry(
           key: ObjectKey(list),
           index: index,
-          groupTag: lists,
+          groupTag: 0,
           reorderEnabled:
               accountProperties.listsOrdering == ListsOrdering.custom,
           icon: Icon(list.collectionType.icon),
-          onDelete: () => list.delete(),
+          onDelete: () =>
+              DeleteCollectionDialog.deleteCollection(context, list),
           onClick: () => Navigator.pushNamed(
             context,
             Routes.list.name,

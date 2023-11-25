@@ -15,6 +15,7 @@ import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_page/list_title.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
+import 'package:open_items/widgets/collections/dialogs/delete_collection.dart';
 import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
@@ -103,9 +104,7 @@ class CollectionPage extends HookConsumerWidget {
           CollectionPopupMenu.editItem => null, // TODO
           CollectionPopupMenu.deleteList ||
           CollectionPopupMenu.deleteItem =>
-            list
-                .delete()
-                .then((_) => Navigator.pop(context)), // TODO confirm delete
+            DeleteCollectionDialog.deleteCollection(context, list, true),
         };
 
     final menu = CollectionPopupMenu.values
@@ -167,7 +166,7 @@ class CollectionPage extends HookConsumerWidget {
         return CollectionEntry(
           key: ObjectKey(item),
           index: index,
-          groupTag: items,
+          groupTag: list.title,
           icon: icon,
           reorderEnabled: listProperties.itemsOrdering == ItemsOrdering.custom,
           fatDividier: listProperties.stackDone &&
@@ -175,7 +174,8 @@ class CollectionPage extends HookConsumerWidget {
               dividerIndex != 0 &&
               dividerIndex != items.length &&
               index == dividerIndex - 1,
-          onDelete: () => item.delete(),
+          onDelete: () =>
+              DeleteCollectionDialog.deleteCollection(context, item),
           onClick: () => Navigator.pushNamed(
             context,
             Routes.item.name,

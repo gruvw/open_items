@@ -165,14 +165,16 @@ class AuthenticatePage extends HookConsumerWidget {
             indicatorColor: UIColors.secondary,
             unselectedLabelColor: UIColors.hintText,
             indicatorWeight: AuthenticationPageLayout.primaryTabIndicatorWeight,
-            tabs: const [
+            tabs: [
               IconTab(
                 text: "Create Account",
-                icon: Icon(UIIcons.account),
+                icon: UIIcons.account,
+                isActive: createAccountSelected,
               ),
               IconTab(
                 text: "Log In",
-                icon: Icon(UIIcons.login),
+                icon: UIIcons.login,
+                isActive: !createAccountSelected,
               ),
             ],
           ),
@@ -184,14 +186,16 @@ class AuthenticatePage extends HookConsumerWidget {
               indicatorColor: UIColors.secondary,
               unselectedLabelColor: UIColors.hintText,
               indicatorSize: TabBarIndicatorSize.label,
-              tabs: const [
+              tabs: [
                 IconTab(
                   text: "Online Account",
-                  icon: Icon(UIIcons.online),
+                  icon: UIIcons.online,
+                  isActive: activeTab == Tabs.newOnlineAccount,
                 ),
                 IconTab(
                   text: "Offline Account",
-                  icon: Icon(UIIcons.offline),
+                  icon: UIIcons.offline,
+                  isActive: activeTab == Tabs.newOfflineAccount,
                 ),
               ],
             ),

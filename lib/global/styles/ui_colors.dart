@@ -8,6 +8,7 @@ abstract class UIColors {
   // Semantic colors
   static const none = Colors.transparent;
   static const danger = Colors.red;
+  static final notSelected = Colors.white.withOpacity(0.6);
 
   // Specific colors
   static const background = Colors.white;
