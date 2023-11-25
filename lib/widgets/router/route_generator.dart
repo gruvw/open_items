@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
+import 'package:open_items/widgets/collections/collection_page/collection_page.dart';
 import 'package:open_items/widgets/collections/item_page.dart';
-import 'package:open_items/widgets/collections/list_page/list_page.dart';
 import 'package:open_items/widgets/collections/lists_page/lists_page.dart';
 import 'package:open_items/widgets/router/error_page.dart';
 import 'package:open_items/widgets/router/home_page_redirection.dart';
@@ -36,7 +36,7 @@ enum Routes {
         }
       case list:
         if (args is String) {
-          return ListPage(listPropertiesId: args);
+          return CollectionPage(listPropertiesId: args);
         }
       case item:
         return const ItemPage();

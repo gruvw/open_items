@@ -12,10 +12,10 @@ import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
+import 'package:open_items/widgets/collections/collection_page/list_title.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
 import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
-import 'package:open_items/widgets/collections/list_page/list_title.dart';
 import 'package:open_items/widgets/collections/new_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
 import 'package:open_items/widgets/components/input/menu_element.dart';
@@ -47,10 +47,10 @@ enum CollectionPopupMenu {
   const CollectionPopupMenu(this.label, this.type);
 }
 
-class ListPage extends HookConsumerWidget {
+class CollectionPage extends HookConsumerWidget {
   final String listPropertiesId;
 
-  const ListPage({
+  const CollectionPage({
     super.key,
     required this.listPropertiesId,
   });
@@ -110,6 +110,9 @@ class ListPage extends HookConsumerWidget {
 
     final menu = CollectionPopupMenu.values
         .where((m) => m.type != CollectionMenuType.item) // TODO
+        .where((m) =>
+            m != CollectionPopupMenu.stackDone ||
+            listProperties.itemsOrdering != ItemsOrdering.done)
         .map((CollectionPopupMenu menu) {
       return PopupMenuItem(
         value: menu,

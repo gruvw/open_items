@@ -3,7 +3,6 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/widgets/components/buttons/outlined.dart';
-import 'package:open_items/widgets/components/buttons/plain.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/modals/plain_dialog.dart';
 
