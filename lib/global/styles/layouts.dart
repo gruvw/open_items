@@ -51,7 +51,7 @@ abstract class ButtonLayout {
 abstract class TextInputLayout {
   static const borderWidth = 2.0;
 
-  static const contentVerticalPadding = 2.0;
+  static const contentVerticalPadding = 8.0;
   static const contentHorizontalPadding = 10.0;
 
   static const errorMaxLines = 10;

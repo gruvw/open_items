@@ -48,18 +48,16 @@ class CollectionEntry extends StatelessWidget {
           if (leading != null)
             Column(
               children: [
-                IconButton(
-                  color: UIColors.primary,
-                  disabledColor: UIColors.primary,
-                  onPressed: leadingOnClick,
-                  icon: leading!,
-                  style: IconButton.styleFrom(
-                    // Reset material padding and boxes
-                    padding: const EdgeInsets.only(
-                      right: CollectionLayout.contentHorizontalPadding,
+                InkWell(
+                  onTap: leadingOnClick,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      0,
+                      CollectionLayout.contentVerticalPadding,
+                      CollectionLayout.contentHorizontalPadding,
+                      CollectionLayout.contentVerticalPadding,
                     ),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    child: leading!,
                   ),
                 ),
               ],
@@ -68,12 +66,18 @@ class CollectionEntry extends StatelessWidget {
             child: InkWell(
               hoverColor: UIColors.none,
               onTap: onClick,
-              child: Text(
-                this.content,
-                overflow: wrap ? null : TextOverflow.ellipsis,
-                style: UITexts.normalText.copyWith(
-                  fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
-                  color: reversed ? UIColors.secondary : UIColors.primary,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: CollectionLayout.contentVerticalPadding,
+                ),
+                child: Text(
+                  this.content,
+                  maxLines: wrap ? null : 1,
+                  overflow: wrap ? null : TextOverflow.ellipsis,
+                  style: UITexts.normalText.copyWith(
+                    fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
+                    color: reversed ? UIColors.secondary : UIColors.primary,
+                  ),
                 ),
               ),
             ),
@@ -113,7 +117,6 @@ class CollectionEntry extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: CollectionLayout.contentVerticalPadding,
                 horizontal: CollectionLayout.contentHorizontalPadding,
               ),
               child: content,

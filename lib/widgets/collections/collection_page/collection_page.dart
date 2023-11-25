@@ -224,6 +224,7 @@ class CollectionPage extends ConsumerWidget {
           builder: (_) => TextDialog(
             title: "New Item Text",
             submitText: "Create",
+            wrap: true,
             capitalization: TextCapitalization.sentences,
             placeholder: UIPlaceholders.itemText,
             validation: validItemText,

@@ -17,6 +17,7 @@ class TextDialog extends HookWidget {
   final String? submitText;
   final String? cancelText;
   final TextCapitalization? capitalization;
+  final bool wrap;
 
   const TextDialog({
     super.key,
@@ -30,6 +31,7 @@ class TextDialog extends HookWidget {
     this.submitText,
     this.cancelText,
     this.capitalization,
+    this.wrap = false,
   });
 
   @override
@@ -59,6 +61,7 @@ class TextDialog extends HookWidget {
       },
       body: TextInput(
         autoFocus: true,
+        wrap: wrap,
         controller: offlineNameController,
         placeholder: placeholder,
         label: inputLabel,

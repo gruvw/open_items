@@ -34,6 +34,7 @@ class EditItemTextDialog extends ConsumerWidget {
     return TextDialog(
       title: "Edit Item Text",
       submitText: "Edit",
+      wrap: true,
       capitalization: TextCapitalization.sentences,
       placeholder: UIPlaceholders.itemText,
       initialValue: item.text,

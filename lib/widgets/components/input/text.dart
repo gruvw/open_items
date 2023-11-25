@@ -14,6 +14,7 @@ class TextInput extends HookWidget {
   final bool? obscureText;
   final TextCapitalization? capitalization;
   final bool autoFocus;
+  final bool wrap;
   final void Function(String value)? onChanged;
 
   const TextInput({
@@ -25,6 +26,7 @@ class TextInput extends HookWidget {
     this.obscureText,
     this.onChanged,
     this.capitalization,
+    this.wrap = false,
     this.autoFocus = false,
   });
 
@@ -75,6 +77,7 @@ class TextInput extends HookWidget {
       style: UITexts.normalText,
       cursorColor: UIColors.primary,
       onChanged: onChanged,
+      maxLines: wrap ? null : 1,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           vertical: TextInputLayout.contentVerticalPadding,
