@@ -539,7 +539,7 @@ class _ItemProviderElement extends AutoDisposeProviderElement<Item?>
   String? get itemId => (origin as ItemProvider).itemId;
 }
 
-String _$itemsHash() => r'ced8c9a87e3ce1c1c71dceb58ad3ada7e92b2b5e';
+String _$itemsHash() => r'1ac6019e23cc564a06f3e06f9b5c007fa9a314cb';
 
 /// See also [items].
 @ProviderFor(items)
@@ -553,11 +553,11 @@ class ItemsFamily extends Family<List<Item>?> {
   /// See also [items].
   ItemsProvider call({
     required String? listPropertiesId,
-    required String? parentId,
+    required String? collectionId,
   }) {
     return ItemsProvider(
       listPropertiesId: listPropertiesId,
-      parentId: parentId,
+      parentId: collectionId,
     );
   }
 
@@ -567,7 +567,7 @@ class ItemsFamily extends Family<List<Item>?> {
   ) {
     return call(
       listPropertiesId: provider.listPropertiesId,
-      parentId: provider.parentId,
+      collectionId: provider.parentId,
     );
   }
 
@@ -681,6 +681,133 @@ class _ItemsProviderElement extends AutoDisposeProviderElement<List<Item>?>
   String? get listPropertiesId => (origin as ItemsProvider).listPropertiesId;
   @override
   String? get parentId => (origin as ItemsProvider).parentId;
+}
+
+String _$parentHash() => r'e7f72a5ee2486c74b7a539a9958bd04c955fb0e6';
+
+/// See also [parent].
+@ProviderFor(parent)
+const parentProvider = ParentFamily();
+
+/// See also [parent].
+class ParentFamily extends Family<Collection?> {
+  /// See also [parent].
+  const ParentFamily();
+
+  /// See also [parent].
+  ParentProvider call({
+    required String? itemId,
+  }) {
+    return ParentProvider(
+      itemId: itemId,
+    );
+  }
+
+  @override
+  ParentProvider getProviderOverride(
+    covariant ParentProvider provider,
+  ) {
+    return call(
+      itemId: provider.itemId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'parentProvider';
+}
+
+/// See also [parent].
+class ParentProvider extends AutoDisposeProvider<Collection?> {
+  /// See also [parent].
+  ParentProvider({
+    required String? itemId,
+  }) : this._internal(
+          (ref) => parent(
+            ref as ParentRef,
+            itemId: itemId,
+          ),
+          from: parentProvider,
+          name: r'parentProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$parentHash,
+          dependencies: ParentFamily._dependencies,
+          allTransitiveDependencies: ParentFamily._allTransitiveDependencies,
+          itemId: itemId,
+        );
+
+  ParentProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.itemId,
+  }) : super.internal();
+
+  final String? itemId;
+
+  @override
+  Override overrideWith(
+    Collection? Function(ParentRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ParentProvider._internal(
+        (ref) => create(ref as ParentRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        itemId: itemId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<Collection?> createElement() {
+    return _ParentProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ParentProvider && other.itemId == itemId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, itemId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ParentRef on AutoDisposeProviderRef<Collection?> {
+  /// The parameter `itemId` of this provider.
+  String? get itemId;
+}
+
+class _ParentProviderElement extends AutoDisposeProviderElement<Collection?>
+    with ParentRef {
+  _ParentProviderElement(super.provider);
+
+  @override
+  String? get itemId => (origin as ParentProvider).itemId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

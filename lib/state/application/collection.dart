@@ -65,3 +65,13 @@ List<Item>? items(
       .sorted(ordering)
       .toList();
 }
+
+@riverpod
+Collection? parent(
+  ParentRef ref, {
+  required String? itemId,
+}) {
+  final item = ref.watch(itemProvider(itemId: itemId));
+  final parent = ref.watch(collectionProvider(collectionId: item?.parentId));
+  return parent;
+}

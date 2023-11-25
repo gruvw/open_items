@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
-import 'package:open_items/state/application/collection.dart';
-import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
-import 'package:open_items/widgets/utils/feedback/empty.dart';
 
-class ListTitle extends ConsumerWidget {
-  final String listId;
+class ListTitle extends StatelessWidget {
+  final String title;
+  final VoidCallback? onTap;
 
   const ListTitle({
     super.key,
-    required this.listId,
+    this.onTap,
+    required this.title,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(listProvider(listId: listId));
-
-    if (list == null) return const Empty();
-
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => EditListTitleDialog.show(context, listId),
+      onTap: onTap,
       child: Container(
         width: double.infinity,
         color: UIColors.primary,
@@ -33,7 +27,7 @@ class ListTitle extends ConsumerWidget {
         child: Column(
           children: [
             Text(
-              list.title,
+              title,
               textAlign: TextAlign.center,
               style: UITexts.titleText.copyWith(color: UIColors.secondary),
             ),

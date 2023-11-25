@@ -14,11 +14,14 @@ abstract class CollectionLayout {
   static const titleSectionDividerWidth = 3.0;
   static const titleVerticalPadding = 10.0;
   static const titleHorizontalPadding = 10.0;
+  static const itemTextVerticalPadding = 2.0;
+
+  static const contentVerticalPadding = 8.0;
+  static const contentHorizontalPadding = 6.0;
 
   static const dividerWidth = 1.0;
   static const fatDividerWidth = 2.0;
 
-  static const contentRightPadding = 10.0;
   static const slidableWidth = 100.0;
   static const slideThreshold = 0.9;
 

@@ -144,7 +144,7 @@ class ListsPage extends HookConsumerWidget {
           groupTag: 0,
           reorderEnabled:
               accountProperties.listsOrdering == ListsOrdering.custom,
-          icon: Icon(list.collectionType.icon),
+          leading: Icon(list.collectionType.icon),
           onDelete: () =>
               DeleteCollectionDialog.deleteCollection(context, list),
           onClick: () => Navigator.pushNamed(
@@ -152,7 +152,7 @@ class ListsPage extends HookConsumerWidget {
             Routes.collection.name,
             arguments: [listProperties.localId, list.localId],
           ),
-          onIconClick: () =>
+          leadingOnClick: () =>
               ChangeCollectionTypeDialog.show(context, list.listId),
           content: list.title,
         );

@@ -6,27 +6,35 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 
 class CollectionEntry extends StatelessWidget {
-  final Widget? icon;
-  final VoidCallback? onIconClick;
+  final Widget? leading;
+  final VoidCallback? leadingOnClick;
   final VoidCallback? onClick;
   final VoidCallback? onDelete;
   final Object? groupTag;
   final bool reorderEnabled;
+  final bool divider;
   final bool fatDividier;
   final int index;
   final String content;
   final bool isFat;
+  final bool slidable;
+  final bool reversed;
+  final bool wrap;
 
   const CollectionEntry({
     super.key,
     this.onClick,
-    this.icon,
-    this.onIconClick,
+    this.leading,
+    this.leadingOnClick,
     this.onDelete,
     this.groupTag,
+    this.slidable = true,
     this.reorderEnabled = true,
+    this.divider = true,
     this.fatDividier = false,
     this.isFat = false,
+    this.reversed = false,
+    this.wrap = false,
     required this.index,
     required this.content,
   });
@@ -37,30 +45,36 @@ class CollectionEntry extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (icon != null)
-            IconButton(
-              color: UIColors.primary,
-              disabledColor: UIColors.primary,
-              onPressed: onIconClick,
-              icon: icon!,
+          if (leading != null)
+            Column(
+              children: [
+                IconButton(
+                  color: UIColors.primary,
+                  disabledColor: UIColors.primary,
+                  onPressed: leadingOnClick,
+                  icon: leading!,
+                  style: IconButton.styleFrom(
+                    // Reset material padding and boxes
+                    padding: const EdgeInsets.only(
+                      right: CollectionLayout.contentHorizontalPadding,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ),
+              ],
             ),
           Expanded(
             child: InkWell(
               hoverColor: UIColors.none,
               onTap: onClick,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      this.content,
-                      overflow: TextOverflow.ellipsis,
-                      style: UITexts.normalText.copyWith(
-                        fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: CollectionLayout.contentRightPadding),
-                ],
+              child: Text(
+                this.content,
+                overflow: wrap ? null : TextOverflow.ellipsis,
+                style: UITexts.normalText.copyWith(
+                  fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
+                  color: reversed ? UIColors.secondary : UIColors.primary,
+                ),
               ),
             ),
           ),
@@ -78,6 +92,7 @@ class CollectionEntry extends StatelessWidget {
       child: Column(
         children: [
           Slidable(
+            enabled: slidable,
             groupTag: groupTag,
             endActionPane: ActionPane(
               motion: const StretchMotion(),
@@ -96,13 +111,20 @@ class CollectionEntry extends StatelessWidget {
                 )
               ],
             ),
-            child: content,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: CollectionLayout.contentVerticalPadding,
+                horizontal: CollectionLayout.contentHorizontalPadding,
+              ),
+              child: content,
+            ),
           ),
-          Divider(
-            height: dividerWidth,
-            thickness: dividerWidth,
-            color: UIColors.primary,
-          ),
+          if (divider)
+            Divider(
+              height: dividerWidth,
+              thickness: dividerWidth,
+              color: UIColors.primary,
+            ),
         ],
       ),
     );

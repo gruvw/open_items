@@ -7,11 +7,13 @@ import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
+import 'package:open_items/models/objects/item.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
+import 'package:open_items/widgets/collections/collection_page/item_text.dart';
 import 'package:open_items/widgets/collections/collection_page/list_title.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
@@ -49,7 +51,7 @@ enum CollectionPopupMenu {
   const CollectionPopupMenu(this.label, this.type);
 }
 
-class CollectionPage extends HookConsumerWidget {
+class CollectionPage extends ConsumerWidget {
   final String listPropertiesId;
   final String collectionId;
 
@@ -67,11 +69,18 @@ class CollectionPage extends HookConsumerWidget {
 
     final collection =
         ref.watch(collectionProvider(collectionId: collectionId));
+    // May be null
+    final parent = ref.watch(parentProvider(itemId: collectionId));
+
     final items = ref.watch(itemsProvider(
       listPropertiesId: listPropertiesId,
-      parentId: collectionId,
+      collectionId: collectionId,
     ));
-    print(items);
+    // May be null
+    final parentItems = ref.watch(itemsProvider(
+      listPropertiesId: listPropertiesId,
+      collectionId: parent?.localId,
+    ));
 
     // Display loading screen while object is deleted
     if (listProperties == null ||
@@ -151,38 +160,33 @@ class CollectionPage extends HookConsumerWidget {
       );
     }).toList();
 
-    late final itemsCustomOrder = items.sorted(itemsPositionCustomCompare);
+    final itemsCustomOrder = items.sorted(itemsPositionCustomCompare);
+    late final parentItemIdsCustomOrder = parentItems
+        ?.sorted(itemsPositionCustomCompare)
+        .map((e) => e.localId)
+        .toList();
 
     final uncheckedNb = items.where((i) => !i.isDone).length;
     // When using done ordering, done items stack at the top
     final dividerIndex = listProperties.itemsOrdering == ItemsOrdering.done
         ? items.length - uncheckedNb
         : uncheckedNb;
-    final isCheck = collection.collectionType == CollectionType.check;
+    final isCheckCollection = collection.collectionType == CollectionType.check;
 
     final listsView = CollectionView(
       length: items.length,
       builder: (context, index) {
         final item = items[index];
 
-        final icon = switch (collection.collectionType) {
-          CollectionType.check =>
-            Icon(item.isDone ? UIIcons.checkedBox : UIIcons.uncheckedBox),
-          CollectionType.unordered => const Icon(UIIcons.bullet),
-          CollectionType.ordered => Text(
-              "${itemsCustomOrder.indexOf(item) + 1}.",
-              style: UITexts.normalText),
-        };
-
         return CollectionEntry(
           key: ObjectKey(item),
           index: index,
           groupTag: collection.content,
           isFat: item.itemIds.isNotEmpty,
-          icon: icon,
+          leading: _iconFor(collection, item, itemsCustomOrder.indexOf(item)),
           reorderEnabled: listProperties.itemsOrdering == ItemsOrdering.custom,
           fatDividier: listProperties.stackDone &&
-              isCheck &&
+              isCheckCollection &&
               dividerIndex != 0 &&
               dividerIndex != items.length &&
               index == dividerIndex - 1,
@@ -193,7 +197,7 @@ class CollectionPage extends HookConsumerWidget {
             Routes.collection.name,
             arguments: [listPropertiesId, item.localId],
           ),
-          onIconClick: !isCheck
+          leadingOnClick: !isCheckCollection
               ? null
               : () => item.copyWith(isDone: !item.isDone).save(),
           content: item.content,
@@ -207,6 +211,8 @@ class CollectionPage extends HookConsumerWidget {
         style: UITexts.titleText,
       ),
     );
+
+    final displayItemText = collection is Item;
 
     return Scaffold(
       backgroundColor: UIColors.background,
@@ -251,7 +257,26 @@ class CollectionPage extends HookConsumerWidget {
       body: Column(
         children: [
           _divider,
-          ListTitle(listId: list.localId),
+          ListTitle(
+            title: list.title,
+            onTap: () => EditListTitleDialog.show(context, list.localId),
+          ),
+          if (displayItemText) _divider,
+          if (displayItemText)
+            ItemText(
+              onClick: () => EditItemTextDialog.show(context, collectionId),
+              leadingOnClick: parent!.collectionType != CollectionType.check
+                  ? null
+                  : () =>
+                      collection.copyWith(isDone: !collection.isDone).save(),
+              leading: _iconFor(
+                parent,
+                collection,
+                parentItemIdsCustomOrder!.indexOf(collectionId),
+                true,
+              ),
+              text: collection.content,
+            ),
           Expanded(child: items.isNotEmpty ? listsView : emptyView),
         ],
       ),
@@ -263,4 +288,28 @@ class CollectionPage extends HookConsumerWidget {
     height: CollectionLayout.titleSectionDividerWidth,
     thickness: CollectionLayout.titleSectionDividerWidth,
   );
+}
+
+Widget _iconFor(
+  Collection collection,
+  Item item,
+  int customOrderIndex, [
+  bool reversed = false,
+]) {
+  final color = reversed ? UIColors.secondary : UIColors.primary;
+
+  return switch (collection.collectionType) {
+    CollectionType.check => Icon(
+        item.isDone ? UIIcons.checkedBox : UIIcons.uncheckedBox,
+        color: color,
+      ),
+    CollectionType.unordered => Icon(
+        UIIcons.bullet,
+        color: color,
+      ),
+    CollectionType.ordered => Text(
+        "${customOrderIndex + 1}.",
+        style: UITexts.normalText.copyWith(color: color),
+      ),
+  };
 }
