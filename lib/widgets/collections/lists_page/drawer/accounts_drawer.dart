@@ -101,6 +101,7 @@ class AccountsDrawer extends ConsumerWidget {
             ),
             DrawerSection(
               title: selectedAccount.name,
+              compact: true,
             ),
             TileButton(
               padding: _tilePadding,

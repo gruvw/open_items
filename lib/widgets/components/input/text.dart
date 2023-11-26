@@ -74,7 +74,7 @@ class TextInput extends HookWidget {
       obscureText: shouldObscure,
       enableSuggestions: !shouldObscure,
       autocorrect: !shouldObscure,
-      style: UITexts.title,
+      style: UITexts.normal,
       cursorColor: UIColors.primary,
       onChanged: onChanged,
       maxLines: wrap ? null : 1,

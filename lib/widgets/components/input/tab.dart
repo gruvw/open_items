@@ -26,7 +26,7 @@ class IconTab extends StatelessWidget {
         children: [
           Icon(icon, color: color),
           const SizedBox(width: TabLayout.iconHorizontalSpacing),
-          Text(text, style: UITexts.title.copyWith(color: color)),
+          Text(text, style: UITexts.normal.copyWith(color: color)),
         ],
       ),
     );

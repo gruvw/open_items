@@ -16,19 +16,15 @@ dependencies:
   hooks_riverpod: ^2.4.3
   nanoid: ^1.0.0
   flutter_slidable: ^3.0.0
-  cupertino_icons: ^1.0.2
   package_info_plus: ^4.0.2
   path_provider: ^2.0.11
   file_picker: ^5.3.2
-  tuple: ^2.0.0
-  intl: ^0.18.1
   permission_handler: ^11.0.0
   riverpod_annotation: ^2.2.0
   url_strategy: ^0.2.0
   flutter_native_splash: ^2.3.3
   flutter_markdown: ^0.6.18
   shared_preferences: ^2.2.2
-  fpdart: ^1.1.0
   google_fonts: ^6.1.0
   collection: ^1.17.2
   flutter_svg: ^2.0.9
@@ -90,7 +86,6 @@ flutter_native_splash:
   image: assets/icons/splash/open_items.png
   android_12:
     image: assets/icons/splash/open_items_android_12.png
-    icon_background_color: "#000000"
 
 # Git summary
 # git log --oneline --shortstat -- ./lib | grep -E "(([0-9]+) insertions\(\+\))|(([0-9]+) deletions\(\-\))" | awk '{insertions += $4; deletions += $6} END {print "Total Insertions: " insertions, "Total Deletions: " deletions, "Total Changes: " insertions + deletions}'

@@ -258,8 +258,7 @@ class AuthenticatePage extends HookConsumerWidget {
                         offlineNameError.value == null,
                     child: Text(
                       activeTab.submitText,
-                      style:
-                          UITexts.normal.apply(color: UIColors.secondary),
+                      style: UITexts.normal.apply(color: UIColors.secondary),
                     ),
                   ),
                 ],
@@ -277,12 +276,15 @@ class AuthenticatePage extends HookConsumerWidget {
         leading: cancellable
             ? IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(UIIcons.back),
+                icon: const Icon(
+                  UIIcons.back,
+                  color: UIColors.secondary,
+                ),
               )
             : null,
         title: Text(
           Texts.authenticateTitle,
-          style: UITexts.normal.apply(
+          style: UITexts.title.apply(
             color: UIColors.secondary,
           ),
         ),

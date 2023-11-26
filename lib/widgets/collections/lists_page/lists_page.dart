@@ -163,9 +163,22 @@ class ListsPage extends HookConsumerWidget {
     final emptyView = Center(
       child: Text(
         Texts.emptyLists,
-        style: UITexts.title,
+        style: UITexts.normal,
       ),
     );
+
+    final menu = ListsPopupMenu.values.map((ListsPopupMenu menu) {
+      return PopupMenuItem(
+        value: menu,
+        child: MenuElement(
+          text: menu.label,
+          icon: switch (menu) {
+            ListsPopupMenu.orderBy => UIIcons.order,
+            ListsPopupMenu.defaultListType => defaultListType.icon,
+          },
+        ),
+      );
+    }).toList();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -193,32 +206,26 @@ class ListsPage extends HookConsumerWidget {
           children: [
             IconButton(
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              icon: const Icon(UIIcons.menu),
+              icon: const Icon(
+                UIIcons.menu,
+                color: UIColors.secondary,
+              ),
             ),
             const SizedBox(
               width: UILayout.appBarLeadingSpacing,
             ),
-            const Icon(UIIcons.offline),
+            const Icon(
+              UIIcons.offline,
+              color: UIColors.secondary,
+            ),
           ],
         ),
         actions: [
           const SearchButton(),
           PopupMenuButton(
+            iconColor: UIColors.secondary,
             onSelected: menuCallback,
-            itemBuilder: (BuildContext context) {
-              return ListsPopupMenu.values.map((ListsPopupMenu menu) {
-                return PopupMenuItem(
-                  value: menu,
-                  child: MenuElement(
-                    text: menu.label,
-                    icon: switch (menu) {
-                      ListsPopupMenu.orderBy => UIIcons.order,
-                      ListsPopupMenu.defaultListType => defaultListType.icon,
-                    },
-                  ),
-                );
-              }).toList();
-            },
+            itemBuilder: (BuildContext context) => menu,
           ),
         ],
       ),

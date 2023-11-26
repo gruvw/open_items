@@ -6,15 +6,15 @@ abstract class UIThemes {
   static const colorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: UIColors.background,
-    onPrimary: UIColors.secondary,
+    onPrimary: UIColors.primary,
     secondary: UIColors.background,
-    onSecondary: UIColors.secondary,
-    error: UIColors.background,
-    onError: UIColors.danger,
+    onSecondary: UIColors.primary,
+    error: UIColors.danger,
+    onError: UIColors.secondary,
     background: UIColors.background,
-    onBackground: UIColors.secondary,
+    onBackground: UIColors.primary,
     surface: UIColors.background,
-    onSurface: UIColors.secondary,
+    onSurface: UIColors.primary,
     surfaceTint: UIColors.none,
     surfaceVariant: UIColors.none,
   );
@@ -22,6 +22,6 @@ abstract class UIThemes {
   static const textSelectionTheme = TextSelectionThemeData(
     cursorColor: UIColors.primary,
     selectionColor: UIColors.selection,
-    selectionHandleColor: UIColors.selection,
+    selectionHandleColor: UIColors.primary,
   );
 }

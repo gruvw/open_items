@@ -162,10 +162,11 @@ class HiveItem extends Item with HiveCollection {
       await item.delete();
     }
 
-    final hiveList = hiveDatabase.getListe(listId)!;
-    final hiveStoreList = hiveList.hiveStoreList;
-    hiveStoreList.hiveItemsLocalIds.removeWhere((itemId) => itemId == localId);
-    await hiveStoreList.save().then((_) => hiveList.notify(EventType.edit));
+    final hiveParent = hiveDatabase.getCollection(parentId)!;
+    final hiveStoreParent = (hiveParent as HiveCollection).collectionStore;
+    hiveStoreParent.hiveItemsLocalIds
+        .removeWhere((itemId) => itemId == localId);
+    await hiveStoreParent.save().then((_) => hiveParent.notify(EventType.edit));
 
     await hiveStoreItem.delete().then((_) => notify(EventType.delete));
   }

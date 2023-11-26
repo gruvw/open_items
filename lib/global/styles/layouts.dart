@@ -43,7 +43,7 @@ abstract class ButtonLayout {
   static const borderRadius = 4.0;
 
   static const leadingSpacing = 8.0;
-  static const verticalPadding = 16.0;
+  static const verticalPadding = 14.0;
   static const horizontalPadding = 10.0;
   static const outlinedHorizontalPadding = 10.0;
 }
@@ -51,7 +51,7 @@ abstract class ButtonLayout {
 abstract class TextInputLayout {
   static const borderWidth = 2.0;
 
-  static const contentVerticalPadding = 8.0;
+  static const contentVerticalPadding = 6.0;
   static const contentHorizontalPadding = 10.0;
 
   static const errorMaxLines = 10;
@@ -75,7 +75,7 @@ abstract class DialogLayout {
   static const buttonsContentSpacing = 7.0;
 
   static const orderingDividerWidth = 1.0;
-  static const orderingVerticalPadding = 10.0;
+  static const orderingVerticalPadding = 8.0;
   static const orderingHorizontalPadding = 16.0;
 }
 
@@ -84,12 +84,12 @@ abstract class DrawerLayout {
   static const titleDividerWidth = 2.0;
 
   static const accountTileHorizontalPadding = 12.0;
-  static const accountTileVerticalPadding = 12.0;
+  static const accountTileVerticalPadding = 13.0;
 
   static const tileVerticalPadding = 12.0;
   static const tileHorizontalPadding = 6.0;
   static const tileDividerWidth = 1.0;
   static const tileButtonSpacing = 8.0;
 
-  static const sectionSpacing = 10.0;
+  static const sectionSpacing = 20.0;
 }

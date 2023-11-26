@@ -9,6 +9,7 @@ import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
+import 'package:open_items/models/objects/list.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/collection.dart';
@@ -92,13 +93,24 @@ class CollectionPage extends ConsumerWidget {
     }
 
     Future<void> createItem(String text) async {
+      final parentType = parent?.collectionType;
+
+      // If parent type changed before creating any subitem, update item's collection type to match parent
+      CollectionType? type;
+      if (collection is Item &&
+          parentType != null &&
+          collection.itemIds.isEmpty) {
+        collection.copyWith(type: parentType).save();
+        type = parentType;
+      }
+
       final time = DateTime.now();
 
       await database.createItem(
         serverId: CoreValues.unknownServerId,
         parentId: collectionId,
         text: text,
-        type: collection.collectionType,
+        type: type ?? collection.collectionType,
         lexoRank: "a" * items.length, // TODO lexoRanking
         creationTime: time,
         editionTime: time,
@@ -128,7 +140,9 @@ class CollectionPage extends ConsumerWidget {
         };
 
     final menu = CollectionPopupMenu.values
-        .where((m) => m.type != CollectionMenuType.item) // TODO
+        .where((m) => collection is Liste
+            ? m.type != CollectionMenuType.item
+            : m.type != CollectionMenuType.list)
         .where((m) =>
             m != CollectionPopupMenu.stackDone ||
             listProperties.itemsOrdering != ItemsOrdering.done)
@@ -207,7 +221,7 @@ class CollectionPage extends ConsumerWidget {
     );
 
     final emptyView = Center(
-      child: Text(Texts.emptyItems, style: UITexts.title),
+      child: Text(Texts.emptyItems, style: UITexts.normal),
     );
 
     final displayItemText = collection is Item;
@@ -220,7 +234,7 @@ class CollectionPage extends ConsumerWidget {
           barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => TextDialog(
-            title: DialogTexts.newItemTitle,
+            title: DialogTexts.newItemText,
             submitText: Texts.createButton,
             wrap: true,
             capitalization: TextCapitalization.sentences,
@@ -237,17 +251,24 @@ class CollectionPage extends ConsumerWidget {
           children: [
             IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(UIIcons.back),
+              icon: const Icon(
+                UIIcons.back,
+                color: UIColors.secondary,
+              ),
             ),
             const SizedBox(
               width: UILayout.appBarLeadingSpacing,
             ),
-            const Icon(UIIcons.offline),
+            const Icon(
+              UIIcons.offline,
+              color: UIColors.secondary,
+            ),
           ],
         ),
         actions: [
           const SearchButton(),
           PopupMenuButton(
+            iconColor: UIColors.secondary,
             onSelected: menuCallback,
             itemBuilder: (BuildContext context) => menu,
           ),

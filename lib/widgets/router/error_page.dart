@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/values.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -8,10 +9,16 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(UIValues.errorRouteText),
+        title: Text(
+          UIValues.errorRouteText,
+          style: UITexts.title,
+        ),
       ),
-      body: const Center(
-        child: Text(UIValues.errorRouteText),
+      body: Center(
+        child: Text(
+          UIValues.errorRouteText,
+          style: UITexts.normal,
+        ),
       ),
     );
   }

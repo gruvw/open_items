@@ -24,6 +24,7 @@ class NewButton extends StatelessWidget {
       child: const Icon(
         UIIcons.add,
         size: UILayout.floatingActionButtonSize,
+        color: UIColors.secondary,
       ),
     );
   }

@@ -5,9 +5,11 @@ import 'package:open_items/global/styles/ui_text.dart';
 
 class DrawerSection extends StatelessWidget {
   final String title;
+  final bool compact;
 
   const DrawerSection({
     super.key,
+    this.compact = false,
     required this.title,
   });
 
@@ -25,9 +27,8 @@ class DrawerSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: UITexts.title.apply(
-                  color: UIColors.secondary,
-                ),
+                style: (compact ? UITexts.normal : UITexts.title)
+                    .apply(color: UIColors.secondary),
               ),
             ],
           ),

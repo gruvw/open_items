@@ -41,21 +41,26 @@ class CollectionEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final leadingVerticalPadding =
+        wrap ? CollectionLayout.contentVerticalPadding : 0.0;
+
     final content = IntrinsicHeight(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (leading != null)
             Column(
+              mainAxisAlignment:
+                  wrap ? MainAxisAlignment.start : MainAxisAlignment.center,
               children: [
                 InkWell(
                   onTap: leadingOnClick,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
+                    padding: EdgeInsets.fromLTRB(
                       0,
-                      CollectionLayout.contentVerticalPadding,
+                      leadingVerticalPadding,
                       CollectionLayout.contentHorizontalPadding,
-                      CollectionLayout.contentVerticalPadding,
+                      leadingVerticalPadding,
                     ),
                     child: leading!,
                   ),
@@ -66,18 +71,28 @@ class CollectionEntry extends StatelessWidget {
             child: InkWell(
               hoverColor: UIColors.none,
               onTap: onClick,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: CollectionLayout.contentVerticalPadding,
-                ),
-                child: Text(
-                  this.content,
-                  maxLines: wrap ? null : 1,
-                  overflow: wrap ? null : TextOverflow.ellipsis,
-                  style: (isFat ? UITexts.normalBold : UITexts.normal).copyWith(
-                    color: reversed ? UIColors.secondary : UIColors.primary,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      0,
+                      CollectionLayout.contentVerticalPadding,
+                      CollectionLayout.contentHorizontalPadding,
+                      CollectionLayout.contentVerticalPadding,
+                    ),
+                    child: Text(
+                      this.content,
+                      maxLines: wrap ? null : 1,
+                      overflow: wrap ? null : TextOverflow.ellipsis,
+                      style: (isFat ? UITexts.normalBold : UITexts.normal)
+                          .copyWith(
+                        color: reversed ? UIColors.secondary : UIColors.primary,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
