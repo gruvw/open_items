@@ -22,33 +22,31 @@ class ListOrderingDialog extends ConsumerWidget {
     final selectedOrdering = listProerties.itemsOrdering;
     final shouldReversed = listProerties.shouldReverseOrder;
 
+    final orderings = ItemsOrdering.values.map(
+      (o) => OrderingButton(
+        label: o.label,
+        selected: o == selectedOrdering,
+        reversed: shouldReversed,
+        onPressed: () {
+          if (o == selectedOrdering) {
+            listProerties.copyWith(shouldReverseOrder: !shouldReversed).save();
+          } else {
+            listProerties
+                .copyWith(
+                  itemsOrdering: o,
+                  shouldReverseOrder: DefaultValues.shouldReverse,
+                )
+                .save();
+          }
+        },
+      ),
+    );
+
     return Container(
       color: UIColors.background,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          ...ItemsOrdering.values.map(
-            (o) => OrderingButton(
-              label: o.label,
-              selected: o == selectedOrdering,
-              reversed: shouldReversed,
-              onPressed: () {
-                if (o == selectedOrdering) {
-                  listProerties
-                      .copyWith(shouldReverseOrder: !shouldReversed)
-                      .save();
-                } else {
-                  listProerties
-                      .copyWith(
-                        itemsOrdering: o,
-                        shouldReverseOrder: DefaultValues.shouldReverse,
-                      )
-                      .save();
-                }
-              },
-            ),
-          )
-        ],
+        children: orderings.toList(),
       ),
     );
   }

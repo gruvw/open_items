@@ -20,45 +20,46 @@ class OrderingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fgColor = selected ? UIColors.secondary : UIColors.primary;
-    final bgColor = selected ? UIColors.primary : UIColors.secondary;
+    final foregroundColor = selected ? UIColors.secondary : UIColors.primary;
+    final backgroundColor = selected ? UIColors.primary : UIColors.secondary;
 
-    final content = Column(
+    final content = Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Divider(
-          height: DialogLayout.orderingDividerWidth,
-          thickness: DialogLayout.orderingDividerWidth,
-          color: UIColors.primary,
+        Text(
+          label,
+          style: UITexts.title.apply(color: foregroundColor),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: DialogLayout.orderingVerticalPadding,
-            horizontal: DialogLayout.orderingHorizontalPadding,
+        if (selected)
+          Icon(
+            reversed ? UIIcons.descending : UIIcons.ascending,
+            color: foregroundColor,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: UITexts.titleText.apply(color: fgColor),
-              ),
-              if (selected)
-                Icon(
-                  reversed ? UIIcons.descending : UIIcons.ascending,
-                  color: fgColor,
-                ),
-            ],
-          ),
-        ),
       ],
     );
 
     return InkWell(
-        onTap: onPressed,
-        child: Container(
-          color: bgColor,
-          child: content,
-        ));
+      onTap: onPressed,
+      child: Container(
+        color: backgroundColor,
+        child: Column(
+          children: [
+            const Divider(
+              height: DialogLayout.orderingDividerWidth,
+              thickness: DialogLayout.orderingDividerWidth,
+              color: UIColors.primary,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: DialogLayout.orderingVerticalPadding,
+                horizontal: DialogLayout.orderingHorizontalPadding,
+              ),
+              child: content,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

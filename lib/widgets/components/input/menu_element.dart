@@ -22,17 +22,11 @@ class MenuElement extends StatelessWidget {
         if (icon != null)
           Row(
             children: [
-              Icon(
-                icon,
-                color: color,
-              ),
+              Icon(icon, color: color),
               const SizedBox(width: UILayout.iconTextHorizontalSpacing)
             ],
           ),
-        Text(
-          text,
-          style: UITexts.normalText.apply(color: color),
-        ),
+        Text(text, style: UITexts.normal.apply(color: color)),
       ],
     );
   }

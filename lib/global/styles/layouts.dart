@@ -83,8 +83,8 @@ abstract class DrawerLayout {
   static const titleVerticalPadding = 8.0;
   static const titleDividerWidth = 2.0;
 
-  static const accountTileHorizontalPadding = 6.0;
-  static const accountTileVerticalPadding = 4.0;
+  static const accountTileHorizontalPadding = 12.0;
+  static const accountTileVerticalPadding = 12.0;
 
   static const tileVerticalPadding = 12.0;
   static const tileHorizontalPadding = 6.0;

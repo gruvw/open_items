@@ -5,6 +5,7 @@ import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/ordering/orderings.dart';
 import 'package:open_items/state/application/account.dart';
@@ -30,8 +31,8 @@ import 'package:open_items/widgets/validation/core.dart';
 import 'package:open_items/widgets/validation/list.dart';
 
 enum ListsPopupMenu {
-  orderBy("Order By"),
-  defaultListType("Default List Type");
+  orderBy(MenuTexts.orderBy),
+  defaultListType(MenuTexts.defaultListType);
 
   final String label;
 
@@ -98,7 +99,7 @@ class ListsPage extends HookConsumerWidget {
               barrierColor: UIColors.dimmed,
               context: context,
               builder: (context) => CollectionTypeDialog(
-                title: "Default List Type",
+                title: MenuTexts.defaultListType,
                 initialType: defaultListType,
                 onSelected: (newType) => ref
                     .read(defaultListTypeProvider.notifier)
@@ -161,8 +162,8 @@ class ListsPage extends HookConsumerWidget {
 
     final emptyView = Center(
       child: Text(
-        "Create new lists using the + button",
-        style: UITexts.titleText,
+        Texts.emptyLists,
+        style: UITexts.title,
       ),
     );
 
@@ -176,8 +177,8 @@ class ListsPage extends HookConsumerWidget {
           barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => TextDialog(
-            title: "New List Title",
-            submitText: "Create",
+            title: DialogTexts.newListTitle,
+            submitText: Texts.createButton,
             capitalization: TextCapitalization.sentences,
             placeholder: UIPlaceholders.listTitle,
             validation: validListTitle,
@@ -233,7 +234,7 @@ final _testingDialog = ConfirmationDialog(
   confirmedText: "I understand",
   body: Text.rich(
     TextSpan(
-      style: UITexts.normalText,
+      style: UITexts.normal,
       children: [
         const TextSpan(text: "This is a "),
         TextSpan(text: "test", style: UITexts.normalBold),

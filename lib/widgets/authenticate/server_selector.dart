@@ -23,7 +23,7 @@ class ServerSelector extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         CoreValues.onlineServerDefault,
-        style: UITexts.normalText.apply(color: UIColors.primary),
+        style: UITexts.normal.apply(color: UIColors.primary),
       ),
     );
   }

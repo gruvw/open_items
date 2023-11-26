@@ -21,7 +21,7 @@ class NotImplementedDialog extends StatelessWidget {
       confirmedText: "Ok",
       body: Text(
         "Sorry this functionality is not yet implemented.",
-        style: UITexts.normalText,
+        style: UITexts.normal,
       ),
     );
   }

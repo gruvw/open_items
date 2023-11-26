@@ -5,6 +5,7 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/accounts.dart';
 import 'package:open_items/state/application/globals.dart';
@@ -20,9 +21,9 @@ import 'package:open_items/widgets/utils/state/hooks.dart';
 import 'package:open_items/widgets/validation/account.dart';
 
 enum Tabs {
-  newOnlineAccount("Create", 0, 0),
-  newOfflineAccount("Add", 0, 1),
-  logIn("Log in", 1, 0);
+  newOnlineAccount(Texts.createButton, 0, 0),
+  newOfflineAccount(Texts.addButton, 0, 1),
+  logIn(Texts.loginButton, 1, 0);
 
   static const primaryTabLength = 2;
   static const secondaryTabLength = 2;
@@ -161,18 +162,18 @@ class AuthenticatePage extends HookConsumerWidget {
         children: [
           TabBar(
             controller: primaryTabController,
-            labelStyle: UITexts.normalText,
+            labelStyle: UITexts.normal,
             indicatorColor: UIColors.secondary,
             unselectedLabelColor: UIColors.hintText,
             indicatorWeight: AuthenticationPageLayout.primaryTabIndicatorWeight,
             tabs: [
               IconTab(
-                text: "Create Account",
+                text: Texts.createAccountTab,
                 icon: UIIcons.account,
                 isActive: createAccountSelected,
               ),
               IconTab(
-                text: "Log In",
+                text: Texts.loginTab,
                 icon: UIIcons.login,
                 isActive: !createAccountSelected,
               ),
@@ -182,18 +183,18 @@ class AuthenticatePage extends HookConsumerWidget {
             TabBar(
               dividerColor: UIColors.primary,
               controller: secondaryTabController,
-              labelStyle: UITexts.normalText,
+              labelStyle: UITexts.normal,
               indicatorColor: UIColors.secondary,
               unselectedLabelColor: UIColors.hintText,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: [
                 IconTab(
-                  text: "Online Account",
+                  text: Texts.onlineAccountTab,
                   icon: UIIcons.online,
                   isActive: activeTab == Tabs.newOnlineAccount,
                 ),
                 IconTab(
-                  text: "Offline Account",
+                  text: Texts.offlineAccountTab,
                   icon: UIIcons.offline,
                   isActive: activeTab == Tabs.newOfflineAccount,
                 ),
@@ -218,14 +219,14 @@ class AuthenticatePage extends HookConsumerWidget {
             TextInput(
               key: const ValueKey(0),
               controller: emailController,
-              label: "Email address",
+              label: Texts.emailFieldLabel,
               placeholder: UIPlaceholders.email,
             ),
           if (onlineSelected)
             TextInput(
               key: const ValueKey(1),
               controller: usernameController,
-              label: "Username",
+              label: Texts.usernameFieldLabel,
               placeholder: UIPlaceholders.accountName,
             ),
           if (activeTab == Tabs.newOfflineAccount)
@@ -233,14 +234,14 @@ class AuthenticatePage extends HookConsumerWidget {
               key: const ValueKey(2),
               controller: offlineNameController,
               placeholder: UIPlaceholders.accountName,
-              label: "Account name",
+              label: Texts.accountFieldLabel,
               errorText: offlineNameError.value,
             ),
           if (onlineSelected)
             TextInput(
               key: const ValueKey(3),
               controller: passwordController,
-              label: "Password",
+              label: Texts.passwordFieldLabel,
               placeholder: UIPlaceholders.password,
               obscureText: true,
             ),
@@ -258,7 +259,7 @@ class AuthenticatePage extends HookConsumerWidget {
                     child: Text(
                       activeTab.submitText,
                       style:
-                          UITexts.normalText.apply(color: UIColors.secondary),
+                          UITexts.normal.apply(color: UIColors.secondary),
                     ),
                   ),
                 ],
@@ -280,8 +281,8 @@ class AuthenticatePage extends HookConsumerWidget {
               )
             : null,
         title: Text(
-          "Add Account",
-          style: UITexts.titleText.apply(
+          Texts.authenticateTitle,
+          style: UITexts.normal.apply(
             color: UIColors.secondary,
           ),
         ),
@@ -309,10 +310,7 @@ class AuthenticatePage extends HookConsumerWidget {
 // Dialogs
 
 final _accountDialog = ConfirmationDialog(
-  title: "Account creation",
-  confirmedText: "Let's go!",
-  body: Text(
-    "Welcome to Open-Items!\nYou can create an online account to benefit from the associated functionalities such as syncing and sharing, or use an offline account and access the application right away.",
-    style: UITexts.normalText,
-  ),
+  title: DialogTexts.createAccountTitle,
+  confirmedText: DialogTexts.createAccountConfirm,
+  body: Text(DialogTexts.createAccountMessage, style: UITexts.normal),
 );

@@ -91,3 +91,6 @@ flutter_native_splash:
   android_12:
     image: assets/icons/splash/open_items_android_12.png
     icon_background_color: "#000000"
+
+# Git summary
+# git log --oneline --shortstat -- ./lib | grep -E "(([0-9]+) insertions\(\+\))|(([0-9]+) deletions\(\-\))" | awk '{insertions += $4; deletions += $6} END {print "Total Insertions: " insertions, "Total Deletions: " deletions, "Total Changes: " insertions + deletions}'

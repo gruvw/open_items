@@ -7,18 +7,22 @@ abstract class UITexts {
     color: UIColors.primary,
   );
 
-  static final TextStyle titleText = _base.copyWith(
+  static final TextStyle title = _base.copyWith(
     fontSize: 18,
   );
 
-  static final TextStyle normalText = _base.copyWith(
-    fontSize: 15,
-  );
-  static final TextStyle normalBold = normalText.copyWith(
-    fontWeight: FontWeight.bold,
+  static final TextStyle titleBold = title.copyWith(
+    fontWeight: FontWeight.w600,
   );
 
-  static final TextStyle subText = _base.copyWith(
+  static final TextStyle normal = _base.copyWith(
+    fontSize: 15,
+  );
+  static final TextStyle normalBold = normal.copyWith(
+    fontWeight: FontWeight.w600,
+  );
+
+  static final TextStyle sub = _base.copyWith(
     fontSize: 13,
   );
 }

@@ -74,8 +74,7 @@ class CollectionEntry extends StatelessWidget {
                   this.content,
                   maxLines: wrap ? null : 1,
                   overflow: wrap ? null : TextOverflow.ellipsis,
-                  style: UITexts.normalText.copyWith(
-                    fontWeight: isFat ? FontWeight.w600 : FontWeight.normal,
+                  style: (isFat ? UITexts.normalBold : UITexts.normal).copyWith(
                     color: reversed ? UIColors.secondary : UIColors.primary,
                   ),
                 ),

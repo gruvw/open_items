@@ -74,7 +74,7 @@ class TextInput extends HookWidget {
       obscureText: shouldObscure,
       enableSuggestions: !shouldObscure,
       autocorrect: !shouldObscure,
-      style: UITexts.normalText,
+      style: UITexts.title,
       cursorColor: UIColors.primary,
       onChanged: onChanged,
       maxLines: wrap ? null : 1,
@@ -92,16 +92,16 @@ class TextInput extends HookWidget {
         errorBorder: _errorBorder,
         focusedErrorBorder: _errorBorder,
         focusColor: UIColors.primary,
-        labelStyle: UITexts.normalText.apply(
+        labelStyle: UITexts.normal.apply(
           color: UIColors.hintText,
         ),
-        floatingLabelStyle: UITexts.normalText.apply(
+        floatingLabelStyle: UITexts.normal.apply(
           color: hasError ? UIColors.danger : UIColors.primary,
         ),
-        errorStyle: UITexts.subText.apply(
+        errorStyle: UITexts.sub.apply(
           color: UIColors.danger,
         ),
-        hintStyle: UITexts.normalText.apply(
+        hintStyle: UITexts.normal.apply(
           color: UIColors.hintText,
         ),
         suffixIcon: Row(

@@ -21,6 +21,38 @@ class AccountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final contentColor = isActive ? UIColors.secondary : UIColors.primary;
 
+    final display = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          account.name,
+          style: UITexts.normal.apply(
+            color: contentColor,
+          ),
+        ),
+        if (!account.isOffline)
+          Text(
+            account.server,
+            style: UITexts.normal.apply(
+              color: isActive ? UIColors.secondary : UIColors.hintText,
+            ),
+          )
+        else
+          Icon(
+            UIIcons.offline,
+            color: contentColor,
+          ),
+      ],
+    );
+
+    final onPressed = !isActive
+        ? () => Navigator.pushNamed(
+              context,
+              Routes.lists.name,
+              arguments: account.localId,
+            )
+        : null;
+
     return Container(
       color: isActive ? UIColors.primary : UIColors.background,
       child: Column(
@@ -30,44 +62,9 @@ class AccountTile extends StatelessWidget {
               vertical: DrawerLayout.accountTileVerticalPadding,
               horizontal: DrawerLayout.accountTileHorizontalPadding,
             ),
-            onPressed: !isActive
-                ? () => Navigator.pushNamed(
-                      context,
-                      Routes.lists.name,
-                      arguments: account.localId,
-                    )
-                : null,
+            onPressed: onPressed,
             content: Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DrawerLayout.accountTileHorizontalPadding,
-                  vertical: DrawerLayout.accountTileVerticalPadding,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      account.name,
-                      style: UITexts.normalText.apply(
-                        color: contentColor,
-                      ),
-                    ),
-                    if (!account.isOffline)
-                      Text(
-                        account.server,
-                        style: UITexts.normalText.apply(
-                          color:
-                              isActive ? UIColors.secondary : UIColors.hintText,
-                        ),
-                      )
-                    else
-                      Icon(
-                        UIIcons.offline,
-                        color: contentColor,
-                      ),
-                  ],
-                ),
-              ),
+              child: display,
             ),
           ),
           const Divider(

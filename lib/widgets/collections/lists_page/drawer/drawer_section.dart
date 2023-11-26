@@ -25,7 +25,7 @@ class DrawerSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: UITexts.titleText.apply(
+                style: UITexts.title.apply(
                   color: UIColors.secondary,
                 ),
               ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
-import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/state/application/collection.dart';
-import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
+import 'package:open_items/widgets/components/modals/deletion_dialog.dart';
 import 'package:open_items/widgets/utils/feedback/empty.dart';
 
 class DeleteCollectionDialog extends ConsumerWidget {
@@ -54,15 +54,11 @@ class DeleteCollectionDialog extends ConsumerWidget {
 
     if (collection == null) return const Empty();
 
-    return CancelDialog(
-      title: "Delete Collection",
-      confirmedText: "Delete",
-      danger: true,
-      body: Text(
-        "Do you really want to delete this collection: ${collection.content} ?",
-        style: UITexts.normalText,
-      ),
-      onConfirm: () {
+    return DeletionDialog(
+      title: DialogTexts.deleteCollectionTitle,
+      content: DialogTexts.deleteCollectionContent,
+      target: collection.content,
+      onDelete: () {
         collection.delete();
 
         if (shouldPop) {

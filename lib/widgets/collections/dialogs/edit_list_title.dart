@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
@@ -32,8 +33,8 @@ class EditListTitleDialog extends ConsumerWidget {
     if (list == null) return const Empty();
 
     return TextDialog(
-      title: "Edit List Title",
-      submitText: "Edit",
+      title: DialogTexts.editTitleTitle,
+      submitText: Texts.editButton,
       capitalization: TextCapitalization.sentences,
       placeholder: UIPlaceholders.listTitle,
       initialValue: list.title,

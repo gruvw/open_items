@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/widgets/components/buttons/outlined.dart';
@@ -23,10 +24,26 @@ class CollectionTypeDialog extends HookWidget {
   Widget build(BuildContext context) {
     final selectedType = useState(initialType);
 
+    final types = CollectionType.values.map(
+      (t) => Column(
+        children: [
+          _CollectionTypeButton(
+            type: t,
+            selected: selectedType.value == t,
+            onPressed: () => selectedType.value = t,
+          ),
+          if (t != CollectionType.values[CollectionType.values.length - 1])
+            const SizedBox(
+              height: DialogLayout.buttonsContentSpacing,
+            )
+        ],
+      ),
+    );
+
     return CancelDialog(
       title: title,
       cancelText: UIValues.cancelTextDefault,
-      confirmedText: "Select",
+      confirmedText: Texts.selectButton,
       onConfirm: () {
         onSelected(selectedType.value);
       },
@@ -35,24 +52,9 @@ class CollectionTypeDialog extends HookWidget {
           constraints: const BoxConstraints(
               maxWidth: DialogLayout.buttonsContentMaxWidth),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: CollectionType.values
-                  .map((t) => Column(
-                        children: [
-                          _CollectionTypeButton(
-                            type: t,
-                            selected: selectedType.value == t,
-                            onPressed: () => selectedType.value = t,
-                          ),
-                          if (t !=
-                              CollectionType
-                                  .values[CollectionType.values.length - 1])
-                            const SizedBox(
-                              height: DialogLayout.buttonsContentSpacing,
-                            )
-                        ],
-                      ))
-                  .toList()),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: types.toList(),
+          ),
         ),
       ),
     );

@@ -7,6 +7,7 @@ typedef ModalCallback = bool? Function();
 
 VoidCallback modalOnPressed(BuildContext context, ModalCallback? onPressed) {
   return () {
+    // Pop by default if null is returned
     final shouldPop = onPressed?.call() ?? true;
     if (shouldPop) {
       Navigator.pop(context);
@@ -48,10 +49,7 @@ class PlainDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: UITexts.titleText.copyWith(fontWeight: FontWeight.w600),
-              ),
+              Text(title, style: UITexts.titleBold),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: DialogLayout.bodyVerticalPadding,

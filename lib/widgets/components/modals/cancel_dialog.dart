@@ -40,7 +40,7 @@ class CancelDialog extends StatelessWidget {
         children: [
           OutlinedButtonPrimary(
             onPressed: modalOnPressed(context, onCancel),
-            child: Text(cancelText, style: UITexts.normalText),
+            child: Text(cancelText, style: UITexts.normal),
           ),
           if (danger)
             PlainOutlinedButton(
@@ -50,7 +50,7 @@ class CancelDialog extends StatelessWidget {
               borderColor: UIColors.none,
               child: Text(
                 confirmedText,
-                style: UITexts.normalText.apply(color: UIColors.secondary),
+                style: UITexts.normal.apply(color: UIColors.secondary),
               ),
             )
           else
@@ -59,7 +59,7 @@ class CancelDialog extends StatelessWidget {
               enabled: confirmEnabled,
               child: Text(
                 confirmedText,
-                style: UITexts.normalText.apply(color: UIColors.secondary),
+                style: UITexts.normal.apply(color: UIColors.secondary),
               ),
             ),
         ],

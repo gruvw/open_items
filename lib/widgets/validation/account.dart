@@ -1,3 +1,4 @@
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/utils/compare.dart';
 import 'package:open_items/widgets/validation/core.dart';
@@ -11,22 +12,19 @@ ValidationResult validNewOfflineAccountName(String name, [String? excluded]) {
       .map((oa) => oa.name);
 
   if (name.isEmpty) {
-    return InvalidResult(errorMessage: "Account name is mandatory.");
+    return InvalidResult(errorMessage: ValidationTexts.accountMissing);
   }
 
   if (2 > name.length || name.length > 20) {
-    return InvalidResult(
-        errorMessage: "Account names must have between 2 and 20 characters.");
+    return InvalidResult(errorMessage: ValidationTexts.accountLength);
   }
 
   if (!_offlineNamePattern.hasMatch(name)) {
-    return InvalidResult(
-        errorMessage:
-            "Account names must only contain alphanumeric characters or underscores.");
+    return InvalidResult(errorMessage: ValidationTexts.accountContent);
   }
 
   if (offlineNames.where((n) => relaxedTextEqual(name, n)).isNotEmpty) {
-    return InvalidResult(errorMessage: "Account name already exists.");
+    return InvalidResult(errorMessage: ValidationTexts.accountExists);
   }
 
   return ValidResult();

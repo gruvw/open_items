@@ -29,7 +29,7 @@ class ListTitle extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: UITexts.titleText.copyWith(color: UIColors.secondary),
+              style: UITexts.title.copyWith(color: UIColors.secondary),
             ),
           ],
         ),

@@ -31,7 +31,7 @@ class ConfirmationDialog extends StatelessWidget {
             onPressed: modalOnPressed(context, onPressed),
             child: Text(
               confirmedText,
-              style: UITexts.normalText.apply(color: UIColors.secondary),
+              style: UITexts.normal.apply(color: UIColors.secondary),
             ),
           )
         ],

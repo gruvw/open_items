@@ -5,6 +5,7 @@ import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/objects/item.dart';
@@ -34,16 +35,16 @@ enum CollectionMenuType { list, item, both }
 
 enum CollectionPopupMenu {
   // List wide options
-  orderBy("Order By", CollectionMenuType.both),
-  stackDone("Stack Done Items", CollectionMenuType.both),
+  orderBy(MenuTexts.orderBy, CollectionMenuType.both),
+  stackDone(MenuTexts.stackDone, CollectionMenuType.both),
 
-  collectionType("Collection Type", CollectionMenuType.both),
+  collectionType(MenuTexts.collectionType, CollectionMenuType.both),
 
-  editList("Edit Title", CollectionMenuType.list),
-  deleteList("Delete List", CollectionMenuType.list),
+  editList(MenuTexts.editTitle, CollectionMenuType.list),
+  deleteList(MenuTexts.deleteList, CollectionMenuType.list),
 
-  editItem("Edit Text", CollectionMenuType.item),
-  deleteItem("Delete Item", CollectionMenuType.item);
+  editItem(MenuTexts.editText, CollectionMenuType.item),
+  deleteItem(MenuTexts.deleteItem, CollectionMenuType.item);
 
   final CollectionMenuType type;
   final String label;
@@ -206,10 +207,7 @@ class CollectionPage extends ConsumerWidget {
     );
 
     final emptyView = Center(
-      child: Text(
-        "Create new items using the + button",
-        style: UITexts.titleText,
-      ),
+      child: Text(Texts.emptyItems, style: UITexts.title),
     );
 
     final displayItemText = collection is Item;
@@ -222,8 +220,8 @@ class CollectionPage extends ConsumerWidget {
           barrierColor: UIColors.dimmed,
           context: context,
           builder: (_) => TextDialog(
-            title: "New Item Text",
-            submitText: "Create",
+            title: DialogTexts.newItemTitle,
+            submitText: Texts.createButton,
             wrap: true,
             capitalization: TextCapitalization.sentences,
             placeholder: UIPlaceholders.itemText,
@@ -310,7 +308,7 @@ Widget _iconFor(
       ),
     CollectionType.ordered => Text(
         "${customOrderIndex + 1}.",
-        style: UITexts.normalText.copyWith(color: color),
+        style: UITexts.normal.copyWith(color: color),
       ),
   };
 }

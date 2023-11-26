@@ -4,6 +4,7 @@ import 'package:open_items/global/styles/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
+import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/database.dart';
 import 'package:open_items/state/application/account.dart';
@@ -11,7 +12,7 @@ import 'package:open_items/state/application/accounts.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/account_tile.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/drawer_section.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/tile_button.dart';
-import 'package:open_items/widgets/components/modals/cancel_dialog.dart';
+import 'package:open_items/widgets/components/modals/deletion_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
@@ -33,15 +34,11 @@ class AccountsDrawer extends ConsumerWidget {
       accountId: selectedAccountId,
     ))!;
 
-    final deletionDialog = CancelDialog(
-      title: "Delete Account",
-      confirmedText: "Delete",
-      danger: true,
-      body: Text(
-        "Do you really want to delete this account: ${selectedAccount.name} ?",
-        style: UITexts.normalText,
-      ),
-      onConfirm: () {
+    final deletionDialog = DeletionDialog(
+      title: DialogTexts.deleteAccountTitle,
+      content: DialogTexts.deleteAccountContent,
+      target: selectedAccount.name,
+      onDelete: () {
         final nextAccount = accounts
             .where((a) => a.localId != selectedAccount.localId)
             .firstOrNull;
@@ -62,8 +59,8 @@ class AccountsDrawer extends ConsumerWidget {
     );
 
     final renameDialog = TextDialog(
-      title: "Edit Account Name",
-      submitText: "Edit",
+      title: DialogTexts.editAccountTitle,
+      submitText: Texts.editButton,
       validation: validOfflineAccountRename(selectedAccount.name),
       placeholder: UIPlaceholders.accountName,
       initialValue: selectedAccount.name,
@@ -77,7 +74,7 @@ class AccountsDrawer extends ConsumerWidget {
         child: Column(
           children: [
             const DrawerSection(
-              title: "Accounts",
+              title: MenuTexts.drawerAccounts,
             ),
             for (final account in accounts)
               AccountTile(
@@ -91,8 +88,8 @@ class AccountsDrawer extends ConsumerWidget {
                 color: UIColors.primary,
               ),
               content: Text(
-                "Add account",
-                style: UITexts.normalText,
+                MenuTexts.drawerAddAccount,
+                style: UITexts.normal,
               ),
               onPressed: () => Navigator.pushNamed(
                 context,
@@ -108,13 +105,13 @@ class AccountsDrawer extends ConsumerWidget {
             TileButton(
               padding: _tilePadding,
               leading: const Icon(UIIcons.import, color: UIColors.primary),
-              content: Text("Import data", style: UITexts.normalText),
+              content: Text(MenuTexts.drawerImport, style: UITexts.normal),
               onPressed: () => NotImplementedDialog.show(context),
             ),
             TileButton(
               padding: _tilePadding,
               leading: const Icon(UIIcons.export, color: UIColors.primary),
-              content: Text("Export data", style: UITexts.normalText),
+              content: Text(MenuTexts.drawerExport, style: UITexts.normal),
               onPressed: () => NotImplementedDialog.show(context),
             ),
             _tileDivider,
@@ -124,7 +121,10 @@ class AccountsDrawer extends ConsumerWidget {
                 UIIcons.rename,
                 color: UIColors.primary,
               ),
-              content: Text("Rename account", style: UITexts.normalText),
+              content: Text(
+                MenuTexts.drawerRenameAccount,
+                style: UITexts.normal,
+              ),
               onPressed: () {
                 showDialog(
                   barrierDismissible: false,
@@ -138,7 +138,10 @@ class AccountsDrawer extends ConsumerWidget {
             TileButton(
               padding: _tilePadding,
               leading: const Icon(UIIcons.delete, color: UIColors.danger),
-              content: Text("Delete account", style: UITexts.normalText),
+              content: Text(
+                MenuTexts.drawerDeleteAccount,
+                style: UITexts.normal,
+              ),
               onPressed: () {
                 showDialog(
                   barrierColor: UIColors.dimmed,
