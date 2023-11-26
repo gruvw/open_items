@@ -9,26 +9,25 @@ import 'package:open_items/widgets/components/modals/collection_type_dialog.dart
 import 'package:open_items/widgets/utils/feedback/empty.dart';
 
 class ChangeCollectionTypeDialog extends ConsumerWidget {
-  static void show(BuildContext context, String collectionId) {
+  static void show(BuildContext context, String collectionLocalId) {
     showDialog(
       barrierDismissible: false,
       barrierColor: UIColors.dimmed,
       context: context,
-      builder: (_) => ChangeCollectionTypeDialog(collectionId: collectionId),
+      builder: (_) => ChangeCollectionTypeDialog(collectionLocalId: collectionLocalId),
     );
   }
 
-  final String collectionId;
+  final String collectionLocalId;
 
   const ChangeCollectionTypeDialog({
     super.key,
-    required this.collectionId,
+    required this.collectionLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final collection =
-        ref.watch(collectionProvider(collectionId: collectionId));
+    final collection = ref.watch(collectionProvider(collectionLocalId: collectionLocalId));
 
     if (collection == null) return const Empty();
 

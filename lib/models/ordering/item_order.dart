@@ -6,7 +6,7 @@ import 'package:open_items/state/application/globals.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
   // Supposes the two items are members of the pased list
-  final list = database.getListe(listProperties.listId)!;
+  final list = database.getListe(listProperties.listLocalId)!;
 
   final doneOrder = listProperties.itemsOrdering == ItemsOrdering.done;
   final reversed = listProperties.shouldReverseOrder ? -1 : 1;

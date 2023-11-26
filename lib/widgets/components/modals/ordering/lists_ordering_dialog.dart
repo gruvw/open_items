@@ -7,17 +7,16 @@ import 'package:open_items/state/application/account.dart';
 import 'package:open_items/widgets/components/modals/ordering/ordering_button.dart';
 
 class ListsOrderingDialog extends ConsumerWidget {
-  final String accountId;
+  final String accountLocalId;
 
   const ListsOrderingDialog({
     super.key,
-    required this.accountId,
+    required this.accountLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final properties =
-        ref.watch(accountPropertiesProvider(accountId: accountId))!;
+    final properties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId))!;
 
     final selectedOrdering = properties.listsOrdering;
     final shouldReversed = properties.shouldReverseOrder;

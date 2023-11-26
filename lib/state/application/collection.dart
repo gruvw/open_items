@@ -13,54 +13,54 @@ part 'collection.g.dart';
 @riverpod
 AccountListProperties? accountListProperties(
   AccountListPropertiesRef ref, {
-  required String? propertiesId,
+  required String? propertiesLocalId,
 }) {
-  ref.watch(objectEventsProvider(localId: propertiesId));
-  return database.getAccountListProperties(propertiesId);
+  ref.watch(objectEventsProvider(localId: propertiesLocalId));
+  return database.getAccountListProperties(propertiesLocalId);
 }
 
 @riverpod
 Collection? collection(
   CollectionRef ref, {
-  required String? collectionId,
+  required String? collectionLocalId,
 }) {
-  ref.watch(objectEventsProvider(localId: collectionId));
-  return database.getCollection(collectionId);
+  ref.watch(objectEventsProvider(localId: collectionLocalId));
+  return database.getCollection(collectionLocalId);
 }
 
 @riverpod
 Liste? list(
   ListRef ref, {
-  required String? listId,
+  required String? listLocalId,
 }) {
-  ref.watch(objectEventsProvider(localId: listId));
-  return database.getListe(listId);
+  ref.watch(objectEventsProvider(localId: listLocalId));
+  return database.getListe(listLocalId);
 }
 
 @riverpod
 Item? item(
   ItemRef ref, {
-  required String? itemId,
+  required String? itemLocalId,
 }) {
-  ref.watch(objectEventsProvider(localId: itemId));
-  return database.getItem(itemId);
+  ref.watch(objectEventsProvider(localId: itemLocalId));
+  return database.getItem(itemLocalId);
 }
 
 @riverpod
 List<Item>? items(
   ItemsRef ref, {
-  required String? listPropertiesId,
-  required String? parentId,
+  required String? listPropertiesLocalId,
+  required String? parentLocalId,
 }) {
   final listProperties =
-      ref.watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
-  final collection = ref.watch(collectionProvider(collectionId: parentId));
+      ref.watch(accountListPropertiesProvider(propertiesLocalId: listPropertiesLocalId));
+  final collection = ref.watch(collectionProvider(collectionLocalId: parentLocalId));
   if (listProperties == null || collection == null) return null;
 
   final ordering = itemsOrdering(listProperties);
 
-  return collection.itemIds
-      .map((iid) => ref.watch(itemProvider(itemId: iid)))
+  return collection.itemLocalIds
+      .map((id) => ref.watch(itemProvider(itemLocalId: id)))
       .whereNotNull()
       .sorted(ordering)
       .toList();
@@ -69,9 +69,9 @@ List<Item>? items(
 @riverpod
 Collection? parent(
   ParentRef ref, {
-  required String? itemId,
+  required String? itemLocalId,
 }) {
-  final item = ref.watch(itemProvider(itemId: itemId));
-  final parent = ref.watch(collectionProvider(collectionId: item?.parentId));
+  final item = ref.watch(itemProvider(itemLocalId: itemLocalId));
+  final parent = ref.watch(collectionProvider(collectionLocalId: item?.parentLocalId));
   return parent;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 
@@ -35,8 +35,7 @@ class PlainDialog extends StatelessWidget {
           width: DialogLayout.borderWidth,
           color: UIColors.primary,
         ),
-        borderRadius:
-            BorderRadius.all(Radius.circular(DialogLayout.borderRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(DialogLayout.borderRadius)),
       ),
       insetPadding: const EdgeInsets.symmetric(
         horizontal: DialogLayout.outerHorizontalMargin,

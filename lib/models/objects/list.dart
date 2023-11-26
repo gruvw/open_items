@@ -1,10 +1,10 @@
-import 'package:open_items/global/data_fields.dart';
+import 'package:open_items/global/fields.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
 
 abstract class Liste extends Collection {
-  String get ownerAccountId;
+  String get ownerAccountLocalId;
   String get title;
 
   Liste copyWith({
@@ -15,7 +15,7 @@ abstract class Liste extends Collection {
   // Helper methods
 
   @override
-  String get listId => localId;
+  String get listLocalId => localId;
 
   @override
   String get content => title;
@@ -38,9 +38,7 @@ abstract class Liste extends Collection {
       ListFields.positon: listProperties.lexoRank,
       CollectionFields.creationTime: creationTime,
       CollectionFields.editionTime: editionTime,
-      ListFields.items: [
-        for (final item in orderedItems) item.toJsonWith(listProperties)
-      ]
+      ListFields.items: [for (final item in orderedItems) item.toJsonWith(listProperties)]
     };
   }
 }

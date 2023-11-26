@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
@@ -20,18 +20,18 @@ import 'package:open_items/widgets/validation/account.dart';
 import 'package:open_items/widgets/validation/core.dart';
 
 class AccountsDrawer extends ConsumerWidget {
-  final String selectedAccountId;
+  final String selectedAccountLocalId;
 
   const AccountsDrawer({
     super.key,
-    required this.selectedAccountId,
+    required this.selectedAccountLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accounts = ref.watch(localAccountsProvider);
     final selectedAccount = ref.watch(localAccountProvider(
-      accountId: selectedAccountId,
+      accountLocalId: selectedAccountLocalId,
     ))!;
 
     final deletionDialog = DeletionDialog(
@@ -39,13 +39,9 @@ class AccountsDrawer extends ConsumerWidget {
       content: DialogTexts.deleteAccountContent,
       target: selectedAccount.name,
       onDelete: () {
-        final nextAccount = accounts
-            .where((a) => a.localId != selectedAccount.localId)
-            .firstOrNull;
+        final nextAccount = accounts.where((a) => a.localId != selectedAccount.localId).firstOrNull;
 
-        selectedAccount
-            .delete()
-            .then((_) => selectedAccount.notify(EventType.delete));
+        selectedAccount.delete().then((_) => selectedAccount.notify(EventType.delete));
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -64,8 +60,7 @@ class AccountsDrawer extends ConsumerWidget {
       validation: validOfflineAccountRename(selectedAccount.name),
       placeholder: UIPlaceholders.accountName,
       initialValue: selectedAccount.name,
-      onSubmit:
-          alwaysValid((name) => selectedAccount.copyWith(name: name).save()),
+      onSubmit: alwaysValid((name) => selectedAccount.copyWith(name: name).save()),
     );
 
     return SafeArea(

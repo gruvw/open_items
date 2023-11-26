@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/data_fields.dart';
+import 'package:open_items/global/fields.dart';
 import 'package:open_items/models/objects/collection.dart';
 import 'package:open_items/models/ordering/item_order.dart';
 import 'package:open_items/models/properties/account_list_properties.dart';
@@ -17,17 +17,17 @@ abstract class Item extends Collection {
     bool? isDone,
   });
 
-  String get parentId;
+  String get parentLocalId;
 
   @protected
   Collection get parent; // not reactive
 
   @override
-  String get listId => parent.listId;
+  String get listLocalId => parent.listLocalId;
 
   // Helper methods
 
-  bool get isFirstLevel => parent.localId == listId;
+  bool get isFirstLevel => parent.localId == listLocalId;
 
   @override
   String get content => text;

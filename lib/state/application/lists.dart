@@ -11,16 +11,15 @@ part 'lists.g.dart';
 @riverpod
 List<AccountListProperties>? listsProperties(
   ListsPropertiesRef ref, {
-  required String? accountId,
+  required String? accountLocalId,
 }) {
-  final accountProperties =
-      ref.watch(accountPropertiesProvider(accountId: accountId));
+  final accountProperties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
 
   if (accountProperties == null) return null;
 
-  return accountProperties.listsPropertiesIds
-      .map((lpid) => ref.watch(
-            accountListPropertiesProvider(propertiesId: lpid),
+  return accountProperties.listsPropertiesLocalIds
+      .map((id) => ref.watch(
+            accountListPropertiesProvider(propertiesLocalId: id),
           ))
       .whereNotNull()
       .toList();
@@ -29,19 +28,17 @@ List<AccountListProperties>? listsProperties(
 @riverpod
 List<Liste>? lists(
   ListsRef ref, {
-  required String? accountId,
+  required String? accountLocalId,
 }) {
-  final accountProperties =
-      ref.watch(accountPropertiesProvider(accountId: accountId));
-  final listsProperties =
-      ref.watch(listsPropertiesProvider(accountId: accountId));
+  final accountProperties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
+  final listsProperties = ref.watch(listsPropertiesProvider(accountLocalId: accountLocalId));
   if (accountProperties == null || listsProperties == null) return null;
   final ordering = listsOrdering(accountProperties);
 
   return listsProperties
       .sorted(ordering)
-      .map((lp) => lp.listId)
-      .map((lid) => ref.watch(listProvider(listId: lid)))
+      .map((lp) => lp.listLocalId)
+      .map((id) => ref.watch(listProvider(listLocalId: id)))
       .whereNotNull()
       .toList();
 }

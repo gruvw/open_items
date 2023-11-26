@@ -12,8 +12,8 @@ abstract class AccountProperties extends DatabaseObject {
     bool? shouldReverseOrder,
   });
 
-  String get accountId;
-  List<String> get listsPropertiesIds;
+  String get accountLocalId;
+  List<String> get listsPropertiesLocalIds;
 
   // Helper methods
 

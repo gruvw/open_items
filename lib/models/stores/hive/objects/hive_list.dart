@@ -17,11 +17,10 @@ mixin HiveCollection {
   HiveStoreCollection get collectionStore;
   HiveDatabase get database;
 
-  List<String> get itemIds => collectionStore.hiveItemsLocalIds;
+  List<String> get itemLocalIds => collectionStore.hiveItemsLocalIds;
 
   @protected
-  List<Item> get items =>
-      itemIds.map((itemId) => database.getItem(itemId)!).toList();
+  List<Item> get items => itemLocalIds.map((id) => database.getItem(id)!).toList();
 }
 
 @HiveType(typeId: 3)
@@ -71,7 +70,7 @@ class HiveListe extends Liste with HiveCollection {
 
   // Immutable (not with copyWith)
   @override
-  final String ownerAccountId;
+  final String ownerAccountLocalId;
   @override
   final DateTime creationTime;
   @override
@@ -93,11 +92,9 @@ class HiveListe extends Liste with HiveCollection {
         typeIndex = typeIndex ?? hiveStoreList.hiveTypeIndex,
         localId = hiveStoreList.key,
         serverId = hiveStoreList.hiveServerId,
-        ownerAccountId = hiveStoreList.hiveOwnerAccountLocalId,
-        creationTime =
-            DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveCreationTime),
-        editionTime =
-            DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
+        ownerAccountLocalId = hiveStoreList.hiveOwnerAccountLocalId,
+        creationTime = DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveCreationTime),
+        editionTime = DateTime.fromMillisecondsSinceEpoch(hiveStoreList.hiveEditionTime);
 
   @override
   HiveDatabase get database => hiveDatabase;
@@ -132,13 +129,13 @@ class HiveListe extends Liste with HiveCollection {
       await item.delete();
     }
 
-    final ownerAccount = database.getAccount(ownerAccountId)!;
+    final ownerAccount = database.getAccount(ownerAccountLocalId)!;
     if (ownerAccount.isLocal) {
       final accountProperties =
-          hiveDatabase.getAccountProperties(ownerAccount.accountPropertiesId)!;
-      final listProperties = accountProperties.listsPropertiesIds
+          hiveDatabase.getAccountProperties(ownerAccount.accountPropertiesLocalId)!;
+      final listProperties = accountProperties.listsPropertiesLocalIds
           .map(database.getAccountListProperties)
-          .where((lp) => lp!.listId == localId)
+          .where((lp) => lp!.listLocalId == localId)
           .first!;
       await listProperties.delete();
     }

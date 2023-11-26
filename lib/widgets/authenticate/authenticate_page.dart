@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
 import 'package:open_items/global/styles/ui_text.dart';
@@ -11,8 +11,8 @@ import 'package:open_items/state/application/accounts.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
-import 'package:open_items/widgets/components/input/tab.dart';
-import 'package:open_items/widgets/components/input/text.dart';
+import 'package:open_items/widgets/components/structure/tab.dart';
+import 'package:open_items/widgets/components/structure/text.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';
@@ -99,10 +99,9 @@ class AuthenticatePage extends HookConsumerWidget {
       secondaryTabController.index = _initialTab.secondaryTabIndex;
     }
 
-    final createAccountSelected = activeTab == Tabs.newOfflineAccount ||
-        activeTab == Tabs.newOnlineAccount;
-    final onlineSelected =
-        activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
+    final createAccountSelected =
+        activeTab == Tabs.newOfflineAccount || activeTab == Tabs.newOnlineAccount;
+    final onlineSelected = activeTab == Tabs.newOnlineAccount || activeTab == Tabs.logIn;
 
     // Form
 
@@ -129,12 +128,12 @@ class AuthenticatePage extends HookConsumerWidget {
         return;
       }
 
-      database.createOfflineAccount(name: name).then((accountId) {
+      database.createOfflineAccount(name: name).then((aid) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           Routes.lists.name,
           (_) => false,
-          arguments: accountId,
+          arguments: aid,
         );
       });
     }
@@ -210,8 +209,7 @@ class AuthenticatePage extends HookConsumerWidget {
     );
 
     final form = Container(
-      constraints:
-          const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
+      constraints: const BoxConstraints(maxWidth: AuthenticationPageLayout.formMaxWidth),
       child: Wrap(
         runSpacing: AuthenticationPageLayout.formVerticalSpacing,
         children: [
@@ -254,8 +252,7 @@ class AuthenticatePage extends HookConsumerWidget {
                 children: [
                   SolidButtonPrimary(
                     onPressed: onSubmit,
-                    enabled: activeTab != Tabs.newOfflineAccount ||
-                        offlineNameError.value == null,
+                    enabled: activeTab != Tabs.newOfflineAccount || offlineNameError.value == null,
                     child: Text(
                       activeTab.submitText,
                       style: UITexts.normal.apply(color: UIColors.secondary),

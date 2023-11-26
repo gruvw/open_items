@@ -10,25 +10,25 @@ import 'package:open_items/widgets/validation/core.dart';
 import 'package:open_items/widgets/validation/item.dart';
 
 class EditItemTextDialog extends ConsumerWidget {
-  static void show(BuildContext context, String itemId) {
+  static void show(BuildContext context, String itemLocalId) {
     showDialog(
       barrierDismissible: false,
       barrierColor: UIColors.dimmed,
       context: context,
-      builder: (_) => EditItemTextDialog(itemId: itemId),
+      builder: (_) => EditItemTextDialog(itemLocalId: itemLocalId),
     );
   }
 
-  final String itemId;
+  final String itemLocalId;
 
   const EditItemTextDialog({
     super.key,
-    required this.itemId,
+    required this.itemLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final item = ref.watch(itemProvider(itemId: itemId));
+    final item = ref.watch(itemProvider(itemLocalId: itemLocalId));
 
     if (item == null) return const Empty();
 

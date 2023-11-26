@@ -29,9 +29,9 @@ abstract class Collection extends DatabaseServerObject {
   DateTime get creationTime;
   DateTime get editionTime;
   String get content;
-  String get listId;
+  String get listLocalId;
 
-  List<String> get itemIds;
+  List<String> get itemLocalIds;
   List<Collection> get collectionPath; // not reactive!
 
   bool isChildOf(Collection collection, {bool direct = false});

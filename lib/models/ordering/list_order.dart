@@ -9,8 +9,8 @@ int Function(AccountListProperties?, AccountListProperties?) listsOrdering(
       AccountListProperties? lp1, AccountListProperties? lp2) {
     if (lp1 == null || lp2 == null) return 0;
 
-    late final l1 = database.getListe(lp1.listId)!;
-    late final l2 = database.getListe(lp2.listId)!;
+    late final l1 = database.getListe(lp1.listLocalId)!;
+    late final l2 = database.getListe(lp2.listLocalId)!;
 
     final reversed = properties.shouldReverseOrder ? -1 : 1;
     final value = switch (properties.listsOrdering) {

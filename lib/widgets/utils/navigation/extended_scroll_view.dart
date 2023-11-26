@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 
 class ExtendedScrollView extends StatelessWidget {
   final Widget child;

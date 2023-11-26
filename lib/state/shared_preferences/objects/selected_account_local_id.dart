@@ -3,12 +3,13 @@ import 'package:open_items/state/shared_preferences/fields.dart';
 import 'package:open_items/utils/lang.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'selected_account_id.g.dart';
+part 'selected_account_local_id.g.dart';
 
 @riverpod
-class SelectedAccountId extends _$SelectedAccountId {
+class SelectedAccountLocalId extends _$SelectedAccountLocalId {
   String? _getState() {
-    final accountLocalId = prefs.getString(SPFields.selectedAccountIdField);
+    final accountLocalId =
+        prefs.getString(SPFields.selectedAccountLocalIdField);
     if (accountLocalId.map((id) => database.getLocalAccount(id)) == null) {
       return database.getLocalAccounts().firstOrNull?.localId;
     }
@@ -21,8 +22,8 @@ class SelectedAccountId extends _$SelectedAccountId {
     return _getState();
   }
 
-  Future<void> updateAccount(String accountId) async {
-    await prefs.setString(SPFields.selectedAccountIdField, accountId);
+  Future<void> updateAccount(String accountLocalId) async {
+    await prefs.setString(SPFields.selectedAccountLocalIdField, accountLocalId);
     state = _getState();
   }
 }

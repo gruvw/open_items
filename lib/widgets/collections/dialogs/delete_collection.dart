@@ -13,7 +13,7 @@ class DeleteCollectionDialog extends ConsumerWidget {
     Collection collection, [
     bool shouldPop = false,
   ]) {
-    if (collection.itemIds.isNotEmpty) {
+    if (collection.itemLocalIds.isNotEmpty) {
       show(context, collection.localId, shouldPop);
     } else {
       collection.delete();
@@ -25,32 +25,31 @@ class DeleteCollectionDialog extends ConsumerWidget {
 
   static void show(
     BuildContext context,
-    String collectionId, [
+    String collectionLocalId, [
     bool shouldPop = false,
   ]) {
     showDialog(
       barrierColor: UIColors.dimmed,
       context: context,
       builder: (dialogContext) => DeleteCollectionDialog(
-        collectionId: collectionId,
+        collectionLocalId: collectionLocalId,
         shouldPop: shouldPop,
       ),
     );
   }
 
-  final String collectionId;
+  final String collectionLocalId;
   final bool shouldPop;
 
   const DeleteCollectionDialog({
     super.key,
-    required this.collectionId,
+    required this.collectionLocalId,
     this.shouldPop = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final collection =
-        ref.watch(collectionProvider(collectionId: collectionId));
+    final collection = ref.watch(collectionProvider(collectionLocalId: collectionLocalId));
 
     if (collection == null) return const Empty();
 

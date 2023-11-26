@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/texts.dart';
@@ -22,9 +22,9 @@ import 'package:open_items/widgets/collections/dialogs/change_collection_type.da
 import 'package:open_items/widgets/collections/dialogs/delete_collection.dart';
 import 'package:open_items/widgets/collections/dialogs/edit_item_text.dart';
 import 'package:open_items/widgets/collections/dialogs/edit_list_title.dart';
-import 'package:open_items/widgets/collections/new_button.dart';
+import 'package:open_items/widgets/collections/add_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
-import 'package:open_items/widgets/components/input/menu_element.dart';
+import 'package:open_items/widgets/components/structure/menu_element.dart';
 import 'package:open_items/widgets/components/modals/ordering/list_ordering_dialog.dart';
 import 'package:open_items/widgets/components/modals/text_dialog.dart';
 import 'package:open_items/widgets/router/loading_page.dart';
@@ -54,34 +54,35 @@ enum CollectionPopupMenu {
 }
 
 class CollectionPage extends ConsumerWidget {
-  final String listPropertiesId;
-  final String collectionId;
+  final String listPropertiesLocalId;
+  final String collectionLocalId;
 
   const CollectionPage({
     super.key,
-    required this.listPropertiesId,
-    required this.collectionId,
+    required this.listPropertiesLocalId,
+    required this.collectionLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listProperties = ref
-        .watch(accountListPropertiesProvider(propertiesId: listPropertiesId));
-    final list = ref.watch(listProvider(listId: listProperties?.listId));
+    final listProperties = ref.watch(accountListPropertiesProvider(
+        propertiesLocalId: listPropertiesLocalId));
+    final list =
+        ref.watch(listProvider(listLocalId: listProperties?.listLocalId));
 
     final collection =
-        ref.watch(collectionProvider(collectionId: collectionId));
+        ref.watch(collectionProvider(collectionLocalId: collectionLocalId));
     // May be null
-    final parent = ref.watch(parentProvider(itemId: collectionId));
+    final parent = ref.watch(parentProvider(itemLocalId: collectionLocalId));
 
     final items = ref.watch(itemsProvider(
-      listPropertiesId: listPropertiesId,
-      collectionId: collectionId,
+      listPropertiesLocalId: listPropertiesLocalId,
+      parentLocalId: collectionLocalId,
     ));
     // May be null
     final parentItems = ref.watch(itemsProvider(
-      listPropertiesId: listPropertiesId,
-      collectionId: parent?.localId,
+      listPropertiesLocalId: listPropertiesLocalId,
+      parentLocalId: parent?.localId,
     ));
 
     // Display loading screen while object is deleted
@@ -99,7 +100,7 @@ class CollectionPage extends ConsumerWidget {
       CollectionType? type;
       if (collection is Item &&
           parentType != null &&
-          collection.itemIds.isEmpty) {
+          collection.itemLocalIds.isEmpty) {
         collection.copyWith(type: parentType).save();
         type = parentType;
       }
@@ -108,7 +109,7 @@ class CollectionPage extends ConsumerWidget {
 
       await database.createItem(
         serverId: CoreValues.unknownServerId,
-        parentId: collectionId,
+        parentLocalId: collectionLocalId,
         text: text,
         type: type ?? collection.collectionType,
         lexoRank: "a" * items.length, // TODO lexoRanking
@@ -121,11 +122,11 @@ class CollectionPage extends ConsumerWidget {
 
     void menuCallback(CollectionPopupMenu menu) => switch (menu) {
           CollectionPopupMenu.collectionType =>
-            ChangeCollectionTypeDialog.show(context, collectionId),
+            ChangeCollectionTypeDialog.show(context, collectionLocalId),
           CollectionPopupMenu.orderBy => showModalBottomSheet(
               context: context,
-              builder: (context) =>
-                  ListOrderingDialog(listPropertiesId: listPropertiesId),
+              builder: (context) => ListOrderingDialog(
+                  listPropertiesLocalId: listPropertiesLocalId),
             ),
           CollectionPopupMenu.stackDone => listProperties
               .copyWith(shouldStackDone: !listProperties.shouldStackDone)
@@ -133,7 +134,7 @@ class CollectionPage extends ConsumerWidget {
           CollectionPopupMenu.editList =>
             EditListTitleDialog.show(context, list.localId),
           CollectionPopupMenu.editItem =>
-            EditItemTextDialog.show(context, collectionId),
+            EditItemTextDialog.show(context, collectionLocalId),
           CollectionPopupMenu.deleteList ||
           CollectionPopupMenu.deleteItem =>
             DeleteCollectionDialog.deleteCollection(context, collection, true),
@@ -176,7 +177,7 @@ class CollectionPage extends ConsumerWidget {
     }).toList();
 
     final itemsCustomOrder = items.sorted(itemsPositionCustomCompare);
-    late final parentItemIdsCustomOrder = parentItems
+    late final parentItemLocalIdsCustomOrder = parentItems
         ?.sorted(itemsPositionCustomCompare)
         .map((e) => e.localId)
         .toList();
@@ -197,7 +198,7 @@ class CollectionPage extends ConsumerWidget {
           key: ObjectKey(item),
           index: index,
           groupTag: collection.content,
-          isFat: item.itemIds.isNotEmpty,
+          isFat: item.itemLocalIds.isNotEmpty,
           leading: _iconFor(collection, item, itemsCustomOrder.indexOf(item)),
           reorderEnabled: listProperties.itemsOrdering == ItemsOrdering.custom,
           fatDividier: listProperties.stackDone &&
@@ -210,7 +211,7 @@ class CollectionPage extends ConsumerWidget {
           onClick: () => Navigator.pushNamed(
             context,
             Routes.collection.name,
-            arguments: [listPropertiesId, item.localId],
+            arguments: [listPropertiesLocalId, item.localId],
           ),
           leadingOnClick: !isCheckCollection
               ? null
@@ -228,7 +229,7 @@ class CollectionPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: UIColors.background,
-      floatingActionButton: NewButton(
+      floatingActionButton: AddButton(
         onPressed: () => showDialog(
           barrierDismissible: false,
           barrierColor: UIColors.dimmed,
@@ -284,7 +285,8 @@ class CollectionPage extends ConsumerWidget {
           if (displayItemText) _divider,
           if (displayItemText)
             ItemText(
-              onClick: () => EditItemTextDialog.show(context, collectionId),
+              onClick: () =>
+                  EditItemTextDialog.show(context, collectionLocalId),
               leadingOnClick: parent!.collectionType != CollectionType.check
                   ? null
                   : () =>
@@ -292,7 +294,7 @@ class CollectionPage extends ConsumerWidget {
               leading: _iconFor(
                 parent,
                 collection,
-                parentItemIdsCustomOrder!.indexOf(collectionId),
+                parentItemLocalIdsCustomOrder!.indexOf(collectionLocalId),
                 true,
               ),
               text: collection.content,

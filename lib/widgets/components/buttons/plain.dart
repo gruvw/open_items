@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 
 class PlainButton extends StatelessWidget {
@@ -36,22 +36,15 @@ class PlainButton extends StatelessWidget {
           horizontal: horizontalPadding,
         ),
         backgroundColor: backgroundColor,
-        disabledForegroundColor:
-            foregroundColor.withOpacity(UIColors.disabledOpacity),
-        disabledBackgroundColor:
-            backgroundColor.withOpacity(UIColors.disabledOpacity),
+        disabledForegroundColor: foregroundColor.withOpacity(UIColors.disabledOpacity),
+        disabledBackgroundColor: backgroundColor.withOpacity(UIColors.disabledOpacity),
         side: BorderSide(
           width: ButtonLayout.borderWidth,
-          style: borderColor == backgroundColor
-              ? BorderStyle.none
-              : BorderStyle.solid,
-          color: enabled
-              ? borderColor
-              : borderColor.withOpacity(UIColors.disabledOpacity),
+          style: borderColor == backgroundColor ? BorderStyle.none : BorderStyle.solid,
+          color: enabled ? borderColor : borderColor.withOpacity(UIColors.disabledOpacity),
         ),
         shape: const RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(ButtonLayout.borderRadius)),
         ),
         // Reset material padding and boxes
         minimumSize: Size.zero,
@@ -62,8 +55,7 @@ class PlainButton extends StatelessWidget {
         children: [
           if (leading != null)
             Padding(
-              padding:
-                  const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
+              padding: const EdgeInsets.only(right: ButtonLayout.leadingSpacing),
               child: leading!,
             ),
           child,

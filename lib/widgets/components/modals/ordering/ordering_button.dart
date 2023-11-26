@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 

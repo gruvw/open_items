@@ -30,13 +30,13 @@ enum Routes {
         return const AuthenticatePage();
       case lists:
         if (args is String) {
-          return ListsPage(accountId: args);
+          return ListsPage(accountLocalId: args);
         }
       case collection:
         if (args is List<String> && args.length == 2) {
           return CollectionPage(
-            listPropertiesId: args[0],
-            collectionId: args[1],
+            listPropertiesLocalId: args[0],
+            collectionLocalId: args[1],
           );
         }
       case error:

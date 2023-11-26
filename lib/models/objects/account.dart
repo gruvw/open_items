@@ -6,7 +6,7 @@ abstract class Account extends DatabaseServerObject {
   String get name;
   String get server;
 
-  String? get accountPropertiesId;
+  String? get accountPropertiesLocalId;
 
   Account copyWith({
     String? name,
@@ -15,7 +15,7 @@ abstract class Account extends DatabaseServerObject {
   // Helper methods
 
   bool isOwnerOf(Liste list) {
-    return list.ownerAccountId == localId;
+    return list.ownerAccountLocalId == localId;
   }
 
   String get accountId => "$name@$server";
@@ -23,5 +23,5 @@ abstract class Account extends DatabaseServerObject {
   bool get isOffline => server == CoreValues.offlineServer;
 
   // Does the current client have access to this account
-  bool get isLocal => accountPropertiesId != null;
+  bool get isLocal => accountPropertiesLocalId != null;
 }

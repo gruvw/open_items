@@ -40,15 +40,13 @@ class HiveDatabase extends Database {
     Hive.registerAdapter(HiveStoreAccountPropertiesAdapter());
     Hive.registerAdapter(HiveStoreAccountListPropertiesAdapter());
 
-    accountsBox =
-        await Hive.openBox<HiveStoreAccount>(HiveDatabase._accountsBoxName);
+    accountsBox = await Hive.openBox<HiveStoreAccount>(HiveDatabase._accountsBoxName);
     listsBox = await Hive.openBox<HiveStoreListe>(HiveDatabase._listsBoxName);
     itemsBox = await Hive.openBox<HiveStoreItem>(HiveDatabase._itemsBoxName);
-    accountPropertiesBox = await Hive.openBox<HiveStoreAccountProperties>(
-        HiveDatabase._accountPropertiesBoxName);
-    accountListPropertiesBox =
-        await Hive.openBox<HiveStoreAccountListProperties>(
-            HiveDatabase._accountListPropertiesBoxName);
+    accountPropertiesBox =
+        await Hive.openBox<HiveStoreAccountProperties>(HiveDatabase._accountPropertiesBoxName);
+    accountListPropertiesBox = await Hive.openBox<HiveStoreAccountListProperties>(
+        HiveDatabase._accountListPropertiesBoxName);
   }
 
   @override
@@ -78,8 +76,7 @@ class HiveDatabase extends Database {
       hiveServerId: serverId,
       hiveServer: server,
       hiveName: name,
-      hiveAccountPropertiesLocalId:
-          propertiesLocalId ?? CoreValues.unknownLocalId,
+      hiveAccountPropertiesLocalId: propertiesLocalId ?? CoreValues.unknownLocalId,
     );
     await accountsBox.put(accountLocalId, hiveStoreAccount);
 
@@ -140,9 +137,8 @@ class HiveDatabase extends Database {
       hiveStoreAccountListProperties,
     );
 
-    final hiveUserProperties = getAccountProperties(user.accountPropertiesId!)!;
-    final hiveStoreUserProperties =
-        hiveUserProperties.hiveStoreAccountProperties;
+    final hiveUserProperties = getAccountProperties(user.accountPropertiesLocalId!)!;
+    final hiveStoreUserProperties = hiveUserProperties.hiveStoreAccountProperties;
     hiveStoreUserProperties.hiveAccountListPropertiesLocalIds
         .add(hiveStoreAccountListProperties.key);
     await hiveUserProperties.save();
@@ -158,7 +154,7 @@ class HiveDatabase extends Database {
   @override
   Future<String> createItem({
     required String serverId,
-    required String parentId,
+    required String parentLocalId,
     required String text,
     required CollectionType type,
     required String lexoRank,
@@ -176,13 +172,13 @@ class HiveDatabase extends Database {
       hiveDoneTime: doneTime.millisecondsSinceEpoch,
       hiveLexoRank: lexoRank,
       hiveIsDone: isDone,
-      hiveParentLocalId: parentId,
+      hiveParentLocalId: parentLocalId,
       hiveItemsLocalIds: [],
     );
     final itemLocalId = nanoid();
     await itemsBox.put(itemLocalId, hiveStoreItem);
 
-    final parent = getCollection(parentId)!;
+    final parent = getCollection(parentLocalId)!;
     final hiveStoreParent = (parent as HiveCollection).collectionStore;
     hiveStoreParent.hiveItemsLocalIds.add(hiveStoreItem.key);
     await hiveStoreParent.save().then((_) => parent.notify(EventType.edit));
@@ -209,12 +205,12 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveAccount? getAccount(String? accountId) {
-    if (accountId == null) {
+  HiveAccount? getAccount(String? accountLocalId) {
+    if (accountLocalId == null) {
       return null;
     }
 
-    final accountStore = accountsBox.get(accountId);
+    final accountStore = accountsBox.get(accountLocalId);
 
     return accountStore.map(
       (a) => HiveAccount(
@@ -225,13 +221,12 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveAccountProperties? getAccountProperties(String? accountPropertiesId) {
-    if (accountPropertiesId == null) {
+  HiveAccountProperties? getAccountProperties(String? accountPropertiesLocalId) {
+    if (accountPropertiesLocalId == null) {
       return null;
     }
 
-    final accountPropertiesStore =
-        accountPropertiesBox.get(accountPropertiesId);
+    final accountPropertiesStore = accountPropertiesBox.get(accountPropertiesLocalId);
 
     return accountPropertiesStore.map(
       (ap) => HiveAccountProperties(
@@ -243,14 +238,13 @@ class HiveDatabase extends Database {
 
   @override
   HiveAccountListProperties? getAccountListProperties(
-    String? accountListPropertiesId,
+    String? accountListPropertiesLocalId,
   ) {
-    if (accountListPropertiesId == null) {
+    if (accountListPropertiesLocalId == null) {
       return null;
     }
 
-    final accountListPropertiesStore =
-        accountListPropertiesBox.get(accountListPropertiesId);
+    final accountListPropertiesStore = accountListPropertiesBox.get(accountListPropertiesLocalId);
 
     return accountListPropertiesStore.map(
       (alp) => HiveAccountListProperties(
@@ -261,12 +255,12 @@ class HiveDatabase extends Database {
   }
 
   @override
-  HiveListe? getListe(String? listId) {
-    if (listId == null) {
+  HiveListe? getListe(String? listLocalId) {
+    if (listLocalId == null) {
       return null;
     }
 
-    final listStore = listsBox.get(listId);
+    final listStore = listsBox.get(listLocalId);
 
     return listStore.map(
       (l) => HiveListe(
@@ -277,12 +271,12 @@ class HiveDatabase extends Database {
   }
 
   @override
-  Item? getItem(String? itemId) {
-    if (itemId == null) {
+  Item? getItem(String? itemLocalId) {
+    if (itemLocalId == null) {
       return null;
     }
 
-    final itemStore = itemsBox.get(itemId);
+    final itemStore = itemsBox.get(itemLocalId);
 
     return itemStore.map(
       (i) => HiveItem(

@@ -38,9 +38,9 @@ class HiveAccountProperties extends AccountProperties {
 
   // Immutable (not with copyWith)
   @override
-  final String accountId;
+  final String accountLocalId;
   @override
-  final List<String> listsPropertiesIds;
+  final List<String> listsPropertiesLocalIds;
 
   // Mutable
   @override
@@ -53,14 +53,14 @@ class HiveAccountProperties extends AccountProperties {
     required this.hiveStoreAccountProperties,
     int? listsOrderingIndex,
     bool? shouldReverseOrder,
-  })  : listsOrderingIndex = listsOrderingIndex ??
-            hiveStoreAccountProperties.hiveListsOrderingIndex,
+  })  : listsOrderingIndex =
+            listsOrderingIndex ?? hiveStoreAccountProperties.hiveListsOrderingIndex,
         localId = hiveStoreAccountProperties.key,
-        accountId = hiveStoreAccountProperties.hiveAccountLocalId,
-        listsPropertiesIds = List.from(
-            hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds),
-        shouldReverseOrder = shouldReverseOrder ??
-            hiveStoreAccountProperties.hiveShouldReverseOrder;
+        accountLocalId = hiveStoreAccountProperties.hiveAccountLocalId,
+        listsPropertiesLocalIds =
+            List.from(hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds),
+        shouldReverseOrder =
+            shouldReverseOrder ?? hiveStoreAccountProperties.hiveShouldReverseOrder;
 
   @override
   Database get database => hiveDatabase;
@@ -82,19 +82,16 @@ class HiveAccountProperties extends AccountProperties {
   Future<void> save() {
     hiveStoreAccountProperties.hiveListsOrderingIndex = listsOrdering.index;
     hiveStoreAccountProperties.hiveShouldReverseOrder = shouldReverseOrder;
-    return hiveStoreAccountProperties
-        .save()
-        .then((_) => notify(EventType.edit));
+    return hiveStoreAccountProperties.save().then((_) => notify(EventType.edit));
   }
 
   @override
   Future<void> delete() async {
-    final account = database.getAccount(accountId)!;
+    final account = database.getAccount(accountLocalId)!;
 
-    for (final listPropertiesId in listsPropertiesIds) {
-      final listProperties =
-          database.getAccountListProperties(listPropertiesId)!;
-      final list = database.getListe(listProperties.listId)!;
+    for (final listPropertiesLocalId in listsPropertiesLocalIds) {
+      final listProperties = database.getAccountListProperties(listPropertiesLocalId)!;
+      final list = database.getListe(listProperties.listLocalId)!;
 
       if (account.isOwnerOf(list)) {
         await list.delete();
@@ -103,8 +100,6 @@ class HiveAccountProperties extends AccountProperties {
       }
     }
 
-    await hiveStoreAccountProperties
-        .delete()
-        .then((_) => notify(EventType.delete));
+    await hiveStoreAccountProperties.delete().then((_) => notify(EventType.delete));
   }
 }

@@ -6,7 +6,7 @@ part of 'lists.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$listsPropertiesHash() => r'd87a9e6e888d257cf4565a155fb49e2b6b2fd2bc';
+String _$listsPropertiesHash() => r'd18bea5af5ea10d32576cd37c370d15867c0ad40';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,10 @@ class ListsPropertiesFamily extends Family<List<AccountListProperties>?> {
 
   /// See also [listsProperties].
   ListsPropertiesProvider call({
-    required String? accountId,
+    required String? accountLocalId,
   }) {
     return ListsPropertiesProvider(
-      accountId: accountId,
+      accountLocalId: accountLocalId,
     );
   }
 
@@ -52,7 +52,7 @@ class ListsPropertiesFamily extends Family<List<AccountListProperties>?> {
     covariant ListsPropertiesProvider provider,
   ) {
     return call(
-      accountId: provider.accountId,
+      accountLocalId: provider.accountLocalId,
     );
   }
 
@@ -76,11 +76,11 @@ class ListsPropertiesProvider
     extends AutoDisposeProvider<List<AccountListProperties>?> {
   /// See also [listsProperties].
   ListsPropertiesProvider({
-    required String? accountId,
+    required String? accountLocalId,
   }) : this._internal(
           (ref) => listsProperties(
             ref as ListsPropertiesRef,
-            accountId: accountId,
+            accountLocalId: accountLocalId,
           ),
           from: listsPropertiesProvider,
           name: r'listsPropertiesProvider',
@@ -91,7 +91,7 @@ class ListsPropertiesProvider
           dependencies: ListsPropertiesFamily._dependencies,
           allTransitiveDependencies:
               ListsPropertiesFamily._allTransitiveDependencies,
-          accountId: accountId,
+          accountLocalId: accountLocalId,
         );
 
   ListsPropertiesProvider._internal(
@@ -101,10 +101,10 @@ class ListsPropertiesProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.accountId,
+    required this.accountLocalId,
   }) : super.internal();
 
-  final String? accountId;
+  final String? accountLocalId;
 
   @override
   Override overrideWith(
@@ -119,7 +119,7 @@ class ListsPropertiesProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        accountId: accountId,
+        accountLocalId: accountLocalId,
       ),
     );
   }
@@ -131,13 +131,14 @@ class ListsPropertiesProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ListsPropertiesProvider && other.accountId == accountId;
+    return other is ListsPropertiesProvider &&
+        other.accountLocalId == accountLocalId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, accountId.hashCode);
+    hash = _SystemHash.combine(hash, accountLocalId.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -145,8 +146,8 @@ class ListsPropertiesProvider
 
 mixin ListsPropertiesRef
     on AutoDisposeProviderRef<List<AccountListProperties>?> {
-  /// The parameter `accountId` of this provider.
-  String? get accountId;
+  /// The parameter `accountLocalId` of this provider.
+  String? get accountLocalId;
 }
 
 class _ListsPropertiesProviderElement
@@ -155,10 +156,11 @@ class _ListsPropertiesProviderElement
   _ListsPropertiesProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as ListsPropertiesProvider).accountId;
+  String? get accountLocalId =>
+      (origin as ListsPropertiesProvider).accountLocalId;
 }
 
-String _$listsHash() => r'3ab6e087cbe27fb6f7a7344d213f28f2eefef420';
+String _$listsHash() => r'4a673a14aaedcb7c49dddc416273d8e7632f07cf';
 
 /// See also [lists].
 @ProviderFor(lists)
@@ -171,10 +173,10 @@ class ListsFamily extends Family<List<Liste>?> {
 
   /// See also [lists].
   ListsProvider call({
-    required String? accountId,
+    required String? accountLocalId,
   }) {
     return ListsProvider(
-      accountId: accountId,
+      accountLocalId: accountLocalId,
     );
   }
 
@@ -183,7 +185,7 @@ class ListsFamily extends Family<List<Liste>?> {
     covariant ListsProvider provider,
   ) {
     return call(
-      accountId: provider.accountId,
+      accountLocalId: provider.accountLocalId,
     );
   }
 
@@ -206,11 +208,11 @@ class ListsFamily extends Family<List<Liste>?> {
 class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
   /// See also [lists].
   ListsProvider({
-    required String? accountId,
+    required String? accountLocalId,
   }) : this._internal(
           (ref) => lists(
             ref as ListsRef,
-            accountId: accountId,
+            accountLocalId: accountLocalId,
           ),
           from: listsProvider,
           name: r'listsProvider',
@@ -220,7 +222,7 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
                   : _$listsHash,
           dependencies: ListsFamily._dependencies,
           allTransitiveDependencies: ListsFamily._allTransitiveDependencies,
-          accountId: accountId,
+          accountLocalId: accountLocalId,
         );
 
   ListsProvider._internal(
@@ -230,10 +232,10 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.accountId,
+    required this.accountLocalId,
   }) : super.internal();
 
-  final String? accountId;
+  final String? accountLocalId;
 
   @override
   Override overrideWith(
@@ -248,7 +250,7 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        accountId: accountId,
+        accountLocalId: accountLocalId,
       ),
     );
   }
@@ -260,21 +262,21 @@ class ListsProvider extends AutoDisposeProvider<List<Liste>?> {
 
   @override
   bool operator ==(Object other) {
-    return other is ListsProvider && other.accountId == accountId;
+    return other is ListsProvider && other.accountLocalId == accountLocalId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, accountId.hashCode);
+    hash = _SystemHash.combine(hash, accountLocalId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ListsRef on AutoDisposeProviderRef<List<Liste>?> {
-  /// The parameter `accountId` of this provider.
-  String? get accountId;
+  /// The parameter `accountLocalId` of this provider.
+  String? get accountLocalId;
 }
 
 class _ListsProviderElement extends AutoDisposeProviderElement<List<Liste>?>
@@ -282,7 +284,7 @@ class _ListsProviderElement extends AutoDisposeProviderElement<List<Liste>?>
   _ListsProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as ListsProvider).accountId;
+  String? get accountLocalId => (origin as ListsProvider).accountLocalId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

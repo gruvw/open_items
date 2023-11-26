@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:open_items/global/styles/icons/ui_icons.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 import 'package:open_items/global/texts.dart';
@@ -12,15 +12,15 @@ import 'package:open_items/state/application/account.dart';
 import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/state/application/lists.dart';
 import 'package:open_items/state/shared_preferences/objects/default_list_type.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
+import 'package:open_items/state/shared_preferences/objects/selected_account_local_id.dart';
 import 'package:open_items/widgets/collections/collection_entry.dart';
 import 'package:open_items/widgets/collections/collection_view.dart';
 import 'package:open_items/widgets/collections/dialogs/change_collection_type.dart';
 import 'package:open_items/widgets/collections/dialogs/delete_collection.dart';
 import 'package:open_items/widgets/collections/lists_page/drawer/accounts_drawer.dart';
-import 'package:open_items/widgets/collections/new_button.dart';
+import 'package:open_items/widgets/collections/add_button.dart';
 import 'package:open_items/widgets/collections/search_button.dart';
-import 'package:open_items/widgets/components/input/menu_element.dart';
+import 'package:open_items/widgets/components/structure/menu_element.dart';
 import 'package:open_items/widgets/components/modals/collection_type_dialog.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/components/modals/ordering/lists_ordering_dialog.dart';
@@ -43,36 +43,31 @@ class ListsPage extends HookConsumerWidget {
   // Static because must be shown only once per application opening
   static bool _testingMessageShown = false; // TODO move to global provider
 
-  final String accountId;
+  final String accountLocalId;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ListsPage({
     super.key,
-    required this.accountId,
+    required this.accountLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final defaultListType = ref.watch(defaultListTypeProvider);
 
-    final account = ref.watch(localAccountProvider(accountId: accountId));
-    final accountProperties =
-        ref.watch(accountPropertiesProvider(accountId: accountId));
-    final listsProperties =
-        ref.watch(listsPropertiesProvider(accountId: accountId));
-    final lists = ref.watch(listsProvider(accountId: accountId));
+    final account = ref.watch(localAccountProvider(accountLocalId: accountLocalId));
+    final accountProperties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
+    final listsProperties = ref.watch(listsPropertiesProvider(accountLocalId: accountLocalId));
+    final lists = ref.watch(listsProvider(accountLocalId: accountLocalId));
 
     // Set viewed account as the (persisted) selected one
     useEffect(() {
-      ref.read(selectedAccountIdProvider.notifier).updateAccount(accountId);
+      ref.read(selectedAccountLocalIdProvider.notifier).updateAccount(accountLocalId);
     }, const []);
 
     // Display loading screen while object is deleted
-    if (account == null ||
-        accountProperties == null ||
-        listsProperties == null ||
-        lists == null) {
+    if (account == null || accountProperties == null || listsProperties == null || lists == null) {
       return const LoadingPage();
     }
 
@@ -93,7 +88,7 @@ class ListsPage extends HookConsumerWidget {
     void menuCallback(ListsPopupMenu item) => switch (item) {
           ListsPopupMenu.orderBy => showModalBottomSheet(
               context: context,
-              builder: (context) => ListsOrderingDialog(accountId: accountId),
+              builder: (context) => ListsOrderingDialog(accountLocalId: accountLocalId),
             ),
           ListsPopupMenu.defaultListType => showDialog(
               barrierColor: UIColors.dimmed,
@@ -101,9 +96,8 @@ class ListsPage extends HookConsumerWidget {
               builder: (context) => CollectionTypeDialog(
                 title: MenuTexts.defaultListType,
                 initialType: defaultListType,
-                onSelected: (newType) => ref
-                    .read(defaultListTypeProvider.notifier)
-                    .updateType(newType),
+                onSelected: (newType) =>
+                    ref.read(defaultListTypeProvider.notifier).updateType(newType),
               ),
             ),
         };
@@ -111,7 +105,7 @@ class ListsPage extends HookConsumerWidget {
     Future<void> createList(String title) async {
       final time = DateTime.now();
 
-      final listId = await database.createListe(
+      final listLocalId = await database.createListe(
         owner: account,
         listServerId: CoreValues.unknownServerId,
         title: title,
@@ -123,7 +117,7 @@ class ListsPage extends HookConsumerWidget {
       await database.createAccountListProperties(
         user: account,
         serverId: CoreValues.unknownServerId,
-        listLocalId: listId,
+        listLocalId: listLocalId,
         itemsOrdering: DefaultValues.itemsOrdering,
         lexoRank: "a" * lists.length, // TODO lexoRanking
         shouldReverseOrder: DefaultValues.shouldReverse,
@@ -137,24 +131,21 @@ class ListsPage extends HookConsumerWidget {
         final list = lists[index];
 
         final listProperties =
-            listsProperties.firstWhere((lp) => lp.listId == list.listId);
+            listsProperties.firstWhere((lp) => lp.listLocalId == list.listLocalId);
 
         return CollectionEntry(
           key: ObjectKey(list),
           index: index,
           groupTag: 0,
-          reorderEnabled:
-              accountProperties.listsOrdering == ListsOrdering.custom,
+          reorderEnabled: accountProperties.listsOrdering == ListsOrdering.custom,
           leading: Icon(list.collectionType.icon),
-          onDelete: () =>
-              DeleteCollectionDialog.deleteCollection(context, list),
+          onDelete: () => DeleteCollectionDialog.deleteCollection(context, list),
           onClick: () => Navigator.pushNamed(
             context,
             Routes.collection.name,
             arguments: [listProperties.localId, list.localId],
           ),
-          leadingOnClick: () =>
-              ChangeCollectionTypeDialog.show(context, list.listId),
+          leadingOnClick: () => ChangeCollectionTypeDialog.show(context, list.listLocalId),
           content: list.title,
         );
       },
@@ -183,8 +174,8 @@ class ListsPage extends HookConsumerWidget {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: UIColors.background,
-      drawer: AccountsDrawer(selectedAccountId: accountId),
-      floatingActionButton: NewButton(
+      drawer: AccountsDrawer(selectedAccountLocalId: accountLocalId),
+      floatingActionButton: AddButton(
         onPressed: () => showDialog(
           barrierDismissible: false,
           barrierColor: UIColors.dimmed,

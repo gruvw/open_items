@@ -50,7 +50,7 @@ abstract class Database {
 
   Future<String> createItem({
     required String serverId,
-    required String parentId,
+    required String parentLocalId,
     required String text,
     required CollectionType type,
     required String lexoRank,
@@ -64,30 +64,28 @@ abstract class Database {
 
   List<Account> getLocalAccounts();
 
-  Account? getAccount(String? accountId);
-  Account? getLocalAccount(String? accountId) {
-    final account = getAccount(accountId);
+  Account? getAccount(String? accountLocalId);
+  Account? getLocalAccount(String? accountLocalId) {
+    final account = getAccount(accountLocalId);
     return account.map((a) => a.isLocal ? a : null);
   }
 
-  AccountProperties? getAccountProperties(String? accountPropertiesId);
-  AccountListProperties? getAccountListProperties(
-      String? accountListPropertiesId);
+  AccountProperties? getAccountProperties(String? accountPropertiesLocalId);
+  AccountListProperties? getAccountListProperties(String? accountListPropertiesLocalId);
 
-  Liste? getListe(String? listId);
-  Item? getItem(String? itemId);
+  Liste? getListe(String? listLocalId);
+  Item? getItem(String? itemLocalId);
 
   // Helper methods
 
-  Collection? getCollection(String? localId) =>
-      getListe(localId) ?? getItem(localId);
+  Collection? getCollection(String? localId) => getListe(localId) ?? getItem(localId);
 
   // Events
 
   Stream<Event<DatabaseObject>> watchAll() => eventsController.stream;
   Stream<Event<DatabaseObject>> watchObject(String? localId) {
-    return eventsController.stream.where((event) =>
-        event.object.localId == localId && event.type != EventType.delete);
+    return eventsController.stream
+        .where((event) => event.object.localId == localId && event.type != EventType.delete);
   }
 
   Stream<Event<DatabaseObject>> watchLocalAccounts() {

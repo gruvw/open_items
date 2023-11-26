@@ -7,17 +7,17 @@ import 'package:open_items/state/application/collection.dart';
 import 'package:open_items/widgets/components/modals/ordering/ordering_button.dart';
 
 class ListOrderingDialog extends ConsumerWidget {
-  final String listPropertiesId;
+  final String listPropertiesLocalId;
 
   const ListOrderingDialog({
     super.key,
-    required this.listPropertiesId,
+    required this.listPropertiesLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listProerties = ref
-        .watch(accountListPropertiesProvider(propertiesId: listPropertiesId))!;
+    final listProerties =
+        ref.watch(accountListPropertiesProvider(propertiesLocalId: listPropertiesLocalId))!;
 
     final selectedOrdering = listProerties.itemsOrdering;
     final shouldReversed = listProerties.shouldReverseOrder;

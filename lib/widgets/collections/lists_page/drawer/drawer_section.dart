@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/styles/ui_colors.dart';
 import 'package:open_items/global/styles/ui_text.dart';
 
@@ -27,8 +27,7 @@ class DrawerSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: (compact ? UITexts.normal : UITexts.title)
-                    .apply(color: UIColors.secondary),
+                style: (compact ? UITexts.normal : UITexts.title).apply(color: UIColors.secondary),
               ),
             ],
           ),

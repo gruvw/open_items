@@ -17,8 +17,8 @@ abstract class AccountListProperties extends DatabaseServerObject {
     ItemsOrdering? itemsOrdering,
   });
 
-  String get userId;
-  String get listId;
+  String get userLocalId;
+  String get listLocalId;
 
   // Helper methods
 

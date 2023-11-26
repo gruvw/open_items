@@ -67,7 +67,7 @@ class HiveItem extends Item with HiveCollection {
 
   // Immutable (not with copyWith)
   @override
-  final String parentId;
+  final String parentLocalId;
   @override
   final DateTime creationTime;
   @override
@@ -95,17 +95,14 @@ class HiveItem extends Item with HiveCollection {
     DateTime? doneTime,
   })  : localId = hiveStoreItem.key,
         serverId = hiveStoreItem.hiveServerId,
-        parentId = hiveStoreItem.hiveParentLocalId,
-        creationTime =
-            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveCreationTime),
-        editionTime =
-            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveEditionTime),
+        parentLocalId = hiveStoreItem.hiveParentLocalId,
+        creationTime = DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveCreationTime),
+        editionTime = DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveEditionTime),
         text = text ?? hiveStoreItem.hiveText,
         typeIndex = typeIndex ?? hiveStoreItem.hiveTypeIndex,
         lexoRank = lexoRank ?? hiveStoreItem.hiveLexoRank,
         isDone = isDone ?? hiveStoreItem.hiveIsDone,
-        doneTime = doneTime ??
-            DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveDoneTime);
+        doneTime = doneTime ?? DateTime.fromMillisecondsSinceEpoch(hiveStoreItem.hiveDoneTime);
 
   @override
   HiveDatabase get database => hiveDatabase;
@@ -114,15 +111,14 @@ class HiveItem extends Item with HiveCollection {
   HiveStoreCollection get collectionStore => hiveStoreItem;
 
   @override
-  Collection get parent =>
-      database.getCollection(hiveStoreItem.hiveParentLocalId)!;
+  Collection get parent => database.getCollection(hiveStoreItem.hiveParentLocalId)!;
 
   @override
   List<HiveItem> get items {
     return hiveStoreItem.hiveItemsLocalIds
-        .map((itemId) => HiveItem(
+        .map((id) => HiveItem(
               hiveDatabase: hiveDatabase,
-              hiveStoreItem: hiveDatabase.itemsBox.get(itemId)!,
+              hiveStoreItem: hiveDatabase.itemsBox.get(id)!,
             ))
         .toList();
   }
@@ -162,10 +158,9 @@ class HiveItem extends Item with HiveCollection {
       await item.delete();
     }
 
-    final hiveParent = hiveDatabase.getCollection(parentId)!;
+    final hiveParent = hiveDatabase.getCollection(parentLocalId)!;
     final hiveStoreParent = (hiveParent as HiveCollection).collectionStore;
-    hiveStoreParent.hiveItemsLocalIds
-        .removeWhere((itemId) => itemId == localId);
+    hiveStoreParent.hiveItemsLocalIds.removeWhere((id) => id == localId);
     await hiveStoreParent.save().then((_) => hiveParent.notify(EventType.edit));
 
     await hiveStoreItem.delete().then((_) => notify(EventType.delete));

@@ -42,7 +42,7 @@ class HiveAccount extends Account {
   @override
   final String server;
   @override
-  final String? accountPropertiesId;
+  final String? accountPropertiesLocalId;
 
   // Mutable
   @override
@@ -56,10 +56,11 @@ class HiveAccount extends Account {
         serverId = hiveStoreAccount.hiveServerId,
         server = hiveStoreAccount.hiveServer,
         name = name ?? hiveStoreAccount.hiveName,
-        accountPropertiesId = hiveStoreAccount.hiveAccountPropertiesLocalId !=
-                CoreValues.unknownLocalId
-            ? hiveStoreAccount.hiveAccountPropertiesLocalId
-            : null;
+        accountPropertiesLocalId =
+            hiveStoreAccount.hiveAccountPropertiesLocalId !=
+                    CoreValues.unknownLocalId
+                ? hiveStoreAccount.hiveAccountPropertiesLocalId
+                : null;
 
   @override
   Database get database => hiveDatabase;
@@ -85,7 +86,7 @@ class HiveAccount extends Account {
   Future<void> delete() async {
     if (isLocal) {
       final properties =
-          hiveDatabase.getAccountProperties(accountPropertiesId)!;
+          hiveDatabase.getAccountProperties(accountPropertiesLocalId)!;
       await properties.delete();
     }
 

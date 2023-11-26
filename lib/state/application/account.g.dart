@@ -6,7 +6,7 @@ part of 'account.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localAccountHash() => r'd224705c671d94f0777d1a97818e70c0221ddd97';
+String _$localAccountHash() => r'7ff7b66572d50735b529eeb5ff89719266e64379';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,10 +40,10 @@ class LocalAccountFamily extends Family<Account?> {
 
   /// See also [localAccount].
   LocalAccountProvider call({
-    required String? accountId,
+    required String? accountLocalId,
   }) {
     return LocalAccountProvider(
-      accountId: accountId,
+      accountLocalId: accountLocalId,
     );
   }
 
@@ -52,7 +52,7 @@ class LocalAccountFamily extends Family<Account?> {
     covariant LocalAccountProvider provider,
   ) {
     return call(
-      accountId: provider.accountId,
+      accountLocalId: provider.accountLocalId,
     );
   }
 
@@ -75,11 +75,11 @@ class LocalAccountFamily extends Family<Account?> {
 class LocalAccountProvider extends AutoDisposeProvider<Account?> {
   /// See also [localAccount].
   LocalAccountProvider({
-    required String? accountId,
+    required String? accountLocalId,
   }) : this._internal(
           (ref) => localAccount(
             ref as LocalAccountRef,
-            accountId: accountId,
+            accountLocalId: accountLocalId,
           ),
           from: localAccountProvider,
           name: r'localAccountProvider',
@@ -90,7 +90,7 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
           dependencies: LocalAccountFamily._dependencies,
           allTransitiveDependencies:
               LocalAccountFamily._allTransitiveDependencies,
-          accountId: accountId,
+          accountLocalId: accountLocalId,
         );
 
   LocalAccountProvider._internal(
@@ -100,10 +100,10 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.accountId,
+    required this.accountLocalId,
   }) : super.internal();
 
-  final String? accountId;
+  final String? accountLocalId;
 
   @override
   Override overrideWith(
@@ -118,7 +118,7 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        accountId: accountId,
+        accountLocalId: accountLocalId,
       ),
     );
   }
@@ -130,21 +130,22 @@ class LocalAccountProvider extends AutoDisposeProvider<Account?> {
 
   @override
   bool operator ==(Object other) {
-    return other is LocalAccountProvider && other.accountId == accountId;
+    return other is LocalAccountProvider &&
+        other.accountLocalId == accountLocalId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, accountId.hashCode);
+    hash = _SystemHash.combine(hash, accountLocalId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin LocalAccountRef on AutoDisposeProviderRef<Account?> {
-  /// The parameter `accountId` of this provider.
-  String? get accountId;
+  /// The parameter `accountLocalId` of this provider.
+  String? get accountLocalId;
 }
 
 class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
@@ -152,10 +153,10 @@ class _LocalAccountProviderElement extends AutoDisposeProviderElement<Account?>
   _LocalAccountProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as LocalAccountProvider).accountId;
+  String? get accountLocalId => (origin as LocalAccountProvider).accountLocalId;
 }
 
-String _$accountPropertiesHash() => r'066acf340b461170a31992173c8a1f68797ab9e0';
+String _$accountPropertiesHash() => r'a96dcb9619e1e601a46164aa5170860db4640341';
 
 /// See also [accountProperties].
 @ProviderFor(accountProperties)
@@ -168,10 +169,10 @@ class AccountPropertiesFamily extends Family<AccountProperties?> {
 
   /// See also [accountProperties].
   AccountPropertiesProvider call({
-    required String? accountId,
+    required String? accountLocalId,
   }) {
     return AccountPropertiesProvider(
-      accountId: accountId,
+      accountLocalId: accountLocalId,
     );
   }
 
@@ -180,7 +181,7 @@ class AccountPropertiesFamily extends Family<AccountProperties?> {
     covariant AccountPropertiesProvider provider,
   ) {
     return call(
-      accountId: provider.accountId,
+      accountLocalId: provider.accountLocalId,
     );
   }
 
@@ -204,11 +205,11 @@ class AccountPropertiesProvider
     extends AutoDisposeProvider<AccountProperties?> {
   /// See also [accountProperties].
   AccountPropertiesProvider({
-    required String? accountId,
+    required String? accountLocalId,
   }) : this._internal(
           (ref) => accountProperties(
             ref as AccountPropertiesRef,
-            accountId: accountId,
+            accountLocalId: accountLocalId,
           ),
           from: accountPropertiesProvider,
           name: r'accountPropertiesProvider',
@@ -219,7 +220,7 @@ class AccountPropertiesProvider
           dependencies: AccountPropertiesFamily._dependencies,
           allTransitiveDependencies:
               AccountPropertiesFamily._allTransitiveDependencies,
-          accountId: accountId,
+          accountLocalId: accountLocalId,
         );
 
   AccountPropertiesProvider._internal(
@@ -229,10 +230,10 @@ class AccountPropertiesProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.accountId,
+    required this.accountLocalId,
   }) : super.internal();
 
-  final String? accountId;
+  final String? accountLocalId;
 
   @override
   Override overrideWith(
@@ -247,7 +248,7 @@ class AccountPropertiesProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        accountId: accountId,
+        accountLocalId: accountLocalId,
       ),
     );
   }
@@ -259,21 +260,22 @@ class AccountPropertiesProvider
 
   @override
   bool operator ==(Object other) {
-    return other is AccountPropertiesProvider && other.accountId == accountId;
+    return other is AccountPropertiesProvider &&
+        other.accountLocalId == accountLocalId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, accountId.hashCode);
+    hash = _SystemHash.combine(hash, accountLocalId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin AccountPropertiesRef on AutoDisposeProviderRef<AccountProperties?> {
-  /// The parameter `accountId` of this provider.
-  String? get accountId;
+  /// The parameter `accountLocalId` of this provider.
+  String? get accountLocalId;
 }
 
 class _AccountPropertiesProviderElement
@@ -282,7 +284,8 @@ class _AccountPropertiesProviderElement
   _AccountPropertiesProviderElement(super.provider);
 
   @override
-  String? get accountId => (origin as AccountPropertiesProvider).accountId;
+  String? get accountLocalId =>
+      (origin as AccountPropertiesProvider).accountLocalId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:open_items/global/styles/layouts.dart';
+import 'package:open_items/global/layouts.dart';
 import 'package:open_items/global/texts.dart';
 import 'package:open_items/global/values.dart';
 import 'package:open_items/models/objects/collection.dart';
@@ -49,8 +49,7 @@ class CollectionTypeDialog extends HookWidget {
       },
       body: Center(
         child: Container(
-          constraints: const BoxConstraints(
-              maxWidth: DialogLayout.buttonsContentMaxWidth),
+          constraints: const BoxConstraints(maxWidth: DialogLayout.buttonsContentMaxWidth),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: types.toList(),

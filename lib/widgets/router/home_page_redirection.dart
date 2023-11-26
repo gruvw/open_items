@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:open_items/state/shared_preferences/objects/selected_account_id.dart';
+import 'package:open_items/state/shared_preferences/objects/selected_account_local_id.dart';
 import 'package:open_items/widgets/authenticate/authenticate_page.dart';
 import 'package:open_items/widgets/collections/lists_page/lists_page.dart';
 
@@ -9,10 +9,10 @@ class HomePageRedirection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final accountId = ref.watch(selectedAccountIdProvider);
+    final accountLocalId = ref.watch(selectedAccountLocalIdProvider);
 
-    if (accountId != null) {
-      return ListsPage(accountId: accountId);
+    if (accountLocalId != null) {
+      return ListsPage(accountLocalId: accountLocalId);
     }
 
     return const AuthenticatePage();

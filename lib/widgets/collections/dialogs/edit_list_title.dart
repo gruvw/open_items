@@ -10,25 +10,25 @@ import 'package:open_items/widgets/validation/core.dart';
 import 'package:open_items/widgets/validation/list.dart';
 
 class EditListTitleDialog extends ConsumerWidget {
-  static void show(BuildContext context, String listId) {
+  static void show(BuildContext context, String listLocalId) {
     showDialog(
       barrierDismissible: false,
       barrierColor: UIColors.dimmed,
       context: context,
-      builder: (_) => EditListTitleDialog(listId: listId),
+      builder: (_) => EditListTitleDialog(listLocalId: listLocalId),
     );
   }
 
-  final String listId;
+  final String listLocalId;
 
   const EditListTitleDialog({
     super.key,
-    required this.listId,
+    required this.listLocalId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(listProvider(listId: listId));
+    final list = ref.watch(listProvider(listLocalId: listLocalId));
 
     if (list == null) return const Empty();
 
@@ -39,8 +39,7 @@ class EditListTitleDialog extends ConsumerWidget {
       placeholder: UIPlaceholders.listTitle,
       initialValue: list.title,
       validation: validListTitle,
-      onSubmit:
-          alwaysValid((newTitle) => list.copyWith(title: newTitle).save()),
+      onSubmit: alwaysValid((newTitle) => list.copyWith(title: newTitle).save()),
     );
   }
 }

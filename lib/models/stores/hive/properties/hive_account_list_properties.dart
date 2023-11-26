@@ -52,9 +52,9 @@ class HiveAccountListProperties extends AccountListProperties {
 
   // Immutable (not with copyWith)
   @override
-  final String listId;
+  final String listLocalId;
   @override
-  final String userId;
+  final String userLocalId;
 
   // Mutable
   @override
@@ -74,14 +74,13 @@ class HiveAccountListProperties extends AccountListProperties {
     bool? shouldStackDone,
     int? itemsOrderingIndex,
   })  : lexoRank = lexoRank ?? hiveStoreAccountListProperties.hiveLexoRank,
-        shouldReverseOrder = shouldReverseOrder ??
-            hiveStoreAccountListProperties.hiveShouldReverseOrder,
-        shouldStackDone = shouldStackDone ??
-            hiveStoreAccountListProperties.hiveShouldStackDone,
-        itemsOrderingIndex = itemsOrderingIndex ??
-            hiveStoreAccountListProperties.hiveItemsOrderingIndex,
-        listId = hiveStoreAccountListProperties.hiveListLocalId,
-        userId = hiveStoreAccountListProperties.hiveAccountLocalId,
+        shouldReverseOrder =
+            shouldReverseOrder ?? hiveStoreAccountListProperties.hiveShouldReverseOrder,
+        shouldStackDone = shouldStackDone ?? hiveStoreAccountListProperties.hiveShouldStackDone,
+        itemsOrderingIndex =
+            itemsOrderingIndex ?? hiveStoreAccountListProperties.hiveItemsOrderingIndex,
+        listLocalId = hiveStoreAccountListProperties.hiveListLocalId,
+        userLocalId = hiveStoreAccountListProperties.hiveAccountLocalId,
         localId = hiveStoreAccountListProperties.key,
         serverId = hiveStoreAccountListProperties.hiveServerId;
 
@@ -111,27 +110,21 @@ class HiveAccountListProperties extends AccountListProperties {
     hiveStoreAccountListProperties.hiveShouldReverseOrder = shouldReverseOrder;
     hiveStoreAccountListProperties.hiveShouldStackDone = shouldStackDone;
     hiveStoreAccountListProperties.hiveItemsOrderingIndex = itemsOrderingIndex;
-    return hiveStoreAccountListProperties
-        .save()
-        .then((_) => notify(EventType.edit));
+    return hiveStoreAccountListProperties.save().then((_) => notify(EventType.edit));
   }
 
   @override
   Future<void> delete() async {
-    final account = database.getAccount(userId)!;
+    final account = database.getAccount(userLocalId)!;
     final hiveAccountProperties =
-        hiveDatabase.getAccountProperties(account.accountPropertiesId!)!;
-    final hiveStoreAccountProperties =
-        hiveAccountProperties.hiveStoreAccountProperties;
+        hiveDatabase.getAccountProperties(account.accountPropertiesLocalId!)!;
+    final hiveStoreAccountProperties = hiveAccountProperties.hiveStoreAccountProperties;
 
-    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds
-        .removeWhere((alpId) => alpId == localId);
+    hiveStoreAccountProperties.hiveAccountListPropertiesLocalIds.removeWhere((id) => id == localId);
     await hiveStoreAccountProperties
         .save()
         .then((_) => hiveAccountProperties.notify(EventType.edit));
 
-    await hiveStoreAccountListProperties
-        .delete()
-        .then((_) => notify(EventType.delete));
+    await hiveStoreAccountListProperties.delete().then((_) => notify(EventType.delete));
   }
 }
