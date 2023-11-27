@@ -4,7 +4,7 @@
 
 The flutter client for Open-Items.
 
-A [free](https://en.wikipedia.org/wiki/Free_software) and [open-source](https://en.wikipedia.org/wiki/Open-source_software) ([FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software)), secure, [self-hostable](https://en.wikipedia.org/wiki/Self-hosting_(web_services)) and [cross-platform](https://en.wikipedia.org/wiki/Cross-platform_software) application for creating, managing, and sharing lists.
+A [free](https://en.wikipedia.org/wiki/Free_software) and [open-source](https://en.wikipedia.org/wiki/Open-source_software) ([FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software)), offline first, secure, [self-hostable](https://en.wikipedia.org/wiki/Self-hosting_(web_services)) and [cross-platform](https://en.wikipedia.org/wiki/Cross-platform_software) application for creating, managing, and sharing lists.
 
 A **list** (or **collection**) is a grouping of **items**.
 This application aims to be versatile and will handle various types of lists including checklists, ordered lists, and unordered lists.
@@ -18,8 +18,7 @@ You can take a look at the [Project Specifications](./specifications.md) to lear
 You can beta test the application on the following platforms:
 
 * WEB version (with [PWA](https://en.wikipedia.org/wiki/Progressive_web_app) available): **<https://test.open-items.org>**
-<!-- TODO release android -->
-* Android application, packaged with [APK](https://en.wikipedia.org/wiki/Apk_(file_format)) (download and install): **<>** 
+* Android application, packaged with [APK](https://en.wikipedia.org/wiki/Apk_(file_format)) (download and install): **download [Android App](https://github.com/gruvw/open_items/releases/download/pre-alpha/Open-Items.apk)** 
 
 **Note**: do not store valuable data, use the application exclusively for testing purposes.
 
