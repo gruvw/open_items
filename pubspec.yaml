@@ -49,8 +49,8 @@ flutter:
 
   assets:
     - "assets/icons/launcher/open_items.png"
-    - "assets/icons/splash/open_items.png"
-    - "assets/icons/splash/open_items_android_12.png"
+    - "assets/icons/launcher/open_items_favicon.svg"
+    - "assets/icons/launcher/open_items_android_12.png"
 
   fonts:
     # ~/.pub-cache/bin/generator ./icons OpenItemsIcons.otf -o OpenItemsIcons.dart -v --no-normalize
@@ -71,7 +71,7 @@ flutter_launcher_icons:
   image_path: "assets/icons/launcher/open_items.png"
   web:
     generate: true
-    image_path: "assets/icons/launcher/open_items.png"
+    image_path: "assets/icons/launcher/open_items_android_12.png"
     background_color: "#000000"
     theme_color: "#FFFFFF"
   windows:
@@ -83,9 +83,9 @@ flutter_launcher_icons:
 # Remove (dart run flutter_native_splash:remove)
 flutter_native_splash:
   color: "#000000"
-  image: assets/icons/splash/open_items.png
+  image: assets/icons/launcher/open_items.png
   android_12:
-    image: assets/icons/splash/open_items_android_12.png
+    image: assets/icons/launcher/open_items_android_12.png
 
 # Git summary
 # git log --oneline --shortstat -- ./lib | grep -E "(([0-9]+) insertions\(\+\))|(([0-9]+) deletions\(\-\))" | awk '{insertions += $4; deletions += $6} END {print "Total Insertions: " insertions, "Total Deletions: " deletions, "Total Changes: " insertions + deletions}'

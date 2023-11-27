@@ -5,6 +5,7 @@ import 'package:open_items/global/styles/ui_colors.dart';
 abstract class UITexts {
   static final TextStyle _base = GoogleFonts.roboto(
     color: UIColors.primary,
+    fontWeight: FontWeight.w400,
   );
 
   static final TextStyle title = _base.copyWith(
