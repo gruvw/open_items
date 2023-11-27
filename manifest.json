@@ -1,11 +1,10 @@
 {
-    "name": "open_items",
-    "short_name": "open_items",
+    "name": "Open-Items",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#FFFFFF",
-    "description": "A new Flutter project.",
+    "description": "The flutter client for open-items.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
