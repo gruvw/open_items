@@ -10,15 +10,15 @@ abstract class AccountListProperties extends DatabaseServerObject {
   @protected
   int get itemsOrderingIndex;
 
+  String get userLocalId;
+  String get listLocalId;
+
   AccountListProperties copyWith({
     String? lexoRank,
     bool? shouldReverseOrder,
     bool? shouldStackDone,
     ItemsOrdering? itemsOrdering,
   });
-
-  String get userLocalId;
-  String get listLocalId;
 
   // Helper methods
 

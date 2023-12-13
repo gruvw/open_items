@@ -56,6 +56,7 @@ class TextInput extends HookWidget {
       },
       color: UIColors.primary,
       icon: const Icon(UIIcons.clear),
+      visualDensity: VisualDensity.compact,
     );
 
     final visibilityButton = IconButton(
@@ -64,6 +65,7 @@ class TextInput extends HookWidget {
       },
       color: UIColors.primary,
       icon: Icon(shouldObscure ? UIIcons.hidden : UIIcons.visible),
+      visualDensity: VisualDensity.compact,
     );
 
     return TextField(

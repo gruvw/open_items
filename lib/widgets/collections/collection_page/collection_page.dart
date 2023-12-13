@@ -94,24 +94,13 @@ class CollectionPage extends ConsumerWidget {
     }
 
     Future<void> createItem(String text) async {
-      final parentType = parent?.collectionType;
-
-      // If parent type changed before creating any subitem, update item's collection type to match parent
-      CollectionType? type;
-      if (collection is Item &&
-          parentType != null &&
-          collection.itemLocalIds.isEmpty) {
-        collection.copyWith(type: parentType).save();
-        type = parentType;
-      }
-
       final time = DateTime.now();
 
       await database.createItem(
         serverId: CoreValues.unknownServerId,
         parentLocalId: collectionLocalId,
         text: text,
-        type: type ?? collection.collectionType,
+        type: collection.collectionType,
         lexoRank: "a" * items.length, // TODO lexoRanking
         creationTime: time,
         editionTime: time,

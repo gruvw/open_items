@@ -12,7 +12,7 @@ import 'package:open_items/state/application/globals.dart';
 import 'package:open_items/widgets/authenticate/server_selector.dart';
 import 'package:open_items/widgets/components/buttons/solid.dart';
 import 'package:open_items/widgets/components/structure/tab.dart';
-import 'package:open_items/widgets/components/structure/text.dart';
+import 'package:open_items/widgets/components/structure/text_input.dart';
 import 'package:open_items/widgets/components/modals/confirmation_dialog.dart';
 import 'package:open_items/widgets/router/route_generator.dart';
 import 'package:open_items/widgets/utils/feedback/dialogs.dart';

@@ -41,7 +41,8 @@ class CollectionEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final leadingVerticalPadding = wrap ? CollectionLayout.contentVerticalPadding : 0.0;
+    final leadingVerticalPadding =
+        wrap ? CollectionLayout.contentVerticalPadding : 0.0;
 
     final content = IntrinsicHeight(
       child: Row(
@@ -49,7 +50,8 @@ class CollectionEntry extends StatelessWidget {
         children: [
           if (leading != null)
             Column(
-              mainAxisAlignment: wrap ? MainAxisAlignment.start : MainAxisAlignment.center,
+              mainAxisAlignment:
+                  wrap ? MainAxisAlignment.start : MainAxisAlignment.center,
               children: [
                 InkWell(
                   onTap: leadingOnClick,
@@ -84,7 +86,8 @@ class CollectionEntry extends StatelessWidget {
                       this.content,
                       maxLines: wrap ? null : 1,
                       overflow: wrap ? null : TextOverflow.ellipsis,
-                      style: (isFat ? UITexts.normalBold : UITexts.normal).copyWith(
+                      style: (isFat ? UITexts.normalBold : UITexts.normal)
+                          .copyWith(
                         color: reversed ? UIColors.secondary : UIColors.primary,
                       ),
                     ),
@@ -97,8 +100,9 @@ class CollectionEntry extends StatelessWidget {
       ),
     );
 
-    final dividerWidth =
-        fatDividier ? CollectionLayout.fatDividerWidth : CollectionLayout.dividerWidth;
+    final dividerWidth = fatDividier
+        ? CollectionLayout.fatDividerWidth
+        : CollectionLayout.dividerWidth;
 
     return ReorderableDelayedDragStartListener(
       enabled: reorderEnabled,
@@ -110,7 +114,8 @@ class CollectionEntry extends StatelessWidget {
             groupTag: groupTag,
             endActionPane: ActionPane(
               motion: const StretchMotion(),
-              extentRatio: CollectionLayout.slidableWidth / MediaQuery.sizeOf(context).width,
+              extentRatio: CollectionLayout.slidableWidth /
+                  MediaQuery.sizeOf(context).width,
               children: [
                 const VerticalDivider(
                   width: CollectionLayout.dividerWidth,

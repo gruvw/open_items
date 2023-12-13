@@ -32,11 +32,12 @@ abstract class Collection extends DatabaseServerObject {
   String get listLocalId;
 
   List<String> get itemLocalIds;
-  List<Collection> get collectionPath; // not reactive!
 
   bool isChildOf(Collection collection, {bool direct = false});
 
   // Helper methods
+
+  List<Collection> get collectionPath; // not reactive!
 
   @protected
   List<Item> get items;

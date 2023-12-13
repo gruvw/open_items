@@ -7,13 +7,13 @@ abstract class AccountProperties extends DatabaseObject {
   int get listsOrderingIndex;
   bool get shouldReverseOrder;
 
+  String get accountLocalId;
+  List<String> get listsPropertiesLocalIds;
+
   AccountProperties copyWith({
     ListsOrdering? listsOrdering,
     bool? shouldReverseOrder,
   });
-
-  String get accountLocalId;
-  List<String> get listsPropertiesLocalIds;
 
   // Helper methods
 

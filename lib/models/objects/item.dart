@@ -10,6 +10,8 @@ abstract class Item extends Collection {
   bool get isDone;
   DateTime get doneTime;
 
+  String get parentLocalId;
+
   Item copyWith({
     String? text,
     CollectionType? type,
@@ -17,15 +19,13 @@ abstract class Item extends Collection {
     bool? isDone,
   });
 
-  String get parentLocalId;
-
-  @protected
-  Collection get parent; // not reactive
-
   @override
   String get listLocalId => parent.listLocalId;
 
   // Helper methods
+
+  @protected
+  Collection get parent; // not reactive
 
   bool get isFirstLevel => parent.localId == listLocalId;
 
