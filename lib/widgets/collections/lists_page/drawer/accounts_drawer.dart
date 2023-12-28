@@ -39,9 +39,13 @@ class AccountsDrawer extends ConsumerWidget {
       content: DialogTexts.deleteAccountContent,
       target: selectedAccount.name,
       onDelete: () {
-        final nextAccount = accounts.where((a) => a.localId != selectedAccount.localId).firstOrNull;
+        final nextAccount = accounts
+            .where((a) => a.localId != selectedAccount.localId)
+            .firstOrNull;
 
-        selectedAccount.delete().then((_) => selectedAccount.notify(EventType.delete));
+        selectedAccount
+            .delete()
+            .then((_) => selectedAccount.notify(EventType.delete));
 
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -60,12 +64,16 @@ class AccountsDrawer extends ConsumerWidget {
       validation: validOfflineAccountRename(selectedAccount.name),
       placeholder: UIPlaceholders.accountName,
       initialValue: selectedAccount.name,
-      onSubmit: alwaysValid((name) => selectedAccount.copyWith(name: name).save()),
+      onSubmit: alwaysValid(
+        (name) => selectedAccount.copyWith(name: name).save(),
+      ),
     );
 
     return SafeArea(
       child: Drawer(
-        backgroundColor: UIColors.background,
+        backgroundColor: UIColors.secondary,
+        // Disable weird border color artefact
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
         child: Column(
           children: [
             const DrawerSection(
