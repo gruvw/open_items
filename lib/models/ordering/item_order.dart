@@ -5,7 +5,7 @@ import 'package:open_items/models/properties/account_list_properties.dart';
 import 'package:open_items/state/application/globals.dart';
 
 int Function(Item, Item) itemsOrdering(AccountListProperties listProperties) {
-  // Supposes the two items are members of the pased list
+  // Supposes the two items are members of the passed list(Properties)
   final list = database.getListe(listProperties.listLocalId)!;
 
   final doneOrder = listProperties.itemsOrdering == ItemsOrdering.done;

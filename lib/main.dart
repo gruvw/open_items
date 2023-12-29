@@ -9,10 +9,7 @@ import 'package:open_items/widgets/utils/navigation/app_scroll_behavior.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-void main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
+Future<void> setup() async {
   // Test Splash Screen
   // await Future.delayed(const Duration(seconds: 5));
 
@@ -20,7 +17,13 @@ void main() async {
   setPathUrlStrategy();
 
   prefs = await SharedPreferences.getInstance();
+}
 
+void main() async {
+  // Keep splash screen during setup
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await setup();
   FlutterNativeSplash.remove();
 
   runApp(

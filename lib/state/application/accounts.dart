@@ -7,12 +7,15 @@ part 'accounts.g.dart';
 
 @riverpod
 Stream<Event<DatabaseObject>> _localAccountsEvents(
-    _LocalAccountsEventsRef ref) async* {
+  _LocalAccountsEventsRef ref,
+) async* {
   yield* database.watchLocalAccounts();
 }
 
 @riverpod
-List<Account> localAccounts(LocalAccountsRef ref) {
+List<Account> localAccounts(
+  LocalAccountsRef ref,
+) {
   ref.watch(_localAccountsEventsProvider);
   return database.getLocalAccounts();
 }
