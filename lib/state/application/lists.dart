@@ -13,9 +13,12 @@ List<AccountListProperties>? listsProperties(
   ListsPropertiesRef ref, {
   required String? accountLocalId,
 }) {
-  final accountProperties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
+  final accountProperties =
+      ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
 
-  if (accountProperties == null) return null;
+  if (accountProperties == null) {
+    return null;
+  }
 
   return accountProperties.listsPropertiesLocalIds
       .map((id) => ref.watch(
@@ -30,9 +33,15 @@ List<Liste>? lists(
   ListsRef ref, {
   required String? accountLocalId,
 }) {
-  final accountProperties = ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
-  final listsProperties = ref.watch(listsPropertiesProvider(accountLocalId: accountLocalId));
-  if (accountProperties == null || listsProperties == null) return null;
+  final accountProperties =
+      ref.watch(accountPropertiesProvider(accountLocalId: accountLocalId));
+  final listsProperties =
+      ref.watch(listsPropertiesProvider(accountLocalId: accountLocalId));
+
+  if (accountProperties == null || listsProperties == null) {
+    return null;
+  }
+
   final ordering = listsOrdering(accountProperties);
 
   return listsProperties

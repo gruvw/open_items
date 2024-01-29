@@ -13,6 +13,17 @@ Each item can also be a collection itself, enabling infinite collections nesting
 
 You can take a look at the [Project Specifications](./specifications.md) to learn more about the project.
 
+### Screenshots
+
+<div>
+  <img src="docs/img/sidebar.png" alt="Application sidebar" width="250px">
+  <img src="docs/img/lists.png" alt="Lists page" width="250">
+  <br>
+  <img src="docs/img/list.png" alt="List page" width="250px">
+  <img src="docs/img/sublist.png" alt="Sublist page" width="250">
+</div>
+
+
 ### Beta Test
 
 You can beta test the application on the following platforms:
