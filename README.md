@@ -2,6 +2,10 @@
 
 **THIS PROJECT IS CURRENTLY UNDER DEVELOPMENT**
 
+**Recruiting**: I am currently looking for developers in the areas of **E2EE**, **offline first** mobile applications, **collaborative** & **data synchronization** (not necessarily Dart/Flutter oriented). If you are interested, please contact me gruvw.dev@gmail.com.
+
+---
+
 The flutter client for Open-Items.
 
 A [free](https://en.wikipedia.org/wiki/Free_software) and [open-source](https://en.wikipedia.org/wiki/Open-source_software) ([FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software)), offline first, secure, [self-hostable](https://en.wikipedia.org/wiki/Self-hosting_(web_services)) and [cross-platform](https://en.wikipedia.org/wiki/Cross-platform_software) application for creating, managing, and sharing lists.
