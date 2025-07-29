@@ -36,9 +36,11 @@ abstract class Liste extends Collection {
       ListFields.shouldReverseOrder: listProperties.shouldReverseOrder,
       ListFields.shouldStackDone: listProperties.shouldStackDone,
       ListFields.positon: listProperties.lexoRank,
-      CollectionFields.creationTime: creationTime,
-      CollectionFields.editionTime: editionTime,
-      ListFields.items: [for (final item in orderedItems) item.toJsonWith(listProperties)]
+      CollectionFields.creationTime: creationTime.millisecondsSinceEpoch,
+      CollectionFields.editionTime: editionTime.millisecondsSinceEpoch,
+      ListFields.items: [
+        for (final item in orderedItems) item.toJsonWith(listProperties)
+      ]
     };
   }
 }

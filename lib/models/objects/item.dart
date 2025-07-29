@@ -49,9 +49,9 @@ abstract class Item extends Collection {
       ItemFields.text: text,
       ItemFields.isDone: isDone,
       ItemFields.position: lexoRank,
-      CollectionFields.creationTime: creationTime,
-      CollectionFields.editionTime: editionTime,
-      ItemFields.doneTime: doneTime,
+      CollectionFields.creationTime: creationTime.millisecondsSinceEpoch,
+      CollectionFields.editionTime: editionTime.millisecondsSinceEpoch,
+      ItemFields.doneTime: doneTime.millisecondsSinceEpoch,
       ItemFields.subitems: [
         for (final item in orderedItems) item.toJsonWith(listProperties)
       ]
